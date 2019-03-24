@@ -184,6 +184,7 @@
     <Compile Include="Models\AdventureCategory.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Contributor.cs" />
+    <Compile Include="Models\Follow.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Photo.cs" />

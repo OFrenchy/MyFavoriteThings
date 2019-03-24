@@ -21,9 +21,14 @@ namespace MyFavoriteThings.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         DbSet<Adventure> Adventures { get; set; }
-        DbSet<Waypoint> Waypoints { get; set; }
+        DbSet<Category> Categories { get; set; }
+        DbSet<AdventureCategory> AdventureCategories { get; set; }
         DbSet<Contributor> Contributors { get; set; }
+        DbSet<Follow> Follows { get; set; }
         DbSet<Photo> Photos { get; set; }
+        DbSet<Waypoint> Waypoints { get; set; }
+        
+
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
