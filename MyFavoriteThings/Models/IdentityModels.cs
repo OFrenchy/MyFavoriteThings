@@ -23,7 +23,7 @@ namespace MyFavoriteThings.Models
         DbSet<Adventure> Adventures { get; set; }
         DbSet<Waypoint> Waypoints { get; set; }
         DbSet<Contributor> Contributors { get; set; }
-        //DbSet<Image> Images  { get; set; }
+        DbSet<Photo> Photos { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
