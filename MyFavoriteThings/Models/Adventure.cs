@@ -24,9 +24,9 @@ namespace MyFavoriteThings.Models
         public string AdventureGeneralLocation { get; set; }
         [Required]
         public string AdventureGeneralLocation_Obscure { get; set; }
-        public double Rating  { get; set; }
-        public int RatingCounter { get; set; }
-        public int RatingSum { get; set; }
+        public double Rating { get; set; } = 0;
+        public int RatingCounter { get; set; } = 0;
+        public int RatingSum { get; set; } = 0;
         public bool AllowComments { get; set; }
         public bool AllowImages { get; set; }
         [MaxLength(1024)]

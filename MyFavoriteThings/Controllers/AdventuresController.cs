@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNet.Identity;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
@@ -39,7 +40,12 @@ namespace MyFavoriteThings.Controllers
         // GET: Adventures/Create
         public ActionResult Create()
         {
-            ViewBag.ContributorID = new SelectList(db.Contributors, "ContributorID", "FirstName");
+            // Adventure1!@abc.com
+            // Pass the ContributorID to the view
+            //ViewBag.ContributorID = new SelectList(db.Contributors, "ContributorID", "FirstName");
+            string thisUserID = User.Identity.GetUserId();
+            var thisContributor = db.Contributors.Where(w => w.ApplicationUserId == thisUserID).First();
+            ViewBag.ContributorID = thisContributor.ContributorID;
             return View();
         }
 
@@ -54,9 +60,17 @@ namespace MyFavoriteThings.Controllers
             {
                 db.Adventures.Add(adventure);
                 db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
+                // STOP - TODO - move them to add the waypoints
+                
+                // TODO - decide whether to pass the AdventureID or the new Waypoint
+                Waypoint waypoint = new Waypoint();
+                waypoint.AdventureID = adventure.AdventureID;
+                return RedirectToAction("Create", "Waypoints", new { AdventureID = adventure.AdventureID });
+
+                //return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
             ViewBag.ContributorID = new SelectList(db.Contributors, "ContributorID", "FirstName", adventure.ContributorID);
             return View(adventure);
         }

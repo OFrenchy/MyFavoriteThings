@@ -90,7 +90,7 @@ namespace MyFavoriteThings.Controllers
                     var roleText = role.ToString();
                     string thisUserID = user.Single().Id;
 
-                    // Stjoeadmin1!@abc.com
+                    // Adventure1!@abc.com
                     if (roleText == "Contributor")
                     {
                         // moved to Index Get in ParishAdminController
@@ -100,7 +100,7 @@ namespace MyFavoriteThings.Controllers
                         //ViewBag.LastName = thisPerson.LastName;
                         //ViewBag.ParishID = thisParish.ID;
 
-                        return RedirectToAction("Index", "Adventure");
+                        return RedirectToAction("Index", "Adventures");
 
                         // TODO - make sure there's a "My Details" link on the Index page
                         // return RedirectToAction("Index", "ParishAdmin");

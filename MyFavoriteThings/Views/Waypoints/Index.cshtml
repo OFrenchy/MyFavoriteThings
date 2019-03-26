@@ -1,0 +1,129 @@
+﻿@model IEnumerable<MyFavoriteThings.Models.Waypoint>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Adventure.AdventureName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WaypointName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WaypointName_Obscure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WaypointNickname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WaypointNickname_Obscure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description_Obscure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DirectionsNarrative)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DirectionsNarrative_Obscure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lat)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Long)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Street1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Street2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DayTimeOfDayNarrative)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Adventure.AdventureName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WaypointName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WaypointName_Obscure)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WaypointNickname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WaypointNickname_Obscure)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description_Obscure)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DirectionsNarrative)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DirectionsNarrative_Obscure)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lat)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Long)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Street1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Street2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.State)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DayTimeOfDayNarrative)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.WaypointID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.WaypointID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.WaypointID })
+        </td>
+    </tr>
+}
+
+</table>

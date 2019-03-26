@@ -175,14 +175,20 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdventuresController.cs" />
+    <Compile Include="Controllers\ContributorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\WaypointsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201903261507247_DBCreate.cs" />
     <Compile Include="Migrations\201903261507247_DBCreate.Designer.cs">
       <DependentUpon>201903261507247_DBCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903262036437_SetDefaultValueForRatingProperties.cs" />
+    <Compile Include="Migrations\201903262036437_SetDefaultValueForRatingProperties.Designer.cs">
+      <DependentUpon>201903262036437_SetDefaultValueForRatingProperties.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -258,6 +264,12 @@
     <Content Include="Views\Adventures\Details.cshtml" />
     <Content Include="Views\Adventures\Edit.cshtml" />
     <Content Include="Views\Adventures\Index.cshtml" />
+    <Content Include="Views\Contributor\Create.cshtml" />
+    <Content Include="Views\Waypoints\Create.cshtml" />
+    <Content Include="Views\Waypoints\Delete.cshtml" />
+    <Content Include="Views\Waypoints\Details.cshtml" />
+    <Content Include="Views\Waypoints\Edit.cshtml" />
+    <Content Include="Views\Waypoints\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -278,6 +290,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201903261507247_DBCreate.resx">
       <DependentUpon>201903261507247_DBCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903262036437_SetDefaultValueForRatingProperties.resx">
+      <DependentUpon>201903262036437_SetDefaultValueForRatingProperties.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
