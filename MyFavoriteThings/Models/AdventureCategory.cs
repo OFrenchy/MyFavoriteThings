@@ -11,11 +11,13 @@ namespace MyFavoriteThings.Models
     {
         [Key]
         [ForeignKey("Adventure")]
+        [Column(Order = 1)]
         public int AdventureID { get; set; }
         public Adventure Adventure { get; set; }
 
         [Key]
         [ForeignKey("Category")]
+        [Column(Order = 2)]
         public int CategoryID { get; set; }
         public Category Category { get; set; }
 

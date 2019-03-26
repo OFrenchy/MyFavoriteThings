@@ -9,25 +9,33 @@ namespace MyFavoriteThings.Models
 {
     public class Adventure
     {
-        //
+        // ???? TODO - find out if ID or Id is best practice - and why not AdventureID or AdventureId
         [Key]
         public int AdventureID { get; set; }
+        [Required]
         public string AdventureName { get; set; }
+        [Required]
         public string AdventureName_Obscure { get; set; }
+        [Required]
         public string AdventureDescription { get; set; }
+        [Required]
         public string AdventureDescription_Obscure { get; set; }
+        [Required]
         public string AdventureGeneralLocation { get; set; }
+        [Required]
         public string AdventureGeneralLocation_Obscure { get; set; }
         public double Rating  { get; set; }
         public int RatingCounter { get; set; }
         public int RatingSum { get; set; }
         public bool AllowComments { get; set; }
         public bool AllowImages { get; set; }
+        [MaxLength(1024)]
         public string Comments { get; set; }
 
-        [ForeignKey("Contributor")]
-        public int ContributorID { get; set; }
-        public Contributor Contributor { get; set; }
+        //??? TODO - what do these lines actually mean/do
+        [ForeignKey("Contributor")]                     // from Model/Table Contributor?
+        public int ContributorID { get; set; }          // get this field name, right?
+        public Contributor Contributor { get; set; }    // especially this one I don't understand, unless 
 
     }
 }

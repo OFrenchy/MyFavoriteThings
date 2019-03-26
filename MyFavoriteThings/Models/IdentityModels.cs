@@ -24,11 +24,10 @@ namespace MyFavoriteThings.Models
         DbSet<Category> Categories { get; set; }
         DbSet<AdventureCategory> AdventureCategories { get; set; }
         DbSet<Contributor> Contributors { get; set; }
+        //DbSet<Contributor> ContributorFollowers { get; set; }
         DbSet<Follow> Follows { get; set; }
-        DbSet<Photo> Photos { get; set; }
+        //DbSet<Photo> Photos { get; set; }
         DbSet<Waypoint> Waypoints { get; set; }
-        
-
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -39,5 +38,9 @@ namespace MyFavoriteThings.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<MyFavoriteThings.Models.Adventure> Adventures { get; set; }
+
+        public System.Data.Entity.DbSet<MyFavoriteThings.Models.Contributor> Contributors { get; set; }
     }
 }

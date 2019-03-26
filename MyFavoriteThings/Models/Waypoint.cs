@@ -11,13 +11,23 @@ namespace MyFavoriteThings.Models
     {
         [Key] 
         public int WaypointID { get; set; }
+        [Required]
         public string WaypointName { get; set; }
+        [Required]
         public string WaypointName_Obscure { get; set; }
         public string WaypointNickname { get; set; }
         public string WaypointNickname_Obscure { get; set; }
+        [Required]
+        [MaxLength(512)]
         public string Description { get; set; }
+        [Required]
+        [MaxLength(512)]
         public string Description_Obscure { get; set; }
+        [Required]
+        [MaxLength(1024)]
         public string DirectionsNarrative { get; set; }
+        [Required]
+        [MaxLength(1024)]
         public string DirectionsNarrative_Obscure { get; set; }
         public double Lat { get; set; }
         public double Long { get; set; }
@@ -26,9 +36,9 @@ namespace MyFavoriteThings.Models
         public string City { get; set; }
         public string State { get; set; }
         public string Phone { get; set; }
-        public string URL { get; set; }
+        //public string URL { get; set; }
         public string DayTimeOfDayNarrative { get; set; }
-        public string TimeOfDayToCalculate { get; set; } //(BSAT, BSNT, BSCT, SR, NOON, SS, ASCT, ASNT, ASAT)
+        //public string TimeOfDayToCalculate { get; set; } //(BSAT, BSNT, BSCT, SR, NOON, SS, ASCT, ASNT, ASAT)
 
         [ForeignKey("Adventure")]
         public int AdventureID { get; set; }

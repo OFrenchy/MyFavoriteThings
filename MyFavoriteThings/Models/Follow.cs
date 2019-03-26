@@ -11,13 +11,16 @@ namespace MyFavoriteThings.Models
     public class Follow
     {
         [Key]
-        [ForeignKey("Contributor")]
+        [ForeignKey("Contributor")]                             // ??? TODO - how do I get this to build?  
+        [Column(Order = 1)]
         public int ContributorID { get; set; }
         public Contributor Contributor { get; set; }
 
         [Key]
-        [ForeignKey("Contributor")]
-        public int FollowsContributorID { get; set; }
-        public Contributor FollowsContributor { get; set; }
+        //[ForeignKey("Contributor")]                            
+        //[ForeignKey("Contributor as FollowsContributor")]
+        [Column(Order = 2)]
+        public int FollowerContributorID { get; set; }           //FollowerContributorID
+        //public Contributor FollowsContributor { get; set; }
     }
 }

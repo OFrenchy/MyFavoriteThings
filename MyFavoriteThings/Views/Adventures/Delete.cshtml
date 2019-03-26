@@ -1,0 +1,128 @@
+﻿@model MyFavoriteThings.Models.Adventure
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Adventure</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Contributor.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contributor.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdventureName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdventureName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdventureName_Obscure)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdventureName_Obscure)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdventureDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdventureDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdventureDescription_Obscure)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdventureDescription_Obscure)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdventureGeneralLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdventureGeneralLocation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdventureGeneralLocation_Obscure)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdventureGeneralLocation_Obscure)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RatingCounter)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RatingCounter)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RatingSum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RatingSum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AllowComments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AllowComments)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AllowImages)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AllowImages)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comments)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
