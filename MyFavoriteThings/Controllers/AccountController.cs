@@ -17,10 +17,12 @@ namespace MyFavoriteThings.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        ApplicationDbContext db;
         public AccountController()
         {
+            db = new ApplicationDbContext();
         }
+        
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
@@ -79,7 +81,39 @@ namespace MyFavoriteThings.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    //return RedirectToLocal(returnUrl);
+                    //User EMAIL
+                    var user = db.Users.Where(u => u.Email == model.Email);
+                    var userRole = user.Select(u => u.Roles).Single();
+                    var roleId = userRole.Select(r => r.RoleId).Single();
+                    var role = db.Roles.Where(r => r.Id == roleId).Select(r => r.Name).Single();
+                    var roleText = role.ToString();
+                    string thisUserID = user.Single().Id;
+
+                    // Stjoeadmin1!@abc.com
+                    if (roleText == "Contributor")
+                    {
+                        // moved to Index Get in ParishAdminController
+                        //People thisPerson = db.Peoples.Where(w => w.ApplicationUserId == thisUserID).First();
+                        //Parish thisParish = db.Parishes.Where(w => w.AdminPersonId == thisPerson.ID).First();
+                        //ViewBag.FirstName = thisPerson.FirstName;
+                        //ViewBag.LastName = thisPerson.LastName;
+                        //ViewBag.ParishID = thisParish.ID;
+
+                        return RedirectToAction("Index", "Adventure");
+
+                        // TODO - make sure there's a "My Details" link on the Index page
+                        // return RedirectToAction("Index", "ParishAdmin");
+                    }
+                    //else if (roleText == "Admin")
+                    //{
+                    //    var appUserID = User.Identity.GetUserId();
+
+                    //    return RedirectToAction("Index", roleText);
+                    //}
+                    // TODO - where to go if we got here
+                    else return RedirectToAction("Index", roleText);
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -156,12 +190,27 @@ namespace MyFavoriteThings.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    //============= Added from here down ===================
+                    await this.UserManager.AddToRoleAsync(user.Id, "Contributor");
+
+                    // Only one role, Contributor
+                    // Stjoeadmin1!@abc.com
+                    //if (model.UserRole == "Contributor")
+                    //{
+                    //    // go to create a Contributor
+                    //    return RedirectToAction("Create", "Contributor");
+                    //}
+                    
+                    // go to create a Visitor
+                    return RedirectToAction("Create", "Contributor");
+                    //======================================================
 
                     return RedirectToAction("Index", "Home");
                 }
