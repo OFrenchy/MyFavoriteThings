@@ -25,6 +25,7 @@ namespace MyFavoriteThings.Controllers
         // GET: Adventures/Details/5
         public ActionResult Details(int? id)
         {
+            // Adventure1!@abc.com
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -34,6 +35,17 @@ namespace MyFavoriteThings.Controllers
             {
                 return HttpNotFound();
             }
+            // if the adventure wasn't created by this contributor, disable the Edit link
+            int LoggedInContributorID = -1;
+            var appUserID = User.Identity.GetUserId();
+            if (appUserID != null)
+            {
+                LoggedInContributorID = db.Contributors.Where(c => c.ApplicationUserId == appUserID).Select(f => f.ContributorID).First();
+            }
+
+            ViewBag.UserIsCreator = adventure.ContributorID == LoggedInContributorID ? true : false;
+            //ViewBag.UserIsCreator = false;
+
             return View(adventure);
         }
 

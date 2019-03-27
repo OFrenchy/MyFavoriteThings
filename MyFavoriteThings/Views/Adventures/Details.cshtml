@@ -120,8 +120,16 @@
 <p>
     @Html.ActionLink("Add Waypoints", "Create", "Waypoints", new { id = Model.AdventureID }, null) |
     @Html.ActionLink("View Waypoints", "Index", "Waypoints", new { id = Model.AdventureID }, null) |
-    
-    @Html.ActionLink("Edit", "Edit", new { id = Model.AdventureID }) |
+
+
+    @* Change this next link to be disabled if it's not the creator who is logged in*@
+    @if (ViewBag.UserIsCreator)
+    {
+        @Html.ActionLink("Edit |", "Edit", new { id = Model.AdventureID }) 
+    }
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.AdventureID, @disabled = ViewBag.EditControl }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AdventureID, @class = "form-control", @disabled = ViewBag.EditControl }) |*@
+
     @Html.ActionLink("Back to List", "Index")
-    
+
 </p>
