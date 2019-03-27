@@ -56,7 +56,8 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Contributor.FirstName + " " + item.Contributor.LastName.Substring(1,1))
+            @*@Html.DisplayFor(modelItem => item.Contributor.FirstName + " " + item.Contributor.LastName.Substring(1, 1))*@
+            @Html.DisplayFor(modelItem => item.Contributor.FirstName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.AdventureName)

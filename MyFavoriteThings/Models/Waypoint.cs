@@ -11,6 +11,7 @@ namespace MyFavoriteThings.Models
     {
         [Key] 
         public int WaypointID { get; set; }
+        public int Sequence { get; set; } = 1;
         [Required]
         public string WaypointName { get; set; }
         [Required]

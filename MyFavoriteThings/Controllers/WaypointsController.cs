@@ -15,9 +15,13 @@ namespace MyFavoriteThings.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Waypoints
-        public ActionResult Index()
+        public ActionResult Index(int id)   //adventureID
         {
-            var waypoints = db.Waypoints.Include(w => w.Adventure);
+            // Adventure1!@abc.com
+
+            // STOP - add order by Sequence
+            var waypoints = db.Waypoints.Include(w => w.Adventure).Where(w => w.AdventureID == id).OrderBy(w => w.Sequence);
+            ViewBag.AdventureID = id;
             return View(waypoints.ToList());
         }
 
@@ -33,13 +37,15 @@ namespace MyFavoriteThings.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.AdventureID = waypoint.AdventureID;
             return View(waypoint);
         }
 
         // GET: Waypoints/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.AdventureID = new SelectList(db.Adventures, "AdventureID", "AdventureName");
+            // Adventure1!@abc.com
+            ViewBag.AdventureID = id;      // new SelectList(db.Adventures, "AdventureID", "AdventureName");
             return View();
         }
 
@@ -50,10 +56,15 @@ namespace MyFavoriteThings.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "WaypointID,WaypointName,WaypointName_Obscure,WaypointNickname,WaypointNickname_Obscure,Description,Description_Obscure,DirectionsNarrative,DirectionsNarrative_Obscure,Lat,Long,Street1,Street2,City,State,Phone,DayTimeOfDayNarrative,AdventureID")] Waypoint waypoint)
         {
+            // Adventure1!@abc.com
             if (ModelState.IsValid)
             {
                 db.Waypoints.Add(waypoint);
                 db.SaveChanges();
+                // Give them the option of adding another
+                ViewBag.AdventureID = waypoint.AdventureID;      // new SelectList(db.Adventures, "AdventureID", "AdventureName");
+                //return View();
+                return RedirectToAction("Index", new { id = waypoint.AdventureID });
                 return RedirectToAction("Index");
             }
 
@@ -64,6 +75,7 @@ namespace MyFavoriteThings.Controllers
         // GET: Waypoints/Edit/5
         public ActionResult Edit(int? id)
         {
+            // Adventure1!@abc.com
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -73,7 +85,8 @@ namespace MyFavoriteThings.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AdventureID = new SelectList(db.Adventures, "AdventureID", "AdventureName", waypoint.AdventureID);
+            //ViewBag.AdventureID = new SelectList(db.Adventures, "AdventureID", "AdventureName", waypoint.AdventureID);
+            ViewBag.AdventureID = waypoint.AdventureID;
             return View(waypoint);
         }
 
@@ -84,11 +97,13 @@ namespace MyFavoriteThings.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "WaypointID,WaypointName,WaypointName_Obscure,WaypointNickname,WaypointNickname_Obscure,Description,Description_Obscure,DirectionsNarrative,DirectionsNarrative_Obscure,Lat,Long,Street1,Street2,City,State,Phone,DayTimeOfDayNarrative,AdventureID")] Waypoint waypoint)
         {
+            // Adventure1!@abc.com
             if (ModelState.IsValid)
             {
                 db.Entry(waypoint).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = waypoint.AdventureID });
+                //return RedirectToAction("Index");
             }
             ViewBag.AdventureID = new SelectList(db.Adventures, "AdventureID", "AdventureName", waypoint.AdventureID);
             return View(waypoint);
@@ -97,6 +112,7 @@ namespace MyFavoriteThings.Controllers
         // GET: Waypoints/Delete/5
         public ActionResult Delete(int? id)
         {
+            // Adventure1!@abc.com
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -106,6 +122,7 @@ namespace MyFavoriteThings.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.AdventureID = waypoint.AdventureID;
             return View(waypoint);
         }
 
@@ -114,10 +131,13 @@ namespace MyFavoriteThings.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            // Adventure1!@abc.com
             Waypoint waypoint = db.Waypoints.Find(id);
             db.Waypoints.Remove(waypoint);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            //ViewBag.AdventureID = waypoint.AdventureID;
+            return RedirectToAction("Index", new { id = waypoint.AdventureID });
+            //return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

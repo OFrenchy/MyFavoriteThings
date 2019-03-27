@@ -58,6 +58,7 @@ namespace MyFavoriteThings.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Adventure1!@abc.com
                 db.Adventures.Add(adventure);
                 db.SaveChanges();
 
@@ -87,7 +88,7 @@ namespace MyFavoriteThings.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ContributorID = new SelectList(db.Contributors, "ContributorID", "FirstName", adventure.ContributorID);
+            ViewBag.ContributorID = adventure.ContributorID;   // new SelectList(db.Contributors, "ContributorID", "FirstName", adventure.ContributorID);
             return View(adventure);
         }
 
@@ -98,13 +99,14 @@ namespace MyFavoriteThings.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "AdventureID,AdventureName,AdventureName_Obscure,AdventureDescription,AdventureDescription_Obscure,AdventureGeneralLocation,AdventureGeneralLocation_Obscure,Rating,RatingCounter,RatingSum,AllowComments,AllowImages,Comments,ContributorID")] Adventure adventure)
         {
+            ViewBag.ContributorID = adventure.ContributorID;
             if (ModelState.IsValid)
             {
                 db.Entry(adventure).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = adventure.AdventureID });
             }
-            ViewBag.ContributorID = new SelectList(db.Contributors, "ContributorID", "FirstName", adventure.ContributorID);
+            //ViewBag.ContributorID = adventure.ContributorID; // new SelectList(db.Contributors, "ContributorID", "FirstName", adventure.ContributorID);
             return View(adventure);
         }
 

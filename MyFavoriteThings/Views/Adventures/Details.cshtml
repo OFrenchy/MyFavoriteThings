@@ -5,6 +5,7 @@
 }
 
 <h2>Details</h2>
+@*<h3> AdventureID = @Model.AdventureID   </h3>*@
 
 <div>
     <h4>Adventure</h4>
@@ -117,6 +118,10 @@
     </dl>
 </div>
 <p>
+    @Html.ActionLink("Add Waypoints", "Create", "Waypoints", new { id = Model.AdventureID }, null) |
+    @Html.ActionLink("View Waypoints", "Index", "Waypoints", new { id = Model.AdventureID }, null) |
+    
     @Html.ActionLink("Edit", "Edit", new { id = Model.AdventureID }) |
     @Html.ActionLink("Back to List", "Index")
+    
 </p>
