@@ -190,6 +190,10 @@
     <Compile Include="Migrations\201903262036437_SetDefaultValueForRatingProperties.Designer.cs">
       <DependentUpon>201903262036437_SetDefaultValueForRatingProperties.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903271504370_AddedSequenceToWaypointsModel.cs" />
+    <Compile Include="Migrations\201903271504370_AddedSequenceToWaypointsModel.Designer.cs">
+      <DependentUpon>201903271504370_AddedSequenceToWaypointsModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Adventure.cs" />
@@ -293,6 +297,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903262036437_SetDefaultValueForRatingProperties.resx">
       <DependentUpon>201903262036437_SetDefaultValueForRatingProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903271504370_AddedSequenceToWaypointsModel.resx">
+      <DependentUpon>201903271504370_AddedSequenceToWaypointsModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
