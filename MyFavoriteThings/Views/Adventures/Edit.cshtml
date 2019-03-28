@@ -32,6 +32,14 @@
             @Html.ValidationMessageFor(model => model.AdventureName_Obscure, "", new { @class = "text-danger" })
         </div>
     </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.GeneralTimeNarrative, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.GeneralTimeNarrative, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.GeneralTimeNarrative, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.AdventureDescription, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -123,12 +131,12 @@
         @Html.LabelFor(model => model.ContributorID, "ContributorID", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">*@
 
-            @*@Html.DropDownList("ContributorID", null, htmlAttributes: new { @class = "form-control" })*@
-            
-            @*@Html.EditorFor(model => model.ContributorID, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ContributorID, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
+    @*@Html.DropDownList("ContributorID", null, htmlAttributes: new { @class = "form-control" })*@
+
+    @*@Html.EditorFor(model => model.ContributorID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ContributorID, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">

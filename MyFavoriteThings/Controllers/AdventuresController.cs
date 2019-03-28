@@ -77,21 +77,15 @@ namespace MyFavoriteThings.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AdventureID,AdventureName,AdventureName_Obscure,AdventureDescription,AdventureDescription_Obscure,AdventureGeneralLocation,AdventureGeneralLocation_Obscure,Rating,RatingCounter,RatingSum,AllowComments,AllowImages,Comments,ContributorID")] Adventure adventure)
+        //public ActionResult Create([Bind(Include = "AdventureID,AdventureName,AdventureName_Obscure,AdventureDescription,AdventureDescription_Obscure,AdventureGeneralLocation,AdventureGeneralLocation_Obscure,Rating,RatingCounter,RatingSum,AllowComments,AllowImages,Comments,ContributorID")] Adventure adventure)
+        public ActionResult Create(Adventure adventure)
         {
             if (ModelState.IsValid)
             {
                 // Adventure1!@abc.com  Adventure2!@abc.com
                 db.Adventures.Add(adventure);
                 db.SaveChanges();
-
-                // STOP - TODO - move them to add the waypoints
-                
-                // TODO - decide whether to pass the AdventureID or the new Waypoint
-                //Waypoint waypoint = new Waypoint();
-                //waypoint.AdventureID = adventure.AdventureID;
                 return RedirectToAction("Create", "Waypoints", new { id = adventure.AdventureID });
-                //return RedirectToAction("Index");
             }
             else
             {
@@ -105,8 +99,8 @@ namespace MyFavoriteThings.Controllers
                 }
             }
             return RedirectToAction("Index");
-            ViewBag.ContributorID = new SelectList(db.Contributors, "ContributorID", "FirstName", adventure.ContributorID);
-            return View(adventure);
+            //ViewBag.ContributorID = new SelectList(db.Contributors, "ContributorID", "FirstName", adventure.ContributorID);
+            //return View(adventure);
         }
 
         // GET: Adventures/Edit/5
@@ -130,7 +124,8 @@ namespace MyFavoriteThings.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AdventureID,AdventureName,AdventureName_Obscure,AdventureDescription,AdventureDescription_Obscure,AdventureGeneralLocation,AdventureGeneralLocation_Obscure,Rating,RatingCounter,RatingSum,AllowComments,AllowImages,Comments,ContributorID")] Adventure adventure)
+        //public ActionResult Edit([Bind(Include = "AdventureID,AdventureName,AdventureName_Obscure,AdventureDescription,AdventureDescription_Obscure,AdventureGeneralLocation,AdventureGeneralLocation_Obscure,Rating,RatingCounter,RatingSum,AllowComments,AllowImages,Comments,ContributorID")] Adventure adventure)
+        public ActionResult Edit(Adventure adventure)
         {
             ViewBag.ContributorID = adventure.ContributorID;
             if (ModelState.IsValid)

@@ -30,6 +30,14 @@
             @Html.ValidationMessageFor(model => model.AdventureName_Obscure, "", new { @class = "text-danger" })
         </div>
     </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.GeneralTimeNarrative, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.GeneralTimeNarrative, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.GeneralTimeNarrative, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.AdventureDescription, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -83,12 +91,12 @@
 
     @Html.HiddenFor(model => model.RatingSum)
     @*<div class="form-group">
-        @Html.LabelFor(model => model.RatingSum, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.RatingSum, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.RatingSum, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
+            @Html.LabelFor(model => model.RatingSum, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RatingSum, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RatingSum, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
 
     <div class="form-group">
         @Html.LabelFor(model => model.AllowComments, htmlAttributes: new { @class = "control-label col-md-2" })
