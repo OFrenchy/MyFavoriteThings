@@ -96,9 +96,12 @@
             @Html.DisplayFor(modelItem => item.Comments)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AdventureID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AdventureID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AdventureID })
+            @Html.ActionLink("Details", "Details", new { id = item.AdventureID })
+            @if (ViewBag.ContributorID == item.ContributorID)
+            {
+                @Html.ActionLink(" | Edit", "Edit", new { id = item.AdventureID })
+                @Html.ActionLink(" | Delete", "Delete", new { id = item.AdventureID })
+            }
         </td>
     </tr>
 }

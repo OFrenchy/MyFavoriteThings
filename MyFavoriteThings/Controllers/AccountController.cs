@@ -90,7 +90,7 @@ namespace MyFavoriteThings.Controllers
                     var roleText = role.ToString();
                     string thisUserID = user.Single().Id;
 
-                    // Adventure1!@abc.com
+                    // Adventure1!@abc.com  Adventure2!@abc.com
                     if (roleText == "Contributor")
                     {
                         // moved to Index Get in ParishAdminController

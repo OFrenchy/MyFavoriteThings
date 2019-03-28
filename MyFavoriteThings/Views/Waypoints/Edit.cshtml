@@ -151,7 +151,7 @@
             @Html.ValidationMessageFor(model => model.DayTimeOfDayNarrative, "", new { @class = "text-danger" })
         </div>
     </div>
-
+    @Html.HiddenFor(model => model.AdventureID)
     @*<div class="form-group">
             @Html.LabelFor(model => model.AdventureID, "AdventureID", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

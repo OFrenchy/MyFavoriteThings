@@ -7,7 +7,10 @@
 <h2>Index - Waypoints for Adventure</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create", new { id = ViewBag.AdventureID }) |
+    @if (ViewBag.UserIsCreator)
+    {
+        @Html.ActionLink("Create New Waypoint", "Create", new { id = ViewBag.AdventureID })
+    }|
     @Html.ActionLink("Back to Adventure Detail", "Details", "Adventures", new { id = ViewBag.AdventureID }, null) |
     @Html.ActionLink("Back to Adventures", "Index", "Adventures", new { id = ViewBag.AdventureID }, null) |
     @*@Html.ActionLink("Back to List", "Index", new { id = ViewBag.AdventureID })*@
@@ -129,9 +132,14 @@
             @Html.DisplayFor(modelItem => item.DayTimeOfDayNarrative)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.WaypointID }) |
             @Html.ActionLink("Details", "Details", new { id = item.WaypointID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.WaypointID })
+            @if (ViewBag.UserIsCreator)
+            {
+                @Html.ActionLink(" | Edit", "Edit", new { id = item.WaypointID })
+                @Html.ActionLink(" | Delete", "Delete", new { id = item.WaypointID })
+            }
+            @*@Html.ActionLink("Edit", "Edit", new { id = item.WaypointID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.WaypointID })*@
         </td>
     </tr>
     }

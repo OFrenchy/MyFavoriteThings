@@ -18,6 +18,8 @@ namespace MyFavoriteThings.Controllers
         // GET: Adventures
         public ActionResult Index()
         {
+            // Adventure1!@abc.com  Adventure2!@abc.com
+            ViewBag.ContributorID = GetUsersContributorID();
             var adventures = db.Adventures.Include(a => a.Contributor);
             return View(adventures.ToList());
         }
@@ -25,7 +27,7 @@ namespace MyFavoriteThings.Controllers
         // GET: Adventures/Details/5
         public ActionResult Details(int? id)
         {
-            // Adventure1!@abc.com
+            // Adventure1!@abc.com  Adventure2!@abc.com
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -35,30 +37,39 @@ namespace MyFavoriteThings.Controllers
             {
                 return HttpNotFound();
             }
-            // if the adventure wasn't created by this contributor, disable the Edit link
-            int LoggedInContributorID = -1;
-            var appUserID = User.Identity.GetUserId();
-            if (appUserID != null)
-            {
-                LoggedInContributorID = db.Contributors.Where(c => c.ApplicationUserId == appUserID).Select(f => f.ContributorID).First();
-            }
-
-            ViewBag.UserIsCreator = adventure.ContributorID == LoggedInContributorID ? true : false;
-            //ViewBag.UserIsCreator = false;
-
+            // if the adventure wasn't created by this contributor, disable the Update & Edit links
+            ViewBag.UserIsCreator = UserIsCreator(id ?? 0);  //was id ?? 0
             return View(adventure);
         }
 
+        // TODO - find a scenario where these next two methods can be shared amongst controllers
+        //      - there's a problem moving it to a static class because of the required db & User objects
+        public bool UserIsCreator(int AdventureID)
+        {
+            // Adventure1!@abc.com  Adventure2!@abc.com
+            //int contributorID = GetUsersContributorID();
+            //return AdventureID == GetUsersContributorID();
+            int adventureCreator = db.Adventures.Where(a => a.AdventureID == AdventureID).First().ContributorID;
+            int loggedInContributorID = GetUsersContributorID();
+            return adventureCreator == loggedInContributorID;
+        }
+        public int GetUsersContributorID()
+        {
+            string appUserID = User.Identity.GetUserId();
+            if (appUserID == null) return 0;
+            return db.Contributors.Where(c => c.ApplicationUserId == appUserID).Select(f => f.ContributorID).First();
+        }
         // GET: Adventures/Create
         public ActionResult Create()
         {
-            // Adventure1!@abc.com
+            // Adventure1!@abc.com  Adventure2!@abc.com
             // Pass the ContributorID to the view
-            //ViewBag.ContributorID = new SelectList(db.Contributors, "ContributorID", "FirstName");
-            string thisUserID = User.Identity.GetUserId();
-            var thisContributor = db.Contributors.Where(w => w.ApplicationUserId == thisUserID).First();
-            ViewBag.ContributorID = thisContributor.ContributorID;
-            return View();
+            ViewBag.ContributorID = GetUsersContributorID();
+            Adventure adventure = new Adventure();
+            adventure.Rating = 0;
+            adventure.RatingCounter = 0;
+            adventure.RatingSum = 0;
+            return View(adventure);
         }
 
         // POST: Adventures/Create
@@ -70,18 +81,28 @@ namespace MyFavoriteThings.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Adventure1!@abc.com
+                // Adventure1!@abc.com  Adventure2!@abc.com
                 db.Adventures.Add(adventure);
                 db.SaveChanges();
 
                 // STOP - TODO - move them to add the waypoints
                 
                 // TODO - decide whether to pass the AdventureID or the new Waypoint
-                Waypoint waypoint = new Waypoint();
-                waypoint.AdventureID = adventure.AdventureID;
-                return RedirectToAction("Create", "Waypoints", new { AdventureID = adventure.AdventureID });
-
+                //Waypoint waypoint = new Waypoint();
+                //waypoint.AdventureID = adventure.AdventureID;
+                return RedirectToAction("Create", "Waypoints", new { id = adventure.AdventureID });
                 //return RedirectToAction("Index");
+            }
+            else
+            {
+                foreach (var obj in ModelState.Values)
+                {
+                    foreach (var error in obj.Errors)
+                    {
+                        if (!string.IsNullOrEmpty(error.ErrorMessage))
+                            System.Diagnostics.Debug.WriteLine("ERROR WHY = " + error.ErrorMessage);
+                    }
+                }
             }
             return RedirectToAction("Index");
             ViewBag.ContributorID = new SelectList(db.Contributors, "ContributorID", "FirstName", adventure.ContributorID);

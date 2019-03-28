@@ -156,6 +156,9 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.WaypointID }) |
+    @if (ViewBag.UserIsCreator)
+    {
+        @Html.ActionLink("Edit | ", "Edit", new { id = Model.WaypointID })
+    }
     @Html.ActionLink("Back to List", "Index", new { id = Model.AdventureID })
 </p>
