@@ -194,6 +194,10 @@
     <Compile Include="Migrations\201903271504370_AddedSequenceToWaypointsModel.Designer.cs">
       <DependentUpon>201903271504370_AddedSequenceToWaypointsModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903281731387_AddedGeneralTimeNarrativePropertyToAdventureModel.cs" />
+    <Compile Include="Migrations\201903281731387_AddedGeneralTimeNarrativePropertyToAdventureModel.Designer.cs">
+      <DependentUpon>201903281731387_AddedGeneralTimeNarrativePropertyToAdventureModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Adventure.cs" />
@@ -300,6 +304,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903271504370_AddedSequenceToWaypointsModel.resx">
       <DependentUpon>201903271504370_AddedSequenceToWaypointsModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903281731387_AddedGeneralTimeNarrativePropertyToAdventureModel.resx">
+      <DependentUpon>201903281731387_AddedGeneralTimeNarrativePropertyToAdventureModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
