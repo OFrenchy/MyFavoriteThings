@@ -16,6 +16,7 @@ namespace MyFavoriteThings.Models
         public string AdventureName { get; set; }
         [Required]
         public string AdventureName_Obscure { get; set; }
+        public string GeneralTimeNarrative { get; set; }
         [Required]
         public string AdventureDescription { get; set; }
         [Required]
