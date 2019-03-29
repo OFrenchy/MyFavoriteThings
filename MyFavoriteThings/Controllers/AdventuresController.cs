@@ -10,6 +10,9 @@ using System.Web.Mvc;
 using MyFavoriteThings.Models;
 using System.Text;
 using System.Data.SqlClient;
+using MimeKit;
+using MailKit;
+using MailKit.Net.Smtp;
 
 namespace MyFavoriteThings.Controllers
 {
@@ -120,9 +123,8 @@ namespace MyFavoriteThings.Controllers
                 // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
                 db.Adventures.Add(adventure);
                 db.SaveChanges();
-
+                // notify followers
                 int numberOfEmailsSent = NotifyFollowers(adventure.ContributorID);
-
                 return RedirectToAction("Create", "Waypoints", new { id = adventure.AdventureID });
             }
             else
@@ -132,7 +134,9 @@ namespace MyFavoriteThings.Controllers
                     foreach (var error in obj.Errors)
                     {
                         if (!string.IsNullOrEmpty(error.ErrorMessage))
+                        {
                             System.Diagnostics.Debug.WriteLine("ERROR WHY = " + error.ErrorMessage);
+                        }
                     }
                 }
             }
@@ -168,62 +172,54 @@ namespace MyFavoriteThings.Controllers
             var followers = db.Database.SqlQuery<EmailRecord>(getGarametersForEmailSQL.ToString(), contributorID);
             if (followers == null)
             {
-                // STOP - TODO - redirect??
-                return 0;
+                return countOfEmailsSent;
             }
-
-            if (followers.Count() > 0)// != null)
+            if (followers.Count() == 0)// != null)
             {
-                try
+                return countOfEmailsSent;
+            }
+            try
+            {
+                // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
+                using (var client = new SmtpClient())
                 {
-                    
-                    foreach(var thisEmail in followers)
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    client.Connect("smtp-server.wi.rr.com", 587, false);
+                    client.Authenticate(EmailAccountParameters.EmailAccount, EmailAccountParameters.EmailPwd);
+                    foreach (var thisRecord in followers)
                     {
-                        string thisFollowerFirstName = thisEmail.FollowerFirstName;
-                        string thisContributorFirstName = thisEmail.ContributorFirstName;
-                        string thisAddress = thisEmail.Email;
-
-
-
-
+                        var message = new MimeMessage();
+                        message.From.Add(new MailboxAddress("Webmaster", EmailAccountParameters.EmailAccount));
+                        // always send to my email 
+                        message.To.Add(new MailboxAddress(thisRecord.FollowerFirstName, EmailAccountParameters.ToEmailAccount));// thisRecord.Email));
+                        message.Subject = $"A new adventure has been posted by {thisRecord.ContributorFirstName} on XYZ.com";  //"Subject" text box 
+                        message.Body = new TextPart("plain")
+                        {
+                            Text = $"Hello, {thisRecord.FollowerFirstName} - \n\nA new adventure has been posted by {thisRecord.ContributorFirstName} on XYZ.com.  Check it out!" 
+                        };
+                        try
+                        {
+                            client.Send(message);
+                            countOfEmailsSent ++ ;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.ToString());
+                            System.Diagnostics.Debug.WriteLine("ERROR WHY = " + e.ToString());
+                        }
                     }
-                    
-                    //    using (var client = new MailKit.Net.Smtp.SmtpClient())
-                    //    {
-                    //        client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                    //        // TODO - determine whose mail account we're going to use, plug in the details below
-                    //        client.Connect("smtp.friends.com", 587, false);
-                    //        client.Authenticate("joey", "password");
-                    //        foreach (var thisRecord in peopleToContact)
-                    //        {
-                    //            var message = new MimeMessage();
-                    //            message.From.Add(new MailboxAddress("", ""));  // TODO - determine whose mail account we're going to use
-                    //            message.To.Add(new MailboxAddress("", ""));
-                    //            message.Subject = "";  //"Subject" text box 
-
-                    //            message.Body = new TextPart("plain")
-                    //            {
-                    //                Text = @""  //"MessageBody" text box ; replace "Dear <FirstName>," with "Dear Jack," from the user's FirstName field
-                    //            };
-                    //            client.Send(message);
-                    //        }
-                    //        client.Disconnect(true);
-                    //    }
-
-
-
-
-
-
-                }
-                catch
-                {
-                    return countOfEmailsSent;
+                    client.Disconnect(true);
                 }
             }
-
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                System.Diagnostics.Debug.WriteLine("ERROR WHY = " + e.ToString());
+                return countOfEmailsSent;
+            }
             return countOfEmailsSent;
         }
+
         // GET: Adventures/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -305,5 +301,6 @@ namespace MyFavoriteThings.Controllers
         public string Email { get; set; }
         public string ContributorFirstName { get; set; }
     }
+
 
 }
