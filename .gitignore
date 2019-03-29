@@ -337,5 +337,7 @@ app.config
 
 **/[Mm]igrations/*
 
+APIKeys.cs
+
 
 

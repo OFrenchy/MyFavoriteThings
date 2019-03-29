@@ -18,7 +18,7 @@ namespace MyFavoriteThings.Controllers
         // GET: Adventures
         public ActionResult Index()
         {
-            // Adventure1!@abc.com  Adventure2!@abc.com
+            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             ViewBag.ContributorID = GetUsersContributorID();
             var adventures = db.Adventures.Include(a => a.Contributor);
             return View(adventures.ToList());
@@ -27,7 +27,7 @@ namespace MyFavoriteThings.Controllers
         // GET: Adventures/Details/5
         public ActionResult Details(int? id)
         {
-            // Adventure1!@abc.com  Adventure2!@abc.com
+            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -46,7 +46,7 @@ namespace MyFavoriteThings.Controllers
         //      - there's a problem moving it to a static class because of the required db & User objects
         public bool UserIsCreator(int AdventureID)
         {
-            // Adventure1!@abc.com  Adventure2!@abc.com
+            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             //int contributorID = GetUsersContributorID();
             //return AdventureID == GetUsersContributorID();
             int adventureCreator = db.Adventures.Where(a => a.AdventureID == AdventureID).First().ContributorID;
@@ -59,10 +59,23 @@ namespace MyFavoriteThings.Controllers
             if (appUserID == null) return 0;
             return db.Contributors.Where(c => c.ApplicationUserId == appUserID).Select(f => f.ContributorID).First();
         }
+
+        public List<SelectListItem> GetAllCategories()
+        {
+            List<SelectListItem> categoryItems = new List<SelectListItem>();
+            foreach (var categoryItem in db.Categories)
+            {
+                categoryItems.Add(new SelectListItem { Text = categoryItem.CategoryName, Value = categoryItem.CategoryID.ToString() });
+            }
+            return categoryItems;
+        }
+
+
+
         // GET: Adventures/Create
         public ActionResult Create()
         {
-            // Adventure1!@abc.com  Adventure2!@abc.com
+            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             // Pass the ContributorID to the view
             ViewBag.ContributorID = GetUsersContributorID();
             Adventure adventure = new Adventure();
@@ -82,7 +95,7 @@ namespace MyFavoriteThings.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Adventure1!@abc.com  Adventure2!@abc.com
+                // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
                 db.Adventures.Add(adventure);
                 db.SaveChanges();
                 return RedirectToAction("Create", "Waypoints", new { id = adventure.AdventureID });
@@ -106,6 +119,7 @@ namespace MyFavoriteThings.Controllers
         // GET: Adventures/Edit/5
         public ActionResult Edit(int? id)
         {
+            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -127,6 +141,7 @@ namespace MyFavoriteThings.Controllers
         //public ActionResult Edit([Bind(Include = "AdventureID,AdventureName,AdventureName_Obscure,AdventureDescription,AdventureDescription_Obscure,AdventureGeneralLocation,AdventureGeneralLocation_Obscure,Rating,RatingCounter,RatingSum,AllowComments,AllowImages,Comments,ContributorID")] Adventure adventure)
         public ActionResult Edit(Adventure adventure)
         {
+            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             ViewBag.ContributorID = adventure.ContributorID;
             if (ModelState.IsValid)
             {
@@ -141,6 +156,7 @@ namespace MyFavoriteThings.Controllers
         // GET: Adventures/Delete/5
         public ActionResult Delete(int? id)
         {
+            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -158,6 +174,7 @@ namespace MyFavoriteThings.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             Adventure adventure = db.Adventures.Find(id);
             db.Adventures.Remove(adventure);
             db.SaveChanges();
