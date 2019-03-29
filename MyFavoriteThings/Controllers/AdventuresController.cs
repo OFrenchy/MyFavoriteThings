@@ -44,11 +44,6 @@ namespace MyFavoriteThings.Controllers
         public ActionResult Follow(int id)
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-
             int followerID = GetUsersContributorID();
             // If there is NOT a record for this pair already in the Follow table/model, add it
             int countOfRecords = db.Follows.Where(f => f.ContributorID == id && f.FollowerContributorID == followerID).Count();
@@ -64,10 +59,10 @@ namespace MyFavoriteThings.Controllers
                 }
                 catch
                 {
-                    return View();
+                    return RedirectToAction("Index", "Adventures");
                 }
             }
-            return View();
+            return RedirectToAction("Index", "Adventures");
         }
 
         // TODO - find a scenario where these next two methods can be shared amongst controllers
@@ -75,8 +70,6 @@ namespace MyFavoriteThings.Controllers
         public bool UserIsCreator(int AdventureID)
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
-            //int contributorID = GetUsersContributorID();
-            //return AdventureID == GetUsersContributorID();
             int adventureCreator = db.Adventures.Where(a => a.AdventureID == AdventureID).First().ContributorID;
             int loggedInContributorID = GetUsersContributorID();
             return adventureCreator == loggedInContributorID;
@@ -126,6 +119,9 @@ namespace MyFavoriteThings.Controllers
                 // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
                 db.Adventures.Add(adventure);
                 db.SaveChanges();
+
+                //int numberOfEmailsSent = NotifyFollowers(adventure.ContributorID);
+
                 return RedirectToAction("Create", "Waypoints", new { id = adventure.AdventureID });
             }
             else
