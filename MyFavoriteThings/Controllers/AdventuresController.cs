@@ -41,6 +41,34 @@ namespace MyFavoriteThings.Controllers
             ViewBag.UserIsCreator = UserIsCreator(id ?? 0);  //was id ?? 0
             return View(adventure);
         }
+        public ActionResult Follow(int id)
+        {
+            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+
+            int followerID = GetUsersContributorID();
+            // If there is NOT a record for this pair already in the Follow table/model, add it
+            int countOfRecords = db.Follows.Where(f => f.ContributorID == id && f.FollowerContributorID == followerID).Count();
+            if (countOfRecords == 0)
+            {
+                try
+                {
+                    Follow followRecord = new Follow();// new { id, followerID }
+                    followRecord.ContributorID = id;
+                    followRecord.FollowerContributorID = followerID;
+                    db.Follows.Add(followRecord); 
+                    db.SaveChanges();
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            return View();
+        }
 
         // TODO - find a scenario where these next two methods can be shared amongst controllers
         //      - there's a problem moving it to a static class because of the required db & User objects

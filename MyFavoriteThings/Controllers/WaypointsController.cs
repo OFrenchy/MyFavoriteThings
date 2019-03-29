@@ -19,8 +19,6 @@ namespace MyFavoriteThings.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // TODO - find a scenario where these next two methods can be shared amongst controllers
-        //      - there's a problem moving it to a static class because of the required db & User objects
         public bool UserIsCreator(int AdventureID)
         {
             // Get the creator of this adventure; if it's the same as the logged-in user, return true
@@ -248,12 +246,10 @@ namespace MyFavoriteThings.Controllers
                 // example: string url = @"https://maps.googleapis.com/maps/api/geocode/json?address={stringBuilder.ToString()}1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY";
                 string url = @"https://maps.googleapis.com/maps/api/geocode/json?address=" +
                     stringBuilder.ToString() + "&key=" + APIKeys.GeoLocatorAPIKey;
-                // httpclient
 
                 WebRequest request = WebRequest.Create(url);
                 WebResponse response = await request.GetResponseAsync();
                 System.IO.Stream data = response.GetResponseStream();
-                // tried this System.IO.Stream data = await GetGoogleGeocodeResponse(url);
                 StreamReader reader = new StreamReader(data);
                 // json-formatted string from maps api
                 string responseFromServer = reader.ReadToEnd();
@@ -268,7 +264,6 @@ namespace MyFavoriteThings.Controllers
                 ////    var location = singleResult.geometry.location;
                 ////    var latitude = location.lat;
                 ////    var longitude = location.lng;
-                ////    // Do whatever you want with them.
                 ////}
                 //latLng = { location.lat, location.lng};
                 latLng[0] =  location.lat;
@@ -336,5 +331,4 @@ namespace MyFavoriteThings.Controllers
         public string short_name { get; set; }
         public string[] types { get; set; }
     }
-
 }
