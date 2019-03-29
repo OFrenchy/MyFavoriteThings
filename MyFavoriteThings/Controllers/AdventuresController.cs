@@ -8,6 +8,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MyFavoriteThings.Models;
+using System.Text;
+using System.Data.SqlClient;
 
 namespace MyFavoriteThings.Controllers
 {
@@ -46,6 +48,7 @@ namespace MyFavoriteThings.Controllers
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             int followerID = GetUsersContributorID();
             // If there is NOT a record for this pair already in the Follow table/model, add it
+            // We will allow a contributor to follow him/herself
             int countOfRecords = db.Follows.Where(f => f.ContributorID == id && f.FollowerContributorID == followerID).Count();
             if (countOfRecords == 0)
             {
@@ -91,8 +94,6 @@ namespace MyFavoriteThings.Controllers
             return categoryItems;
         }
 
-
-
         // GET: Adventures/Create
         public ActionResult Create()
         {
@@ -120,7 +121,7 @@ namespace MyFavoriteThings.Controllers
                 db.Adventures.Add(adventure);
                 db.SaveChanges();
 
-                //int numberOfEmailsSent = NotifyFollowers(adventure.ContributorID);
+                int numberOfEmailsSent = NotifyFollowers(adventure.ContributorID);
 
                 return RedirectToAction("Create", "Waypoints", new { id = adventure.AdventureID });
             }
@@ -139,7 +140,90 @@ namespace MyFavoriteThings.Controllers
             //ViewBag.ContributorID = new SelectList(db.Contributors, "ContributorID", "FirstName", adventure.ContributorID);
             //return View(adventure);
         }
+        public int NotifyFollowers(int contributorID)
+        {
+            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
+            int countOfEmailsSent = 0;
+            // Get the list of follower email addresses
+            // SQL statement:
+            // SELECT B.FirstName as FollowerFirstName, AspNetUsers.Email, 
+            //A.FirstName as ContributorFirstName, 'NameOfNewAdventure' as NewAdventureName
+            //FROM Contributors A INNER JOIN
+            //Follows on A.ContributorID = Follows.ContributorID INNER JOIN
+            //Contributors B on Follows.FollowerContributorID = B.ContributorID INNER JOIN
+            //AspNetUsers on B.ApplicationUserId = AspNetUsers.Id
+            //WHERE A.ContributorID = 1
+            
+            StringBuilder getGarametersForEmailSQL = new StringBuilder();
+            //followers
+            getGarametersForEmailSQL.Clear();
+            getGarametersForEmailSQL.Append("SELECT B.FirstName as FollowerFirstName, AspNetUsers.Email, ");
+            getGarametersForEmailSQL.Append("A.FirstName as ContributorFirstName ");
+            //getGarametersForEmailSQL.Append($"'{Adventure.name}' as NewAdventureName ");
+            getGarametersForEmailSQL.Append("FROM Contributors A INNER JOIN ");
+            getGarametersForEmailSQL.Append("Follows ON A.ContributorID = Follows.ContributorID INNER JOIN ");
+            getGarametersForEmailSQL.Append("Contributors B ON Follows.FollowerContributorID = B.ContributorID INNER JOIN ");
+            getGarametersForEmailSQL.Append("AspNetUsers ON B.ApplicationUserId = AspNetUsers.Id ");
+            getGarametersForEmailSQL.Append($"WHERE A.ContributorID = {contributorID}");
+            var followers = db.Database.SqlQuery<EmailRecord>(getGarametersForEmailSQL.ToString(), contributorID);
+            if (followers == null)
+            {
+                // STOP - TODO - redirect??
+                return 0;
+            }
 
+            if (followers.Count() > 0)// != null)
+            {
+                try
+                {
+                    
+                    foreach(var thisEmail in followers)
+                    {
+                        string thisFollowerFirstName = thisEmail.FollowerFirstName;
+                        string thisContributorFirstName = thisEmail.ContributorFirstName;
+                        string thisAddress = thisEmail.Email;
+
+
+
+
+                    }
+                    
+                    //    using (var client = new MailKit.Net.Smtp.SmtpClient())
+                    //    {
+                    //        client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    //        // TODO - determine whose mail account we're going to use, plug in the details below
+                    //        client.Connect("smtp.friends.com", 587, false);
+                    //        client.Authenticate("joey", "password");
+                    //        foreach (var thisRecord in peopleToContact)
+                    //        {
+                    //            var message = new MimeMessage();
+                    //            message.From.Add(new MailboxAddress("", ""));  // TODO - determine whose mail account we're going to use
+                    //            message.To.Add(new MailboxAddress("", ""));
+                    //            message.Subject = "";  //"Subject" text box 
+
+                    //            message.Body = new TextPart("plain")
+                    //            {
+                    //                Text = @""  //"MessageBody" text box ; replace "Dear <FirstName>," with "Dear Jack," from the user's FirstName field
+                    //            };
+                    //            client.Send(message);
+                    //        }
+                    //        client.Disconnect(true);
+                    //    }
+
+
+
+
+
+
+                }
+                catch
+                {
+                    return countOfEmailsSent;
+                }
+            }
+
+            return countOfEmailsSent;
+        }
         // GET: Adventures/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -214,4 +298,12 @@ namespace MyFavoriteThings.Controllers
             base.Dispose(disposing);
         }
     }
+
+    public class EmailRecord
+    {
+        public string FollowerFirstName { get; set; }
+        public string Email { get; set; }
+        public string ContributorFirstName { get; set; }
+    }
+
 }

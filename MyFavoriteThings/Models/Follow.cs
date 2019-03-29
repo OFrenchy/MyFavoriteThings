@@ -17,7 +17,7 @@ namespace MyFavoriteThings.Models
         public Contributor Contributor { get; set; }
 
         [Key]
-        //[ForeignKey("Contributor")]                            
+        //[ForeignKey("Contributor2")]                            
         //[ForeignKey("Contributor as FollowsContributor")]
         [Column(Order = 2)]
         public int FollowerContributorID { get; set; }           //FollowerContributorID
