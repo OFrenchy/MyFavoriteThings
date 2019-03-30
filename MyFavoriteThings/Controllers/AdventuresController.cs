@@ -26,6 +26,12 @@ namespace MyFavoriteThings.Controllers
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             ViewBag.ContributorID = GetUsersContributorID();
             var adventures = db.Adventures.Include(a => a.Contributor);
+
+            // create a dictionary with the following items:
+            // AdventureID, AdventureName, Waypoints.Lat, Waypoints.Long where min(Waypoint.Sequence) 
+            var firstPoints = db.Waypoints.Include(w => w.Adventure).Min(w => w.Sequence);
+            //firstPoints
+
             return View(adventures.ToList());
         }
 
