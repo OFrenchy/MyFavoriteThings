@@ -33,13 +33,23 @@ namespace MyFavoriteThings.Controllers
             if (appUserID == null) return 0;
             return db.Contributors.Where(c => c.ApplicationUserId == appUserID).Select(f => f.ContributorID).First();
         }
+        public string[] GetSunriseSunset(string dateString, double latitude, double longitude)
+        {
 
+
+            return new string[] { "6:45am", "7:05pm" };
+        }
         // GET: Waypoints
         public ActionResult Index(int id)   //adventureID
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             ViewBag.ContributorID = GetUsersContributorID();
             ViewBag.UserIsCreator = UserIsCreator(id);
+
+            //string[] sunriseSunset = GetSunriseSunset(DateTime.Today.ToShortDateString, latitude, longitude);
+
+            ViewBag.Sunrise = "6:45am";
+            ViewBag.Sunset = "7:05pm";
 
             var waypoints = db.Waypoints.Include(w => w.Adventure).Where(w => w.AdventureID == id).OrderBy(w => w.Sequence);
             ViewBag.AdventureID = id;

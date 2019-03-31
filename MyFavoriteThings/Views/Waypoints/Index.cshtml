@@ -5,7 +5,9 @@
 }
 
 <h2>Index - Waypoints for Adventure</h2>
-
+<h3>@*@Html.TextBox(ViewBag.TodaysDate)*@  Sunrise: @ViewBag.Sunrise, Sunset: @ViewBag.Sunset  
+    @Html.ActionLink("Calculate", "CalculateSunriseSunset", new { id = ViewBag.AdventureID }) 
+</h3>
 <p>
     @if (ViewBag.UserIsCreator)
     {
