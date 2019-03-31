@@ -29,8 +29,12 @@ namespace MyFavoriteThings.Controllers
 
             // create a dictionary with the following items:
             // AdventureID, AdventureName, Waypoints.Lat, Waypoints.Long where min(Waypoint.Sequence) 
-            var firstPoints = db.Waypoints.Include(w => w.Adventure).Min(w => w.Sequence);
+            var mapPointsData = db.Database.SqlQuery<MapPointData>("SELECT A.AdventureID, AdventureName, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;").ToArray();
             //firstPoints
+            //var thisPointsList = firstPoints.ToList();
+            ViewBag.MapPointsData = mapPointsData;
+            //mapPoints[0].AdventureID
+            //{ coordinate: new mapkit.Coordinate(37.8184493, -122.478409), title: "Golden Gate Bridge", phone: "+1 (415) 921-5858", url: "http://www.goldengatebridge.org" },
 
             return View(adventures.ToList());
         }
@@ -307,6 +311,12 @@ namespace MyFavoriteThings.Controllers
         public string Email { get; set; }
         public string ContributorFirstName { get; set; }
     }
-
+    public class MapPointData
+    {
+        public int AdventureID { get; set; }
+        public string AdventureName { get; set; }
+        public double Lat { get; set; }
+        public double Long { get; set; }
+    }
 
 }
