@@ -33,8 +33,23 @@ namespace MyFavoriteThings.Controllers
             if (appUserID == null) return 0;
             return db.Contributors.Where(c => c.ApplicationUserId == appUserID).Select(f => f.ContributorID).First();
         }
+        public ActionResult CalculateSunriseSunset(int aID, string dateString )
+        {
+            string[] sunriseSunset = GetSunriseSunsetForDateAtWaypoint(aID, dateString);
+            ViewBag.Sunrise = sunriseSunset[0]; // "6:45am";
+            ViewBag.Sunset = sunriseSunset[1];  // "7:05pm";
+            return View();
+        }
+        public string[] GetSunriseSunsetForDateAtWaypoint(int aID, string dateString)
+        {
+            var firstWaypoint = db.Waypoints.Where(w => w.AdventureID == aID).FirstOrDefault();
+            string[] sunriseSunset = GetSunriseSunset(DateTime.Parse(dateString).ToShortDateString(), firstWaypoint.Lat, firstWaypoint.Long);
+            return GetSunriseSunset(DateTime.Today.ToShortDateString(), firstWaypoint.Lat, firstWaypoint.Long);
+        }
+
         public string[] GetSunriseSunset(string dateString, double latitude, double longitude)
         {
+
 
 
             return new string[] { "6:45am", "7:05pm" };
@@ -46,11 +61,11 @@ namespace MyFavoriteThings.Controllers
             ViewBag.ContributorID = GetUsersContributorID();
             ViewBag.UserIsCreator = UserIsCreator(id);
 
-            //string[] sunriseSunset = GetSunriseSunset(DateTime.Today.ToShortDateString, latitude, longitude);
-
-            ViewBag.Sunrise = "6:45am";
-            ViewBag.Sunset = "7:05pm";
-
+            // get the sunrise/sunset for today from the API
+            string[] sunriseSunset = GetSunriseSunsetForDateAtWaypoint(id, DateTime.Today.ToShortDateString());
+            ViewBag.Sunrise = sunriseSunset[0]; // "6:45am";
+            ViewBag.Sunset = sunriseSunset[1];  // "7:05pm";
+            
             var waypoints = db.Waypoints.Include(w => w.Adventure).Where(w => w.AdventureID == id).OrderBy(w => w.Sequence);
             ViewBag.AdventureID = id;
             return View(waypoints.ToList());
