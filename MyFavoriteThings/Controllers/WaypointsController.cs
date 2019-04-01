@@ -27,7 +27,6 @@ namespace MyFavoriteThings.Controllers
             int adventureCreator = db.Adventures.Where(a => a.AdventureID == AdventureID).First().ContributorID;
             int loggedInContributorID = GetUsersContributorID();
             return adventureCreator == loggedInContributorID;
-            //return AdventureID == GetUsersContributorID();
         }
         public int GetUsersContributorID()
         {
@@ -52,20 +51,14 @@ namespace MyFavoriteThings.Controllers
         }
 
         public async Task<string[]>  GetSunriseSunset(string dateString, double latitude, double longitude)
-        //public async Task<ActionResult> Create(Waypoint waypoint)
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             DateTime dateToSend = DateTime.Parse(dateString);
-            //debug.print dateToSend.Month
 
-            //CalculateSunriseSunset
             //https://api.sunrise-sunset.org/json?lat=36.7201600&lng=-4.4203400&date=2019-03-31
             string urlToSend = $"https://api.sunrise-sunset.org/json?lat={latitude}&lng={longitude}&date={dateToSend.Year.ToString()}-{dateToSend.Month.ToString("00")}-{dateToSend.Day.ToString("00")}";
             var responseString = await client.GetStringAsync(urlToSend);
 
-            //var response = await client.PostAsync(urlToSend, null);
-            //var responseString = await response.Content.ReadAsStringAsync();
-            //"{\"results\":{\"sunrise\":\"1:55:43 PM\",\"sunset\":\"2:32:16 AM\",\"solar_noon\":\"8:13:59 PM\",\"day_length\":\"12:36:33\",\"civil_twilight_begin\":\"1:29:21 PM\",\"civil_twilight_end\":\"2:58:38 AM\",\"nautical_twilight_begin\":\"12:58:10 PM\",\"nautical_twilight_end\":\"3:29:49 AM\",\"astronomical_twilight_begin\":\"12:26:11 PM\",\"astronomical_twilight_end\":\"4:01:47 AM\"},\"status\":\"OK\"}"
             var root = JsonConvert.DeserializeObject<SunriseSunset>(responseString);
             string sunrise = root.Results.sunrise;/// .geometry.location;
             string sunset = root.Results.sunset;
@@ -79,26 +72,13 @@ namespace MyFavoriteThings.Controllers
             responseString = await client.GetStringAsync(urlToSend);
             var root2 =  JsonConvert.DeserializeObject<GoogleTimeZone>(responseString);
             //{\n   \"dstOffset\" : 3600,\n   \"rawOffset\" : -28800,\n   \"status\" : \"OK\",\n   \"timeZoneId\" : \"America/Los_Angeles\",\n   \"timeZoneName\" : \"Pacific Daylight Time\"\n}\n
-            //var offset = root2.rawOffset;
-            //var dstOffset = root2.dstOffset;
             double totalHoursOffset = (root2.rawOffset + root2.dstOffset) / 3600;
 
             // Add the offset to the time
-            sunrise = DateTime.Parse(sunrise).AddHours(totalHoursOffset).ToString("h:mm tt") + " " + root2.timeZoneName;
-            sunset = DateTime.Parse(sunset).AddHours(totalHoursOffset).ToString("h:mm tt") + " " + root2.timeZoneName;
-
-            //Adventure1!
-
-
+            sunrise = DateTime.Parse(sunrise).AddHours(totalHoursOffset).ToString("h:mm tt");
+            sunset = DateTime.Parse(sunset).AddHours(totalHoursOffset).ToString("h:mm tt") + " (" + root2.timeZoneName +")";
             return new string[] { sunrise, sunset };
         }
-
-        //public static double ToTimestamp(this DateTime date)
-        //{
-        //    DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-        //    TimeSpan diff = date.ToUniversalTime() - origin;
-        //    return Math.Floor(diff.TotalSeconds);
-        //}
 
         // GET: Waypoints
         public async Task<ActionResult> Index(int id)   //adventureID
@@ -106,6 +86,7 @@ namespace MyFavoriteThings.Controllers
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             ViewBag.ContributorID = GetUsersContributorID();
             ViewBag.UserIsCreator = UserIsCreator(id);
+            ViewBag.DateForSunriseSunset = DateTime.Today.ToShortDateString();
 
             // get the sunrise/sunset for today from the API
             string[] sunriseSunset = await GetSunriseSunsetForDateAtWaypoint(id, DateTime.Today.ToShortDateString());
