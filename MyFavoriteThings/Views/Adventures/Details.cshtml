@@ -126,7 +126,7 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("View Waypoints", "Index", "Waypoints", new { id = Model.AdventureID }, null) |
+    @Html.ActionLink("View Waypoints", "Index", "Waypoints", new { id = Model.AdventureID, dateString = "" }, null) |
 
     @* Change this next link to be disabled if it's not the creator who is logged in*@
     @if (ViewBag.UserIsCreator)

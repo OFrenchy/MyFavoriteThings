@@ -34,12 +34,28 @@ namespace MyFavoriteThings.Controllers
             if (appUserID == null) return 0;
             return db.Contributors.Where(c => c.ApplicationUserId == appUserID).Select(f => f.ContributorID).First();
         }
+        //[HttpPost]
+        ////public ActionResult CalculateSunriseSunset(int aID, string dateString )
+        //public async Task<ActionResult> CalculateSunriseSunset(int aID, string dateString)
+        //{
+        //    // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
+        //    string[] sunriseSunset = await GetSunriseSunsetForDateAtWaypoint(aID, dateString);
+        //    ViewBag.Sunrise = sunriseSunset[0]; // "6:45am";
+        //    ViewBag.Sunset = sunriseSunset[1];  // "7:05pm";
+        //    ViewBag.DateForSunriseSunset = dateString;// DateTime.Parse(dateString).ToShortDateString();
+        //    return View();
+        //}
+        
+        //[HttpPost]
         //public ActionResult CalculateSunriseSunset(int aID, string dateString )
         public async Task<ActionResult> CalculateSunriseSunset(int aID, string dateString)
         {
-            string[] sunriseSunset = await GetSunriseSunsetForDateAtWaypoint(aID, dateString);
+            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
+            string[] sunriseSunset = await GetSunriseSunsetForDateAtWaypoint(aID, dateString);// "4/1/2019");
             ViewBag.Sunrise = sunriseSunset[0]; // "6:45am";
             ViewBag.Sunset = sunriseSunset[1];  // "7:05pm";
+            ViewBag.DateForSunriseSunset = DateTime.Parse(dateString).ToShortDateString();  //"4/1/2019";// 
+
             return View();
         }
         //public string[] GetSunriseSunsetForDateAtWaypoint(int aID, string dateString)
@@ -81,22 +97,79 @@ namespace MyFavoriteThings.Controllers
         }
 
         // GET: Waypoints
-        public async Task<ActionResult> Index(int id)   //adventureID
+        public async Task<ActionResult> Index(int id)   //adventureID   , string dateString
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             ViewBag.ContributorID = GetUsersContributorID();
             ViewBag.UserIsCreator = UserIsCreator(id);
-            ViewBag.DateForSunriseSunset = DateTime.Today.ToShortDateString();
 
+            string dateString = DateTime.Today.ToShortDateString();// "4/1/2019"; //dateString ?? DateTime.Today.ToShortDateString();
+            
             // get the sunrise/sunset for today from the API
-            string[] sunriseSunset = await GetSunriseSunsetForDateAtWaypoint(id, DateTime.Today.ToShortDateString());
+            string[] sunriseSunset = await GetSunriseSunsetForDateAtWaypoint(id, dateString);// DateTime.Parse(dateString).ToShortDateString());
             ViewBag.Sunrise = sunriseSunset[0]; // "6:45am";
             ViewBag.Sunset = sunriseSunset[1];  // "7:05pm";
-            
             var waypoints = db.Waypoints.Include(w => w.Adventure).Where(w => w.AdventureID == id).OrderBy(w => w.Sequence);
             ViewBag.AdventureID = id;
-            return View(waypoints.ToList());
+
+            WaypointsDateAtLocation waypointsDateAtLocation = new WaypointsDateAtLocation();
+            //waypointsDateAtLocation.
+            waypointsDateAtLocation.Waypoints = waypoints.ToList();
+            waypointsDateAtLocation.DateAtLocation = dateString;    // DateTime.Today.ToShortDateString();
+            return View(waypointsDateAtLocation);
+            //return View(waypoints.ToList());
         }
+
+
+        [HttpPost]
+        public async Task<ActionResult> Index(WaypointsDateAtLocation waypointsDateAtLocation)
+        {
+            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
+            ViewBag.ContributorID = GetUsersContributorID();
+            ViewBag.UserIsCreator = UserIsCreator(waypointsDateAtLocation.AdventureID);
+
+            string dateString = waypointsDateAtLocation.DateAtLocation;          //  DateTime.Today.ToShortDateString();// "4/1/2019"; //dateString ?? DateTime.Today.ToShortDateString();
+
+            // get the sunrise/sunset for today from the API
+            string[] sunriseSunset = await GetSunriseSunsetForDateAtWaypoint(waypointsDateAtLocation.AdventureID, dateString);// DateTime.Parse(dateString).ToShortDateString());
+            ViewBag.Sunrise = sunriseSunset[0]; // "6:45am";
+            ViewBag.Sunset = sunriseSunset[1];  // "7:05pm";
+            var waypoints = db.Waypoints.Include(w => w.Adventure).Where(w => w.AdventureID == waypointsDateAtLocation.AdventureID).OrderBy(w => w.Sequence);
+            ViewBag.AdventureID = waypointsDateAtLocation.AdventureID;
+
+            //WaypointsDateAtLocation waypointsDateAtLocation = new WaypointsDateAtLocation();
+            //waypointsDateAtLocation.
+            waypointsDateAtLocation.Waypoints = waypoints.ToList();
+            waypointsDateAtLocation.DateAtLocation = dateString;    // DateTime.Today.ToShortDateString();
+            return View(waypointsDateAtLocation);
+            //return View(waypoints.ToList());return View();
+        }
+
+        //[HttpPost]
+        //public async Task<ActionResult> Index(WaypointsDateAtLocation waypointsDateAtLocation)       //int id, string dateString)   //adventureID
+        //{
+        //    // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
+        //    ViewBag.ContributorID = GetUsersContributorID();
+        //    //ViewBag.UserIsCreator = UserIsCreator(id);
+        //    ViewBag.UserIsCreator = waypointsDateAtLocation.Waypoints.AdventureID;
+
+        //    waypointsDateAtLocation.DateAtLocation = waypointsDateAtLocation.DateAtLocation ?? DateTime.Today.ToShortDateString();
+
+        //    // get the sunrise/sunset for today from the API
+        //    string[] sunriseSunset = await GetSunriseSunsetForDateAtWaypoint(id, dateString);   // DateTime.Parse(dateString).ToShortDateString()); //DateTime.Today.ToShortDateString());
+        //    ViewBag.Sunrise = sunriseSunset[0]; // "6:45am";
+        //    ViewBag.Sunset = sunriseSunset[1];  // "7:05pm";
+
+        //    var waypoints = db.Waypoints.Include(w => w.Adventure).Where(w => w.AdventureID == id).OrderBy(w => w.Sequence);
+        //    ViewBag.AdventureID = id;
+
+        //    WaypointsDateAtLocation waypointsDateAtLocation = new WaypointsDateAtLocation();
+        //    waypointsDateAtLocation.Waypoints = waypoints.ToList();
+        //    waypointsDateAtLocation.DateAtLocation = dateString;    // DateTime.Parse(dateString).ToShortDateString();  // DateTime.Today.ToShortDateString();
+        //    return View(waypointsDateAtLocation);
+        //    //return View(waypoints.ToList());
+        //}
+
 
         // GET: Waypoints/Details/5
         public ActionResult Details(int? id)
