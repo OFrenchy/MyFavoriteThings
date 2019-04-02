@@ -15,32 +15,24 @@
         <th>
             @Html.DisplayNameFor(model => model.Contributor.FirstName)
         </th>
-        @if (ViewBag.ShowDetail)
-        {
-            <th>
-                @Html.DisplayNameFor(model => model.AdventureName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdventureDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdventureGeneralLocation)
-            </th>
-        }
-        @if (!ViewBag.ShowDetail)
-        {
-            <th>
-                @Html.DisplayNameFor(model => model.AdventureName_Obscure)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdventureDescription_Obscure)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdventureGeneralLocation_Obscure)
-            </th>
-        }
         <th>
-            @Html.DisplayNameFor(model => model.GeneralTimeNarrative)
+            @*@Html.DisplayNameFor(model => model.AdventureName)*@
+            @*@Html.DisplayNameFor(model => model.AdventureName_Obscure)*@
+            Adventure Name
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.AdventureDescription)*@
+            @*@Html.DisplayNameFor(model => model.AdventureDescription_Obscure)*@
+            Description
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.AdventureGeneralLocation)*@
+            @*@Html.DisplayNameFor(model => model.AdventureGeneralLocation_Obscure)*@
+            General Location
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.GeneralTimeNarrative)*@
+            General Time
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Rating)
@@ -67,7 +59,7 @@
     {
     <tr>
         <td>
-            @Html.ActionLink("Details", "Details", new { id = item.AdventureID , showDetail = ViewBag.ShowDetail })
+            @Html.ActionLink("Details", "Details", new { id = item.AdventureID, showDetail = ViewBag.ShowDetail })
             @if (ViewBag.ContributorID == item.ContributorID)
             {
                 @Html.ActionLink(" | Edit", "Edit", new { id = item.AdventureID })

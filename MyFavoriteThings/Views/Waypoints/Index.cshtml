@@ -43,51 +43,32 @@
         <th></th>
         <th>
             @*@Html.DisplayNameFor(model => model.Waypoints[0].Adventure.AdventureName)*@
-            AdventureName
+            Adventure Name
         </th>
         <th>
             @*@Html.DisplayNameFor(model => model.Sequence)*@
             Sequence
         </th>
-        @if (ViewBag.ShowDetail)
-        {
-            <th>
-                @*@Html.DisplayNameFor(model => model.WaypointName)*@
-                Waypoint
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.WaypointNickname)*@
-                WaypointNickname
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Description)*@
-                Description
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.DirectionsNarrative)*@
-                DirectionsNarrative
-            </th>
-        }
-        @if (!ViewBag.ShowDetail)
-        {
-            <th>
-                @*@Html.DisplayNameFor(model => model.WaypointName_Obscure)*@
-                Waypoint_Obscure
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.WaypointNickname_Obscure)*@
-                WaypointNickname_Obscure
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Description_Obscure)*@
-                Description_Obscure
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.DirectionsNarrative_Obscure)*@
-                DirectionsNarrative_Obscure
-            </th>
-        }
-
+        <th>
+            @*@Html.DisplayNameFor(model => model.WaypointName)*@
+            @*@Html.DisplayNameFor(model => model.WaypointName_Obscure)*@
+            Location
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.WaypointNickname)*@
+            @*@Html.DisplayNameFor(model => model.WaypointNickname_Obscure)*@
+            Location Nickname
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Description)*@
+            @*@Html.DisplayNameFor(model => model.Description_Obscure)*@
+            Description
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.DirectionsNarrative)*@
+            @*@Html.DisplayNameFor(model => model.DirectionsNarrative_Obscure)*@
+            Directions Narrative
+        </th>
         <th>
             @*@Html.DisplayNameFor(model => model.Lat)*@
             Lat
@@ -118,7 +99,7 @@
         </th>
         <th>
             @*@Html.DisplayNameFor(model => model.DayTimeOfDayNarrative)*@
-            DayTimeOfDayNarrative
+            General Time Of Day
         </th>
     </tr>
 

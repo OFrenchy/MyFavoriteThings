@@ -93,17 +93,7 @@ namespace MyFavoriteThings.Controllers
                     // Adventure1!@abc.com  Adventure2!@abc.com
                     if (roleText == "Contributor")
                     {
-                        // moved to Index Get in ParishAdminController
-                        //People thisPerson = db.Peoples.Where(w => w.ApplicationUserId == thisUserID).First();
-                        //Parish thisParish = db.Parishes.Where(w => w.AdminPersonId == thisPerson.ID).First();
-                        //ViewBag.FirstName = thisPerson.FirstName;
-                        //ViewBag.LastName = thisPerson.LastName;
-                        //ViewBag.ParishID = thisParish.ID;
-
                         return RedirectToAction("Index", "Adventures");
-
-                        // TODO - make sure there's a "My Details" link on the Index page
-                        // return RedirectToAction("Index", "ParishAdmin");
                     }
                     //else if (roleText == "Admin")
                     //{
