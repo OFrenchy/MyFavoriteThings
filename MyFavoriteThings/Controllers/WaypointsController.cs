@@ -99,6 +99,7 @@ namespace MyFavoriteThings.Controllers
         // GET: Waypoints
         public async Task<ActionResult> Index(int id)   //adventureID   , string dateString
         {
+            //  http://localhost:51421/Account/Login
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             ViewBag.ContributorID = GetUsersContributorID();
             ViewBag.UserIsCreator = UserIsCreator(id);

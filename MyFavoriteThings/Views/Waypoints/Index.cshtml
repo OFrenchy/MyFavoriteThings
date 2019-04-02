@@ -8,7 +8,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index - Waypoints for Adventure</h2>
+<h2>Waypoints for Adventure</h2>
 
 
 @*<div class="form-horizontal">
@@ -30,25 +30,41 @@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.LabelFor(model => model.DateAtLocation, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        @*@Html.LabelFor(model => model.DateAtLocation, htmlAttributes: new { @class = "control-label col-md-2" })*@
+        <div class="col-md-2">
             @Html.TextBoxFor(model => model.DateAtLocation, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.DateAtLocation, "", new { @class = "text-danger" })
         </div>
+        @*<div class="form-group">*@
+        @*<div class="col-md-offset-2 col-md-10">*@
+        <div class="col-md-3">
+            <input type="submit" value="Calculate Sunrise & Sunset" class="btn btn-default" />  
+        </div>
+        <div class="right col-md-7">
+            <h5>
+                Sunrise: @ViewBag.Sunrise  -  Sunset: @ViewBag.Sunset
+            </h5>
+        </div>
+
+        @*</div>*@
+        @*<h5>
+            Sunrise: @ViewBag.Sunrise, Sunset: @ViewBag.Sunset
+        </h5>*@
+
     </div>
-    <div class="form-group">
+    @*<div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Index" class="btn btn-default" />
+            <input type="submit" value="Calculate Sunrise & Sunset" class="btn btn-default" />
         </div>
     </div>
     <div>
         <h4>
             Sunrise: @ViewBag.Sunrise, Sunset: @ViewBag.Sunset
-        </h4>
+        </h4>*@
         @*@Html.ActionLink("Calculate", "CalculateSunriseSunset", new { aID = ViewBag.AdventureID, dateString = Model.DateAtLocation }, new { @class = "link" })*@
         @*@Html.ActionLink("Calculate", "Index")*@
 
-    </div>
+    @*</div>*@
     @*@Html.HiddenFor(model => model.Waypoints)*@
     @Html.HiddenFor(model => model.AdventureID, new { id = "AdventureID", Value = ViewBag.AdventureID })
 
@@ -116,6 +132,7 @@
     </p>
     <table class="table">
         <tr>
+            <th></th>
             <th>
                 @*@Html.DisplayNameFor(model => model.Waypoints[0].Adventure.AdventureName)*@
                 AdventureName
@@ -188,12 +205,20 @@
                 @*@Html.DisplayNameFor(model => model.DayTimeOfDayNarrative)*@
                 DayTimeOfDayNarrative
             </th>
-            <th></th>
+            @*<th></th>*@
         </tr>
 
         @foreach (var item in Model.Waypoints)
         {
             <tr>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.WaypointID }) |
+                    @if (ViewBag.UserIsCreator)
+                    {
+                        @Html.ActionLink(" | Edit", "Edit", new { id = item.WaypointID })
+                        @Html.ActionLink(" | Delete", "Delete", new { id = item.WaypointID })
+                    }
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Adventure.AdventureName)
                 </td>
@@ -248,16 +273,14 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.DayTimeOfDayNarrative)
                 </td>
-                <td>
+                @*<td>
                     @Html.ActionLink("Details", "Details", new { id = item.WaypointID }) |
                     @if (ViewBag.UserIsCreator)
                     {
                         @Html.ActionLink(" | Edit", "Edit", new { id = item.WaypointID })
                         @Html.ActionLink(" | Delete", "Delete", new { id = item.WaypointID })
                     }
-                    @*@Html.ActionLink("Edit", "Edit", new { id = item.WaypointID }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.WaypointID })*@
-                </td>
+                </td>*@
             </tr>
         }
 

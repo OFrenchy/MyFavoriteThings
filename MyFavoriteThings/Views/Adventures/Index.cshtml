@@ -11,6 +11,7 @@
 </p>
 <table class="table">
     <tr>
+        <th></th>
         <th>
             @Html.DisplayNameFor(model => model.Contributor.FirstName)
         </th>
@@ -53,12 +54,21 @@
         <th>
             @Html.DisplayNameFor(model => model.Comments)
         </th>
-        <th></th>
+        @*<th></th>*@
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.AdventureID })
+                @if (ViewBag.ContributorID == item.ContributorID)
+                {
+                    @Html.ActionLink(" | Edit", "Edit", new { id = item.AdventureID })
+                    @Html.ActionLink(" | Delete", "Delete", new { id = item.AdventureID })
+                }
+                @Html.ActionLink("Follow This Poster", "Follow", new { id = item.ContributorID })
+            </td>
             <td>
                 @*@Html.DisplayFor(modelItem => item.Contributor.FirstName + " " + item.Contributor.LastName.Substring(1, 1))*@
                 @Html.DisplayFor(modelItem => item.Contributor.FirstName)
@@ -102,7 +112,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Comments)
             </td>
-            <td>
+            @*<td>
                 @Html.ActionLink("Details", "Details", new { id = item.AdventureID })
                 @if (ViewBag.ContributorID == item.ContributorID)
                 {
@@ -110,7 +120,7 @@
                     @Html.ActionLink(" | Delete", "Delete", new { id = item.AdventureID })
                 }
                 @Html.ActionLink("Follow This Poster", "Follow", new { id = item.ContributorID })
-            </td>
+            </td>*@
         </tr>
     }
 
