@@ -34,20 +34,7 @@ namespace MyFavoriteThings.Controllers
             if (appUserID == null) return 0;
             return db.Contributors.Where(c => c.ApplicationUserId == appUserID).Select(f => f.ContributorID).First();
         }
-        //[HttpPost]
-        ////public ActionResult CalculateSunriseSunset(int aID, string dateString )
-        //public async Task<ActionResult> CalculateSunriseSunset(int aID, string dateString)
-        //{
-        //    // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
-        //    string[] sunriseSunset = await GetSunriseSunsetForDateAtWaypoint(aID, dateString);
-        //    ViewBag.Sunrise = sunriseSunset[0]; // "6:45am";
-        //    ViewBag.Sunset = sunriseSunset[1];  // "7:05pm";
-        //    ViewBag.DateForSunriseSunset = dateString;// DateTime.Parse(dateString).ToShortDateString();
-        //    return View();
-        //}
         
-        //[HttpPost]
-        //public ActionResult CalculateSunriseSunset(int aID, string dateString )
         public async Task<ActionResult> CalculateSunriseSunset(int aID, string dateString)
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
@@ -55,10 +42,8 @@ namespace MyFavoriteThings.Controllers
             ViewBag.Sunrise = sunriseSunset[0]; // "6:45am";
             ViewBag.Sunset = sunriseSunset[1];  // "7:05pm";
             ViewBag.DateForSunriseSunset = DateTime.Parse(dateString).ToShortDateString();  //"4/1/2019";// 
-
             return View();
         }
-        //public string[] GetSunriseSunsetForDateAtWaypoint(int aID, string dateString)
         public async Task<string[]> GetSunriseSunsetForDateAtWaypoint(int aID, string dateString)
         {
             var firstWaypoint = db.Waypoints.Where(w => w.AdventureID == aID).FirstOrDefault();
@@ -80,9 +65,6 @@ namespace MyFavoriteThings.Controllers
             string sunset = root.Results.sunset;
 
             // times are in Zulu = UTC, get the offset for location & DST; Google requires a timestamp
-
-            // TODO MONDAY - this next method is an extension method to the DateTime object; how do I 
-            // extend the DateTime object?
             double timeStamp = ToTimeStamp.ToTimestamp(dateToSend);
             urlToSend = $"https://maps.googleapis.com/maps/api/timezone/json?location={latitude},{longitude}&timestamp={timeStamp.ToString()}&sensor=false&key={APIKeys.GeoLocatorAPIKey}";
             responseString = await client.GetStringAsync(urlToSend);
@@ -99,7 +81,6 @@ namespace MyFavoriteThings.Controllers
         // GET: Waypoints
         public async Task<ActionResult> Index(int id, bool showDetail)   //adventureID   , string dateString
         {
-            //  http://localhost:51421/Account/Login
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             ViewBag.ContributorID = GetUsersContributorID();
             ViewBag.UserIsCreator = UserIsCreator(id);
@@ -119,7 +100,6 @@ namespace MyFavoriteThings.Controllers
             waypointsDateAtLocation.Waypoints = waypoints.ToList();
             waypointsDateAtLocation.DateAtLocation = dateString;    // DateTime.Today.ToShortDateString();
             return View(waypointsDateAtLocation);
-            //return View(waypoints.ToList());
         }
 
 
@@ -130,48 +110,19 @@ namespace MyFavoriteThings.Controllers
             ViewBag.ContributorID = GetUsersContributorID();
             ViewBag.UserIsCreator = UserIsCreator(waypointsDateAtLocation.AdventureID);
             ViewBag.ShowDetail = showDetail;
-            string dateString = waypointsDateAtLocation.DateAtLocation;          //  DateTime.Today.ToShortDateString();// "4/1/2019"; //dateString ?? DateTime.Today.ToShortDateString();
+            string dateString = waypointsDateAtLocation.DateAtLocation;
 
             // get the sunrise/sunset for today from the API
             string[] sunriseSunset = await GetSunriseSunsetForDateAtWaypoint(waypointsDateAtLocation.AdventureID, dateString);// DateTime.Parse(dateString).ToShortDateString());
-            ViewBag.Sunrise = sunriseSunset[0]; // "6:45am";
-            ViewBag.Sunset = sunriseSunset[1];  // "7:05pm";
+            ViewBag.Sunrise = sunriseSunset[0];
+            ViewBag.Sunset = sunriseSunset[1];
             var waypoints = db.Waypoints.Include(w => w.Adventure).Where(w => w.AdventureID == waypointsDateAtLocation.AdventureID).OrderBy(w => w.Sequence);
             ViewBag.AdventureID = waypointsDateAtLocation.AdventureID;
 
-            //WaypointsDateAtLocation waypointsDateAtLocation = new WaypointsDateAtLocation();
-            //waypointsDateAtLocation.
             waypointsDateAtLocation.Waypoints = waypoints.ToList();
-            waypointsDateAtLocation.DateAtLocation = dateString;    // DateTime.Today.ToShortDateString();
+            waypointsDateAtLocation.DateAtLocation = dateString;
             return View(waypointsDateAtLocation);
-            //return View(waypoints.ToList());return View();
         }
-
-        //[HttpPost]
-        //public async Task<ActionResult> Index(WaypointsDateAtLocation waypointsDateAtLocation)       //int id, string dateString)   //adventureID
-        //{
-        //    // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
-        //    ViewBag.ContributorID = GetUsersContributorID();
-        //    //ViewBag.UserIsCreator = UserIsCreator(id);
-        //    ViewBag.UserIsCreator = waypointsDateAtLocation.Waypoints.AdventureID;
-
-        //    waypointsDateAtLocation.DateAtLocation = waypointsDateAtLocation.DateAtLocation ?? DateTime.Today.ToShortDateString();
-
-        //    // get the sunrise/sunset for today from the API
-        //    string[] sunriseSunset = await GetSunriseSunsetForDateAtWaypoint(id, dateString);   // DateTime.Parse(dateString).ToShortDateString()); //DateTime.Today.ToShortDateString());
-        //    ViewBag.Sunrise = sunriseSunset[0]; // "6:45am";
-        //    ViewBag.Sunset = sunriseSunset[1];  // "7:05pm";
-
-        //    var waypoints = db.Waypoints.Include(w => w.Adventure).Where(w => w.AdventureID == id).OrderBy(w => w.Sequence);
-        //    ViewBag.AdventureID = id;
-
-        //    WaypointsDateAtLocation waypointsDateAtLocation = new WaypointsDateAtLocation();
-        //    waypointsDateAtLocation.Waypoints = waypoints.ToList();
-        //    waypointsDateAtLocation.DateAtLocation = dateString;    // DateTime.Parse(dateString).ToShortDateString();  // DateTime.Today.ToShortDateString();
-        //    return View(waypointsDateAtLocation);
-        //    //return View(waypoints.ToList());
-        //}
-
 
         // GET: Waypoints/Details/5
         public ActionResult Details(int? id, bool showDetail)
@@ -195,7 +146,7 @@ namespace MyFavoriteThings.Controllers
         public ActionResult Create(int id)
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
-            ViewBag.AdventureID = id;      // new SelectList(db.Adventures, "AdventureID", "AdventureName");
+            ViewBag.AdventureID = id; 
 
             Waypoint waypoint = new Waypoint();
             int nextWaypointSequence = db.Waypoints.Where(w => w.AdventureID == id).Count() + 1;
@@ -234,9 +185,7 @@ namespace MyFavoriteThings.Controllers
                 db.SaveChanges();
                 // Give them the option of adding another
                 ViewBag.AdventureID = waypoint.AdventureID;      // new SelectList(db.Adventures, "AdventureID", "AdventureName");
-                //return View();
                 return RedirectToAction("Index", new { id = waypoint.AdventureID });
-                //return RedirectToAction("Index");
             }
             else
             {
@@ -266,7 +215,6 @@ namespace MyFavoriteThings.Controllers
             {
                 return HttpNotFound();
             }
-            //ViewBag.AdventureID = new SelectList(db.Adventures, "AdventureID", "AdventureName", waypoint.AdventureID);
             ViewBag.UserIsCreator = UserIsCreator(waypoint.AdventureID);
             ViewBag.AdventureID = waypoint.AdventureID;
             ViewBag.ShowDetail = showDetail;
@@ -301,7 +249,6 @@ namespace MyFavoriteThings.Controllers
                 db.Entry(waypoint).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index", new { id = waypoint.AdventureID, showDetail = showDetail });
-                //return RedirectToAction("Index");
             }
             else
             {
@@ -344,9 +291,7 @@ namespace MyFavoriteThings.Controllers
             Waypoint waypoint = db.Waypoints.Find(id);
             db.Waypoints.Remove(waypoint);
             db.SaveChanges();
-            //ViewBag.AdventureID = waypoint.AdventureID;
             return RedirectToAction("Index", new { id = waypoint.AdventureID });
-            //return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

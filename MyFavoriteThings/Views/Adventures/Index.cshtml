@@ -330,6 +330,9 @@
             }
         </script>
 
+        @Html.ListBox("Categories", new MultiSelectList(ViewBag.Categories, "Value", "Text"), new { size = 10 })
+
+
     </body>
 </html>
 

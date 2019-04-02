@@ -30,14 +30,11 @@ namespace MyFavoriteThings.Controllers
             // create a dictionary with the following items:
             // AdventureID, AdventureName, Waypoints.Lat, Waypoints.Long where min(Waypoint.Sequence) 
             var mapPointsData = db.Database.SqlQuery<MapPointData>("SELECT A.AdventureID, AdventureName, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;").ToArray();
-            //firstPoints
-            //var thisPointsList = firstPoints.ToList();
             ViewBag.MapPointsData = mapPointsData;
-            //mapPoints[0].AdventureID
             //{ coordinate: new mapkit.Coordinate(37.8184493, -122.478409), title: "Golden Gate Bridge", phone: "+1 (415) 921-5858", url: "http://www.goldengatebridge.org" },
 
             ViewBag.ShowDetail = false;
-
+            ViewBag.Categories = GetAllCategories();
             return View(adventures.ToList());
         }
 
@@ -176,7 +173,6 @@ namespace MyFavoriteThings.Controllers
             getGarametersForEmailSQL.Clear();
             getGarametersForEmailSQL.Append("SELECT B.FirstName as FollowerFirstName, AspNetUsers.Email, ");
             getGarametersForEmailSQL.Append("A.FirstName as ContributorFirstName ");
-            //getGarametersForEmailSQL.Append($"'{Adventure.name}' as NewAdventureName ");
             getGarametersForEmailSQL.Append("FROM Contributors A INNER JOIN ");
             getGarametersForEmailSQL.Append("Follows ON A.ContributorID = Follows.ContributorID INNER JOIN ");
             getGarametersForEmailSQL.Append("Contributors B ON Follows.FollowerContributorID = B.ContributorID INNER JOIN ");
@@ -256,7 +252,6 @@ namespace MyFavoriteThings.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "AdventureID,AdventureName,AdventureName_Obscure,AdventureDescription,AdventureDescription_Obscure,AdventureGeneralLocation,AdventureGeneralLocation_Obscure,Rating,RatingCounter,RatingSum,AllowComments,AllowImages,Comments,ContributorID")] Adventure adventure)
         public ActionResult Edit(Adventure adventure, bool showDetail)
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
@@ -267,9 +262,7 @@ namespace MyFavoriteThings.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = adventure.AdventureID, showDetail = showDetail });
             }
-            //ViewBag.ContributorID = adventure.ContributorID; // new SelectList(db.Contributors, "ContributorID", "FirstName", adventure.ContributorID);
             ViewBag.ShowDetail = showDetail;
-
             return View(adventure);
         }
 
