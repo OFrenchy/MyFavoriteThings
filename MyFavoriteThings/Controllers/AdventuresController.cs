@@ -36,7 +36,7 @@ namespace MyFavoriteThings.Controllers
             //mapPoints[0].AdventureID
             //{ coordinate: new mapkit.Coordinate(37.8184493, -122.478409), title: "Golden Gate Bridge", phone: "+1 (415) 921-5858", url: "http://www.goldengatebridge.org" },
 
-            ViewBag.ShowDetail = true;
+            ViewBag.ShowDetail = false;
 
             return View(adventures.ToList());
         }
@@ -234,7 +234,7 @@ namespace MyFavoriteThings.Controllers
         }
 
         // GET: Adventures/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, bool showDetail)
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             if (id == null)
@@ -247,6 +247,7 @@ namespace MyFavoriteThings.Controllers
                 return HttpNotFound();
             }
             ViewBag.ContributorID = adventure.ContributorID;   // new SelectList(db.Contributors, "ContributorID", "FirstName", adventure.ContributorID);
+            ViewBag.ShowDetail = showDetail;
             return View(adventure);
         }
 
@@ -256,7 +257,7 @@ namespace MyFavoriteThings.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public ActionResult Edit([Bind(Include = "AdventureID,AdventureName,AdventureName_Obscure,AdventureDescription,AdventureDescription_Obscure,AdventureGeneralLocation,AdventureGeneralLocation_Obscure,Rating,RatingCounter,RatingSum,AllowComments,AllowImages,Comments,ContributorID")] Adventure adventure)
-        public ActionResult Edit(Adventure adventure)
+        public ActionResult Edit(Adventure adventure, bool showDetail)
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             ViewBag.ContributorID = adventure.ContributorID;
@@ -264,9 +265,11 @@ namespace MyFavoriteThings.Controllers
             {
                 db.Entry(adventure).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", new { id = adventure.AdventureID });
+                return RedirectToAction("Details", new { id = adventure.AdventureID, showDetail = showDetail });
             }
             //ViewBag.ContributorID = adventure.ContributorID; // new SelectList(db.Contributors, "ContributorID", "FirstName", adventure.ContributorID);
+            ViewBag.ShowDetail = showDetail;
+
             return View(adventure);
         }
 

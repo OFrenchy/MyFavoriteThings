@@ -254,7 +254,7 @@ namespace MyFavoriteThings.Controllers
         }
 
         // GET: Waypoints/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, bool showDetail)
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             if (id == null)
@@ -269,6 +269,7 @@ namespace MyFavoriteThings.Controllers
             //ViewBag.AdventureID = new SelectList(db.Adventures, "AdventureID", "AdventureName", waypoint.AdventureID);
             ViewBag.UserIsCreator = UserIsCreator(waypoint.AdventureID);
             ViewBag.AdventureID = waypoint.AdventureID;
+            ViewBag.ShowDetail = showDetail;
             return View(waypoint);
         }
 
@@ -278,7 +279,7 @@ namespace MyFavoriteThings.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public ActionResult Edit([Bind(Include = "WaypointID,WaypointName,WaypointName_Obscure,WaypointNickname,WaypointNickname_Obscure,Description,Description_Obscure,DirectionsNarrative,DirectionsNarrative_Obscure,Lat,Long,Street1,Street2,City,State,Phone,DayTimeOfDayNarrative,AdventureID")] Waypoint waypoint)
-        public async Task<ActionResult> Edit(Waypoint waypoint)
+        public async Task<ActionResult> Edit(Waypoint waypoint, bool showDetail)
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             if (ModelState.IsValid)
@@ -299,7 +300,7 @@ namespace MyFavoriteThings.Controllers
                 }
                 db.Entry(waypoint).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index", new { id = waypoint.AdventureID });
+                return RedirectToAction("Index", new { id = waypoint.AdventureID, showDetail = showDetail });
                 //return RedirectToAction("Index");
             }
             else

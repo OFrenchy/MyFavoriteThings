@@ -17,24 +17,16 @@
         <dd>
             @Html.DisplayFor(model => model.Contributor.FirstName)
         </dd>
-        <dt>
-            @*@Html.DisplayNameFor(model => model.AdventureName)*@
-            Adventure Name
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AdventureName)
-        </dd>
-
-        <dt>
-            @*@Html.DisplayNameFor(model => model.GeneralTimeNarrative)*@
-            General Time
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.GeneralTimeNarrative)
-        </dd>
-
         @if (ViewBag.ShowDetail)
         {
+            <dt>
+                @*@Html.DisplayNameFor(model => model.AdventureName)*@
+                Adventure Name
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AdventureName)
+            </dd>
+
             <dt>
                 @*@Html.DisplayNameFor(model => model.AdventureDescription)*@
                 Description
@@ -78,10 +70,18 @@
                 @Html.DisplayFor(model => model.AdventureGeneralLocation_Obscure)
             </dd>
         }
+
+        <dt>
+            @*@Html.DisplayNameFor(model => model.GeneralTimeNarrative)*@
+            General Time
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GeneralTimeNarrative)
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Rating)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Rating)
         </dd>
@@ -89,7 +89,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.RatingCounter)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.RatingCounter)
         </dd>
@@ -138,9 +137,9 @@
     @if (ViewBag.UserIsCreator)
     {
         @Html.ActionLink("Add Waypoints", "Create", "Waypoints", new { id = Model.AdventureID }, null) 
-        @Html.ActionLink(" | Edit | ", "Edit", new { id = Model.AdventureID })
+        @Html.ActionLink(" | Edit | ", "Edit", new { id = Model.AdventureID, showDetail = ViewBag.ShowDetail })
     }
 
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Adventures", "Index")
 
 </p>
