@@ -36,11 +36,13 @@ namespace MyFavoriteThings.Controllers
             //mapPoints[0].AdventureID
             //{ coordinate: new mapkit.Coordinate(37.8184493, -122.478409), title: "Golden Gate Bridge", phone: "+1 (415) 921-5858", url: "http://www.goldengatebridge.org" },
 
+            ViewBag.ShowDetail = true;
+
             return View(adventures.ToList());
         }
 
         // GET: Adventures/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, bool showDetail)
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             if (id == null)
@@ -54,6 +56,7 @@ namespace MyFavoriteThings.Controllers
             }
             // if the adventure wasn't created by this contributor, disable the Update & Edit links
             ViewBag.UserIsCreator = UserIsCreator(id ?? 0);  //was id ?? 0
+            ViewBag.ShowDetail = showDetail;
             return View(adventure);
         }
         public ActionResult Follow(int id)

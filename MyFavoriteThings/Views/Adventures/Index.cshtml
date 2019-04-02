@@ -15,26 +15,32 @@
         <th>
             @Html.DisplayNameFor(model => model.Contributor.FirstName)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AdventureName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AdventureName_Obscure)
-        </th>
+        @if (ViewBag.ShowDetail)
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.AdventureName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdventureDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdventureGeneralLocation)
+            </th>
+        }
+        @if (!ViewBag.ShowDetail)
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.AdventureName_Obscure)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdventureDescription_Obscure)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdventureGeneralLocation_Obscure)
+            </th>
+        }
         <th>
             @Html.DisplayNameFor(model => model.GeneralTimeNarrative)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AdventureDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AdventureDescription_Obscure)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AdventureGeneralLocation)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AdventureGeneralLocation_Obscure)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Rating)
@@ -59,69 +65,76 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.ActionLink("Details", "Details", new { id = item.AdventureID })
-                @if (ViewBag.ContributorID == item.ContributorID)
-                {
-                    @Html.ActionLink(" | Edit", "Edit", new { id = item.AdventureID })
-                    @Html.ActionLink(" | Delete", "Delete", new { id = item.AdventureID })
-                }
-                @Html.ActionLink("Follow This Poster", "Follow", new { id = item.ContributorID })
-            </td>
-            <td>
-                @*@Html.DisplayFor(modelItem => item.Contributor.FirstName + " " + item.Contributor.LastName.Substring(1, 1))*@
-                @Html.DisplayFor(modelItem => item.Contributor.FirstName)
-            </td>
+    <tr>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id = item.AdventureID , showDetail = ViewBag.ShowDetail })
+            @if (ViewBag.ContributorID == item.ContributorID)
+            {
+                @Html.ActionLink(" | Edit", "Edit", new { id = item.AdventureID })
+                @Html.ActionLink(" | Delete", "Delete", new { id = item.AdventureID })
+            }
+            @Html.ActionLink("Follow This Poster", "Follow", new { id = item.ContributorID })
+        </td>
+        <td>
+            @*@Html.DisplayFor(modelItem => item.Contributor.FirstName + " " + item.Contributor.LastName.Substring(1, 1))*@
+            @Html.DisplayFor(modelItem => item.Contributor.FirstName)
+        </td>
+
+        @if (ViewBag.ShowDetail)
+        {
             <td>
                 @Html.DisplayFor(modelItem => item.AdventureName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdventureName_Obscure)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GeneralTimeNarrative)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AdventureDescription)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AdventureDescription_Obscure)
+                @Html.DisplayFor(modelItem => item.AdventureGeneralLocation)
+            </td>
+        }
+        @if (!ViewBag.ShowDetail)
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.AdventureName_Obscure)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AdventureGeneralLocation)
+                @Html.DisplayFor(modelItem => item.AdventureDescription_Obscure)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AdventureGeneralLocation_Obscure)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rating)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RatingCounter)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RatingSum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AllowComments)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AllowImages)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comments)
-            </td>
-            @*<td>
-                @Html.ActionLink("Details", "Details", new { id = item.AdventureID })
-                @if (ViewBag.ContributorID == item.ContributorID)
-                {
-                    @Html.ActionLink(" | Edit", "Edit", new { id = item.AdventureID })
-                    @Html.ActionLink(" | Delete", "Delete", new { id = item.AdventureID })
-                }
-                @Html.ActionLink("Follow This Poster", "Follow", new { id = item.ContributorID })
-            </td>*@
-        </tr>
+        }
+        <td>
+            @Html.DisplayFor(modelItem => item.GeneralTimeNarrative)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rating)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RatingCounter)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RatingSum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AllowComments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AllowImages)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comments)
+        </td>
+        @*<td>
+            @Html.ActionLink("Details", "Details", new { id = item.AdventureID })
+            @if (ViewBag.ContributorID == item.ContributorID)
+            {
+                @Html.ActionLink(" | Edit", "Edit", new { id = item.AdventureID })
+                @Html.ActionLink(" | Delete", "Delete", new { id = item.AdventureID })
+            }
+            @Html.ActionLink("Follow This Poster", "Follow", new { id = item.ContributorID })
+        </td>*@
+    </tr>
     }
 
 </table>

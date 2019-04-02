@@ -34,7 +34,7 @@
         <dd>
             @Html.DisplayFor(model => model.AdventureName_Obscure)
         </dd>
-        
+
         <dt>
             @Html.DisplayNameFor(model => model.GeneralTimeNarrative)
         </dt>
@@ -91,37 +91,40 @@
             @Html.DisplayFor(model => model.RatingCounter)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.RatingSum)
-        </dt>
+        </dt>*@
 
         <dd>
-            @Html.DisplayFor(model => model.RatingSum)
+            @Html.HiddenFor(model => model.RatingSum)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.AllowComments)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.AllowComments)
-        </dd>
+        @if (Model.AllowComments)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.AllowComments)
+            </dt>
 
-        <dt>
+            <dd>
+                @Html.DisplayFor(model => model.AllowComments)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Comments)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Comments)
+            </dd>
+        }
+        @*<dt>
             @Html.DisplayNameFor(model => model.AllowImages)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.AllowImages)
-        </dd>
+        </dd>*@
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Comments)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Comments)
-        </dd>
 
     </dl>
 </div>
