@@ -329,10 +329,7 @@
                 return div;
             }
         </script>
-
-        @Html.ListBox("Categories", new MultiSelectList(ViewBag.Categories, "Value", "Text"), new { size = 10 })
-
-
+        @Html.ListBox("Categories", new MultiSelectList(ViewBag.Categories, "Value", "Text"), new { size = 10, multiple = "multiple" })
     </body>
 </html>
 

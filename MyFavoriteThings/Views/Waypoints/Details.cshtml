@@ -11,14 +11,6 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Adventure.AdventureName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Adventure.AdventureName)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Sequence)
         </dt>
 
@@ -26,89 +18,92 @@
             @Html.DisplayFor(model => model.Sequence)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.WaypointName)
-        </dt>
+        @if (ViewBag.ShowDetail)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Adventure.AdventureName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Adventure.AdventureName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.WaypointName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.WaypointName_Obscure)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.WaypointName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.WaypointName)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.WaypointName_Obscure)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.WaypointNickname)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.WaypointNickname)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.WaypointNickname)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.WaypointNickname)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DirectionsNarrative)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DirectionsNarrative)
+            </dd>
+        }
+        
+        @if (!ViewBag.ShowDetail)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.WaypointName_Obscure)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.WaypointName_Obscure)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.WaypointNickname_Obscure)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.WaypointNickname_Obscure)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.WaypointNickname_Obscure)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.WaypointNickname_Obscure)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description_Obscure)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description_Obscure)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.DirectionsNarrative_Obscure)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DirectionsNarrative_Obscure)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Lat)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Lat)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description_Obscure)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description_Obscure)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DirectionsNarrative)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DirectionsNarrative)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DirectionsNarrative_Obscure)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DirectionsNarrative_Obscure)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Lat)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Lat)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Long)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Long)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Long)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Long)
+            </dd>
+        }
 
         <dt>
             @Html.DisplayNameFor(model => model.Street1)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Street1)
         </dd>
@@ -116,7 +111,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Street2)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Street2)
         </dd>
@@ -124,7 +118,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.City)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.City)
         </dd>
@@ -132,7 +125,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.State)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.State)
         </dd>
@@ -140,7 +132,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Phone)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Phone)
         </dd>
@@ -148,7 +139,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.DayTimeOfDayNarrative)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.DayTimeOfDayNarrative)
         </dd>
