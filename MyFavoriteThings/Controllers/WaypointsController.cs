@@ -97,12 +97,13 @@ namespace MyFavoriteThings.Controllers
         }
 
         // GET: Waypoints
-        public async Task<ActionResult> Index(int id)   //adventureID   , string dateString
+        public async Task<ActionResult> Index(int id, bool showDetail)   //adventureID   , string dateString
         {
             //  http://localhost:51421/Account/Login
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             ViewBag.ContributorID = GetUsersContributorID();
             ViewBag.UserIsCreator = UserIsCreator(id);
+            ViewBag.ShowDetail = showDetail;
 
             string dateString = DateTime.Today.ToShortDateString();// "4/1/2019"; //dateString ?? DateTime.Today.ToShortDateString();
             
@@ -123,12 +124,12 @@ namespace MyFavoriteThings.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult> Index(WaypointsDateAtLocation waypointsDateAtLocation)
+        public async Task<ActionResult> Index(WaypointsDateAtLocation waypointsDateAtLocation, bool showDetail )
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             ViewBag.ContributorID = GetUsersContributorID();
             ViewBag.UserIsCreator = UserIsCreator(waypointsDateAtLocation.AdventureID);
-
+            ViewBag.ShowDetail = showDetail;
             string dateString = waypointsDateAtLocation.DateAtLocation;          //  DateTime.Today.ToShortDateString();// "4/1/2019"; //dateString ?? DateTime.Today.ToShortDateString();
 
             // get the sunrise/sunset for today from the API
@@ -173,7 +174,7 @@ namespace MyFavoriteThings.Controllers
 
 
         // GET: Waypoints/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, bool showDetail)
         {
             if (id == null)
             {
@@ -186,6 +187,7 @@ namespace MyFavoriteThings.Controllers
             }
             ViewBag.UserIsCreator = UserIsCreator(waypoint.AdventureID);
             ViewBag.AdventureID = waypoint.AdventureID;
+            ViewBag.ShowDetail = showDetail;
             return View(waypoint);
         }
 

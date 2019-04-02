@@ -5,7 +5,6 @@
 }
 
 <h2>Details</h2>
-@*<h3> AdventureID = @Model.AdventureID   </h3>*@
 
 <div>
     <h4>Adventure</h4>
@@ -19,14 +18,16 @@
             @Html.DisplayFor(model => model.Contributor.FirstName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.AdventureName)
+            @*@Html.DisplayNameFor(model => model.AdventureName)*@
+            Adventure Name
         </dt>
         <dd>
             @Html.DisplayFor(model => model.AdventureName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.GeneralTimeNarrative)
+            @*@Html.DisplayNameFor(model => model.GeneralTimeNarrative)*@
+            General Time
         </dt>
         <dd>
             @Html.DisplayFor(model => model.GeneralTimeNarrative)
@@ -35,14 +36,16 @@
         @if (ViewBag.ShowDetail)
         {
             <dt>
-                @Html.DisplayNameFor(model => model.AdventureDescription)
+                @*@Html.DisplayNameFor(model => model.AdventureDescription)*@
+                Description
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.AdventureDescription)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.AdventureGeneralLocation)
+                @*@Html.DisplayNameFor(model => model.AdventureGeneralLocation)*@
+                General Location
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.AdventureGeneralLocation)
@@ -51,21 +54,24 @@
         @if (!ViewBag.ShowDetail)
         {
             <dt>
-                @Html.DisplayNameFor(model => model.AdventureName_Obscure)
+                @*@Html.DisplayNameFor(model => model.AdventureName_Obscure)*@
+                Adventure Name
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.AdventureName_Obscure)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.AdventureDescription_Obscure)
+                @*@Html.DisplayNameFor(model => model.AdventureDescription_Obscure)*@
+                Description
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.AdventureDescription_Obscure)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.AdventureGeneralLocation_Obscure)
+                @*@Html.DisplayNameFor(model => model.AdventureGeneralLocation_Obscure)*@
+                General Location
             </dt>
 
             <dd>

@@ -1,28 +1,9 @@
-﻿@*@model IEnumerable<MyFavoriteThings.Models.Waypoint>*@
-
-@model MyFavoriteThings.Models.WaypointsDateAtLocation
-
-
+﻿@model MyFavoriteThings.Models.WaypointsDateAtLocation
 
 @{
     ViewBag.Title = "Index";
 }
-
 <h2>Waypoints for Adventure</h2>
-
-
-@*<div class="form-horizontal">
-    <h4>Waypoint</h4>
-    <hr />
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Index" class="btn btn-default" />
-        </div>
-    </div>
-</div>
-}*@
-
 
 @using (Html.BeginForm())
 {
@@ -30,13 +11,10 @@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
-        @*@Html.LabelFor(model => model.DateAtLocation, htmlAttributes: new { @class = "control-label col-md-2" })*@
         <div class="col-md-2">
             @Html.TextBoxFor(model => model.DateAtLocation, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.DateAtLocation, "", new { @class = "text-danger" })
         </div>
-        @*<div class="form-group">*@
-        @*<div class="col-md-offset-2 col-md-10">*@
         <div class="col-md-3">
             <input type="submit" value="Calculate Sunrise & Sunset" class="btn btn-default" />  
         </div>
@@ -46,251 +24,184 @@
             </h5>
         </div>
 
-        @*</div>*@
-        @*<h5>
-            Sunrise: @ViewBag.Sunrise, Sunset: @ViewBag.Sunset
-        </h5>*@
-
     </div>
-    @*<div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Calculate Sunrise & Sunset" class="btn btn-default" />
-        </div>
-    </div>
-    <div>
-        <h4>
-            Sunrise: @ViewBag.Sunrise, Sunset: @ViewBag.Sunset
-        </h4>*@
-        @*@Html.ActionLink("Calculate", "CalculateSunriseSunset", new { aID = ViewBag.AdventureID, dateString = Model.DateAtLocation }, new { @class = "link" })*@
-        @*@Html.ActionLink("Calculate", "Index")*@
-
-    @*</div>*@
-    @*@Html.HiddenFor(model => model.Waypoints)*@
     @Html.HiddenFor(model => model.AdventureID, new { id = "AdventureID", Value = ViewBag.AdventureID })
-
-    
 </div>
 }
 
-
-
-
-@*<h4>
-    @Html.TextBoxFor("DateAtLocation", (string)ViewBag.DateForSunriseSunset)
-    @Html.TextBox("DateAtLocation", (string)ViewBag.DateForSunriseSunset)
-    Sunrise: @ViewBag.Sunrise, Sunset: @ViewBag.Sunset
-
-    @Html.ActionLink("Calculate", "CalculateSunriseSunset", new { aID = ViewBag.AdventureID, dateString = DateAtLocation }, new { @class = "link" })
-
-    @Html.TextBox("DateAtLocation", null, new { placeholder = "Input value" })
-
-    <input type="button" value="Calculate" id="btnCalculate" />
-    <script>
-
-
-
-
-    $(function () {
-            // $('#btnCalculate').off('click');
-            //alert("Inside Ajax");
-            $('#btnCalculate').on('click', function () {
-                $.ajax({
-                    url: "/Waypoints/CalculateSunriseSunset",
-                    //type: 'POST',
-                    type: 'GET',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    data: JSON.stringify({
-                        aID: @ViewBag.AdventureID,
-                        dateString: $("#DateAtLocation").val()
-                    }),
-                    async: true,
-                    success: function () {
-                        alert("Inside Ajax");
-                        console.log("AjaxSucceeded")
-                    },
-                    error: function () {
-                        alert("AjaxFailed");
-                        console.log("AjaxFailed");
-                    }
-                });
-            });
-        });
-    </script>
-    </h4>*@
-
-
-
-    <p>
-        @if (ViewBag.UserIsCreator)
+<p>
+    @if (ViewBag.UserIsCreator)
+    {
+        @Html.ActionLink("Create New Waypoint", "Create", new { id = ViewBag.AdventureID })
+    }|
+    @Html.ActionLink("Back to Adventure Detail", "Details", "Adventures", new { id = ViewBag.AdventureID, showDetail = ViewBag.ShowDetail }, null) |
+    @Html.ActionLink("Back to Adventures", "Index", "Adventures", new { id = ViewBag.AdventureID, showDetail = ViewBag.ShowDetail }, null) |
+    @*@Html.ActionLink("Back to List", "Index", new { id = ViewBag.AdventureID })*@
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Waypoints[0].Adventure.AdventureName)*@
+            AdventureName
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Sequence)*@
+            Sequence
+        </th>
+        @if (ViewBag.ShowDetail)
         {
-            @Html.ActionLink("Create New Waypoint", "Create", new { id = ViewBag.AdventureID })
-        }|
-        @Html.ActionLink("Back to Adventure Detail", "Details", "Adventures", new { id = ViewBag.AdventureID }, null) |
-        @Html.ActionLink("Back to Adventures", "Index", "Adventures", new { id = ViewBag.AdventureID }, null) |
-        @*@Html.ActionLink("Back to List", "Index", new { id = ViewBag.AdventureID })*@
-    </p>
-    <table class="table">
-        <tr>
-            <th></th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Waypoints[0].Adventure.AdventureName)*@
-                AdventureName
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Sequence)*@
-                Sequence
-            </th>
             <th>
                 @*@Html.DisplayNameFor(model => model.WaypointName)*@
                 Waypoint
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.WaypointName_Obscure)*@
-                Waypoint_Obscure
             </th>
             <th>
                 @*@Html.DisplayNameFor(model => model.WaypointNickname)*@
                 WaypointNickname
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.WaypointNickname_Obscure)*@
-                WaypointNickname_Obscure
-            </th>
-            <th>
                 @*@Html.DisplayNameFor(model => model.Description)*@
                 Description
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.DirectionsNarrative)*@
+                DirectionsNarrative
+            </th>
+        }
+        @if (!ViewBag.ShowDetail)
+        {
+            <th>
+                @*@Html.DisplayNameFor(model => model.WaypointName_Obscure)*@
+                Waypoint_Obscure
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.WaypointNickname_Obscure)*@
+                WaypointNickname_Obscure
             </th>
             <th>
                 @*@Html.DisplayNameFor(model => model.Description_Obscure)*@
                 Description_Obscure
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.DirectionsNarrative)*@
-                DirectionsNarrative
-            </th>
-            <th>
                 @*@Html.DisplayNameFor(model => model.DirectionsNarrative_Obscure)*@
                 DirectionsNarrative_Obscure
             </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Lat)*@
-                Lat
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Long)*@
-                Long
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Street1)*@
-                Street
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Street2)*@
-                Street2
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.City)*@
-                City
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.State)*@
-                State
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Phone)*@
-                Phone
-            </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.DayTimeOfDayNarrative)*@
-                DayTimeOfDayNarrative
-            </th>
-            @*<th></th>*@
-        </tr>
+        }
 
-        @foreach (var item in Model.Waypoints)
-        {
-            <tr>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.WaypointID }) |
-                    @if (ViewBag.UserIsCreator)
-                    {
-                        @Html.ActionLink(" | Edit", "Edit", new { id = item.WaypointID })
-                        @Html.ActionLink(" | Delete", "Delete", new { id = item.WaypointID })
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Adventure.AdventureName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sequence)
-                </td>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Lat)*@
+            Lat
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Long)*@
+            Long
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Street1)*@
+            Street
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Street2)*@
+            Street2
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.City)*@
+            City
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.State)*@
+            State
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Phone)*@
+            Phone
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.DayTimeOfDayNarrative)*@
+            DayTimeOfDayNarrative
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Waypoints)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.WaypointID, showDetail = ViewBag.ShowDetail }) |
+                @if (ViewBag.UserIsCreator)
+                {
+                    @Html.ActionLink(" | Edit", "Edit", new { id = item.WaypointID })
+                    @Html.ActionLink(" | Delete", "Delete", new { id = item.WaypointID })
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adventure.AdventureName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sequence)
+            </td>
+
+            @if (ViewBag.ShowDetail)
+            {
                 <td>
                     @Html.DisplayFor(modelItem => item.WaypointName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WaypointName_Obscure)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.WaypointNickname)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.WaypointNickname_Obscure)
+                    @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                    @Html.DisplayFor(modelItem => item.DirectionsNarrative)
+                </td>
+            }
+
+            @if (!ViewBag.ShowDetail)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.WaypointName_Obscure)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WaypointNickname_Obscure)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description_Obscure)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DirectionsNarrative)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.DirectionsNarrative_Obscure)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Lat)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Long)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Street1)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Street2)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.City)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.State)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DayTimeOfDayNarrative)
-                </td>
-                @*<td>
-                    @Html.ActionLink("Details", "Details", new { id = item.WaypointID }) |
-                    @if (ViewBag.UserIsCreator)
-                    {
-                        @Html.ActionLink(" | Edit", "Edit", new { id = item.WaypointID })
-                        @Html.ActionLink(" | Delete", "Delete", new { id = item.WaypointID })
-                    }
-                </td>*@
-            </tr>
-        }
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Lat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Long)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Street1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Street2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DayTimeOfDayNarrative)
+            </td>
+        </tr>
+    }
 
-    </table>
+</table>
 
 
 
-    @*<!DOCTYPE html>
-        <html>*@
-    @*<head>*@
     <meta charset="utf-8">
 
     <script src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js"></script>
@@ -302,9 +213,6 @@
         }
     </style>
 
-    @*</head>
-
-        <body>*@
     <div id="map2"></div>
 
     <script>
@@ -363,5 +271,3 @@
                     //map.region = Cupertino;
 
     </script>
-    @*</body>
-        </html>*@
