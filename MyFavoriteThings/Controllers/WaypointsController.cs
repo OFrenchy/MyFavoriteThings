@@ -203,7 +203,7 @@ namespace MyFavoriteThings.Controllers
         }
 
         // GET: Waypoints/Edit/5
-        public ActionResult Edit(int? id, bool showDetail)
+        public ActionResult Edit(int? id, bool showDetail )
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             if (id == null)
@@ -246,9 +246,11 @@ namespace MyFavoriteThings.Controllers
                         }
                     }
                 }
+                bool showDetail2 = showDetail;
                 db.Entry(waypoint).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index", new { id = waypoint.AdventureID, showDetail = showDetail });
+                ViewBag.ShowDetail = showDetail;
+                return RedirectToAction("Index", new { id = waypoint.AdventureID, showDetail = showDetail2 });
             }
             else
             {
@@ -291,7 +293,7 @@ namespace MyFavoriteThings.Controllers
             Waypoint waypoint = db.Waypoints.Find(id);
             db.Waypoints.Remove(waypoint);
             db.SaveChanges();
-            return RedirectToAction("Index", new { id = waypoint.AdventureID });
+            return RedirectToAction("Index", new { id = waypoint.AdventureID, showDetail = false });
         }
 
         protected override void Dispose(bool disposing)

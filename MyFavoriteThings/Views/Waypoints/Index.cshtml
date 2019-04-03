@@ -110,7 +110,7 @@
             @Html.ActionLink("Details", "Details", new { id = item.WaypointID, showDetail = ViewBag.ShowDetail }) |
             @if (ViewBag.UserIsCreator)
             {
-                @Html.ActionLink(" | Edit", "Edit", new { id = item.WaypointID })
+                @Html.ActionLink(" | Edit", "Edit", new { id = item.WaypointID, showDetail = ViewBag.ShowDetail })
                 @Html.ActionLink(" | Delete", "Delete", new { id = item.WaypointID })
             }
         </td>

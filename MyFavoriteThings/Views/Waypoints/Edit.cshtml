@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Edit";
+    ViewBag.ShowDetail = ViewBag.ShowDetail ?? false;
 }
 
 <h2>Edit</h2>
@@ -169,7 +170,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index", new { showDetail = ViewBag.ShowDetail })
+    @Html.ActionLink("Back to List", "Index", new { id = ViewBag.AdventureID, showDetail = ViewBag.ShowDetail })
 </div>
 
 @section Scripts {

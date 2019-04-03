@@ -148,7 +148,7 @@
 <p>
     @if (ViewBag.UserIsCreator)
     {
-        @Html.ActionLink("Edit | ", "Edit", new { id = Model.WaypointID })
+        @Html.ActionLink("Edit | ", "Edit", new { id = Model.WaypointID, showDetail = ViewBag.ShowDetail })
     }
     @Html.ActionLink("Back to List", "Index", new { id = Model.AdventureID, showDetail = ViewBag.ShowDetail })
 </p>
