@@ -185,7 +185,7 @@ namespace MyFavoriteThings.Controllers
                 db.SaveChanges();
                 // Give them the option of adding another
                 ViewBag.AdventureID = waypoint.AdventureID;      // new SelectList(db.Adventures, "AdventureID", "AdventureName");
-                return RedirectToAction("Index", new { id = waypoint.AdventureID });
+                return RedirectToAction("Index", new { id = waypoint.AdventureID, showDetail = true });
             }
             else
             {

@@ -28,7 +28,6 @@ namespace MyFavoriteThings.Controllers
             var adventures = db.Adventures.Include(a => a.Contributor);
 
             // create a dictionary with the following items:
-            // AdventureID, AdventureName, Waypoints.Lat, Waypoints.Long where min(Waypoint.Sequence) 
             var mapPointsData = db.Database.SqlQuery<MapPointData>("SELECT A.AdventureID, AdventureName, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;").ToArray();
             ViewBag.MapPointsData = mapPointsData;
             //{ coordinate: new mapkit.Coordinate(37.8184493, -122.478409), title: "Golden Gate Bridge", phone: "+1 (415) 921-5858", url: "http://www.goldengatebridge.org" },
