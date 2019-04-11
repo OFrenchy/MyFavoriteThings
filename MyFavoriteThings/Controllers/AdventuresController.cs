@@ -28,20 +28,21 @@ namespace MyFavoriteThings.Controllers
             var adventures = db.Adventures.Include(a => a.Contributor).OrderBy(o => o.AdventureID);
 
             // create a dictionary with the following items:
-            var mapPointsData = db.Database.SqlQuery<MapPointData>("SELECT A.AdventureID, AdventureName, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;").ToArray();
-           
+            var mapPointsData = db.Database.SqlQuery<MapPointData>("SELECT 1 AS MapPointNumber, AdventureName, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;").ToArray();
+            for (int i = 0; i < mapPointsData.Length; i++)
+            {
+                mapPointsData[i].MapPointNumber = i + 1;
+            }
+
             ViewBag.MapPointsData = mapPointsData;
             //{ coordinate: new mapkit.Coordinate(37.8184493, -122.478409), title: "Golden Gate Bridge", phone: "+1 (415) 921-5858", url: "http://www.goldengatebridge.org" },
-
             ViewBag.MapKitCode = APIKeys.AppleMapkitKey;
+            ViewBag.ShowDetail = false;
 
 
-            ViewBag.ShowDetail = true;
+            //X TODO - stylize the pages
 
-
-            //TODO - stylize the pages
-
-            //TODO - renumber the Adventures for pins
+            //X TODO - renumber the Adventures for pins
 
             //TODO - put map on Waypoints page
             
@@ -329,7 +330,8 @@ namespace MyFavoriteThings.Controllers
     }
     public class MapPointData
     {
-        public int AdventureID { get; set; }
+        public int MapPointNumber { get; set; }
+        //public int AdventureID { get; set; }
         public string AdventureName { get; set; }
         public double Lat { get; set; }
         public double Long { get; set; }

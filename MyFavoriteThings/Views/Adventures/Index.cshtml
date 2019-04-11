@@ -23,7 +23,7 @@
         Click the "Mode" button to toggle modes:
     </div>*@
     <div class="col-md-2">
-        <button onclick="myFunction()">Toggle Mode</button>
+        <button onclick="modeToggle()">Toggle Mode</button>
     </div>
     <div class="col-md-2">
         <text id="AdventurerMode">Adventurer Mode</text>
@@ -36,7 +36,7 @@
 
 
     <script>
-        function myFunction() {
+        function modeToggle() {
             var adventure = document.getElementById("AdventurerMode");
             var detail = document.getElementById("DetailMode");
             if (adventure.style.display === "none") {
@@ -60,7 +60,7 @@
             <th></th>
             <th>
                 @*@Html.DisplayNameFor(model => model.Contributor.FirstName)*@
-                Contributor
+                Posted By
             </th>
             <th>
                 @*@Html.DisplayNameFor(model => model.AdventureName)*@
@@ -119,7 +119,6 @@
                     @Html.ActionLink("Follow This Poster", "Follow", new { id = item.ContributorID })
                 </td>
                 <td>
-                    @*@Html.DisplayFor(modelItem => item.Contributor.FirstName + " " + item.Contributor.LastName.Substring(1, 1))*@
                     @Html.DisplayFor(modelItem => item.Contributor.FirstName)
                 </td>
 
@@ -169,15 +168,6 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Comments)
                 </td>
-                @*<td>
-                        @Html.ActionLink("Details", "Details", new { id = item.AdventureID })
-                        @if (ViewBag.ContributorID == item.ContributorID)
-                        {
-                            @Html.ActionLink(" | Edit", "Edit", new { id = item.AdventureID })
-                            @Html.ActionLink(" | Delete", "Delete", new { id = item.AdventureID })
-                        }
-                        @Html.ActionLink("Follow This Poster", "Follow", new { id = item.ContributorID })
-                    </td>*@
             </tr>
         }
 
@@ -256,17 +246,6 @@
     <body>
         <div id="map"></div>
         <script>
-            //mapkit.init({
-            //    authorizationCallback: function (done) {
-            //        var xhr = new XMLHttpRequest();
-            //        xhr.open("GET", "/services/jwt");
-            //        xhr.addEventListener("load", function () {
-            //            //done(this.responseText);
-            //            done('eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjNEVzZNM1NCUjIifQ.eyJpc3MiOiJHNlUyOVg5QUg3IiwiaWF0IjoxNTUzOTc3NjIxLCJleHAiOjE1NTUxODcyMjF9.c3xpepTTLU8kY-kBdOEM3b9_I3u_X3gqaHNoIczUwiexBoBBTDfbGJi5Ne33LPCz9rEy0y50vDscUKbVILnI7A');
-            //        });
-            //        xhr.send();
-            //    }
-            //});
             mapkit.init({
                 authorizationCallback: function (done) {
                     var xhr = new XMLHttpRequest();
@@ -279,14 +258,10 @@
                 }
             });
 
-
-
-
-
             var mapLandmarks = [];
             // Landmarks data
             for (i = 0; i < mapPointsData.length; i++) {
-                mapLandmarks.push({ coordinate: new mapkit.Coordinate(mapPointsData[i].Lat, mapPointsData[i].Long), title: mapPointsData[i].AdventureName, balloonText: mapPointsData[i].AdventureID });
+                mapLandmarks.push({ coordinate: new mapkit.Coordinate(mapPointsData[i].Lat, mapPointsData[i].Long), title: mapPointsData[i].AdventureName, balloonText: mapPointsData[i].MapPointNumber });
             }
 
             // Landmark annotation callout delegate
