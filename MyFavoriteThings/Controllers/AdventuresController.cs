@@ -25,14 +25,32 @@ namespace MyFavoriteThings.Controllers
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             ViewBag.ContributorID = GetUsersContributorID();
-            var adventures = db.Adventures.Include(a => a.Contributor);
+            var adventures = db.Adventures.Include(a => a.Contributor).OrderBy(o => o.AdventureID);
 
             // create a dictionary with the following items:
             var mapPointsData = db.Database.SqlQuery<MapPointData>("SELECT A.AdventureID, AdventureName, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;").ToArray();
+           
             ViewBag.MapPointsData = mapPointsData;
             //{ coordinate: new mapkit.Coordinate(37.8184493, -122.478409), title: "Golden Gate Bridge", phone: "+1 (415) 921-5858", url: "http://www.goldengatebridge.org" },
 
-            ViewBag.ShowDetail = false;
+            ViewBag.MapKitCode = APIKeys.AppleMapkitKey;
+
+
+            ViewBag.ShowDetail = true;
+
+
+            //TODO - stylize the pages
+
+            //TODO - renumber the Adventures for pins
+
+            //TODO - put map on Waypoints page
+            
+            
+            //TODO - add delegate to Humane Society, resubmit
+
+
+
+
             ViewBag.Categories = GetAllCategories();
             return View(adventures.ToList());
         }
