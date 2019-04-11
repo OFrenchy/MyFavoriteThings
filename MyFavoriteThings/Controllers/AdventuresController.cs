@@ -24,11 +24,14 @@ namespace MyFavoriteThings.Controllers
         public ActionResult Index()
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
+            bool showDetail = false;
+            ViewBag.ShowDetail = showDetail;
             ViewBag.ContributorID = GetUsersContributorID();
             var adventures = db.Adventures.Include(a => a.Contributor).OrderBy(o => o.AdventureID);
 
             // create a dictionary with the following items:
-            var mapPointsData = db.Database.SqlQuery<MapPointData>("SELECT 1 AS MapPointNumber, AdventureName, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;").ToArray();
+            string sqlString = $"SELECT 1 AS MapPointNumber, AdventureName{(showDetail ? "" : "_Obscure")}, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;";
+            var mapPointsData = db.Database.SqlQuery<MapPointData>($"SELECT 1 AS MapPointNumber, AdventureName{(showDetail ? "" : "_Obscure")} AS AdventureName, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;").ToArray();
             for (int i = 0; i < mapPointsData.Length; i++)
             {
                 mapPointsData[i].MapPointNumber = i + 1;
@@ -37,8 +40,6 @@ namespace MyFavoriteThings.Controllers
             ViewBag.MapPointsData = mapPointsData;
             //{ coordinate: new mapkit.Coordinate(37.8184493, -122.478409), title: "Golden Gate Bridge", phone: "+1 (415) 921-5858", url: "http://www.goldengatebridge.org" },
             ViewBag.MapKitCode = APIKeys.AppleMapkitKey;
-            ViewBag.ShowDetail = false;
-
 
             //X TODO - stylize the pages
 
