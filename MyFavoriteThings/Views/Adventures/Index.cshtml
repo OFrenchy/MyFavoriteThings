@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<MyFavoriteThings.Models.Adventure>
-
 @{
     ViewBag.Title = "Index";
 }
@@ -12,15 +11,13 @@
         @Html.ActionLink("Create a New Adventure", "Create")
     </div>
     <p></p>
-    <div class="col-md-2">
-        <button onclick="toggleMode()">Toggle Mode</button>
+    <div class="col-md-6">
+        <button onclick="toggleMode()">Toggle Mode</button> -- <text id="adventureDetailIndicator">@(ViewBag.ShowDetail ? "Detail Mode" : "Adventure Mode")</text>
     </div>
     <div class="col-md-2">
-        <text id="adventureDetailIndicator">@(ViewBag.ShowDetail ? "Detail Mode" : "Adventure Mode")</text>
+        <br />
+        @*<text id="status"></text>*@
     </div>
-    <div></div>
-    <br />
-    <p>.</p>
 </div>
 
     <script>
@@ -41,9 +38,10 @@
             var forTheseControlsShowDetail = showDetail;
             var hideShowControls = { 1:"adventure", 2:"detail" };
             for (var i in hideShowControls) {
-                for (var j = 1; j < 4; j++) {
-                    var thisElement = document.getElementById(hideShowControls[i] + j);
-                    thisElement.hidden = forTheseControlsShowDetail;
+                var thisCollection = document.getElementsByClassName(hideShowControls[i]);//thisControlName);
+                //document.getElementById("status").innerHTML = document.getElementById("status").innerHTML + "; " + thisControlName + " " + thisCollection.length.toString();
+                for (j = 0; j < thisCollection.length; j++) {
+                    thisCollection[j].hidden = forTheseControlsShowDetail;
                 }
                 // switch the boolean for the next list of controls
                 forTheseControlsShowDetail = !forTheseControlsShowDetail;
@@ -51,51 +49,34 @@
         }
     </script>
 
-
-
     <table class="table">
         <tr>
             <th></th>
             <th>
-                @*@Html.DisplayNameFor(model => model.Contributor.FirstName)*@
                 Posted By
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.AdventureName)*@
-                @*@Html.DisplayNameFor(model => model.AdventureName_Obscure)*@
                 Adventure Name
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.AdventureDescription)*@
-                @*@Html.DisplayNameFor(model => model.AdventureDescription_Obscure)*@
                 Description
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.AdventureGeneralLocation)*@
-                @*@Html.DisplayNameFor(model => model.AdventureGeneralLocation_Obscure)*@
                 General Location
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.GeneralTimeNarrative)*@
                 General Time
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.Rating)*@
                 Rating
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.RatingCounter)*@
                 Ratings
             </th>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.RatingSum)
-                </th>*@
             <th>
-                @*@Html.DisplayNameFor(model => model.AllowComments)*@
                 Allow Comments
             </th>
             <th>
-                @*@Html.DisplayNameFor(model => model.AllowImages)*@
                 Allow Images
             </th>
             <th>
@@ -106,65 +87,62 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.AdventureID, showDetail = ViewBag.ShowDetail })
-                    @if (ViewBag.ContributorID == item.ContributorID)
-                    {
-                        @Html.ActionLink(" | Edit", "Edit", new { id = item.AdventureID, showDetail = ViewBag.ShowDetail })
-                        @Html.ActionLink(" | Delete", "Delete", new { id = item.AdventureID })
-                    }
-                    @Html.ActionLink("Follow This Poster", "Follow", new { id = item.ContributorID })
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contributor.FirstName)
-                </td>
-                @*@if (ViewBag.ShowDetail)
-                {*@
-                    <td id="detail1" @(ViewBag.ShowDetail ? "visible":"hidden")>
-                        @Html.DisplayFor(modelItem => item.AdventureName)
-                    </td>
-                    <td id="detail2" @(ViewBag.ShowDetail ? "visible":"hidden")>
-                        @Html.DisplayFor(modelItem => item.AdventureDescription)
-                    </td>
-                    <td id="detail3" @(ViewBag.ShowDetail ? "visible":"hidden")>
-                        @Html.DisplayFor(modelItem => item.AdventureGeneralLocation)
-                    </td>
-                @*}
-                @if (!ViewBag.ShowDetail)
-                {*@
-                    <td id="adventure1" @(!ViewBag.ShowDetail ? "visible":"hidden")>
-                        @Html.DisplayFor(modelItem => item.AdventureName_Obscure)
-                    </td>
-                    <td id="adventure2" @(!ViewBag.ShowDetail ? "visible":"hidden")>
-                        @Html.DisplayFor(modelItem => item.AdventureDescription_Obscure)
-                    </td>
-                    <td id="adventure3" @(!ViewBag.ShowDetail ? "visible":"hidden")>
-                        @Html.DisplayFor(modelItem => item.AdventureGeneralLocation_Obscure)
-                    </td>
-                @*}*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.GeneralTimeNarrative)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Rating)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RatingCounter)
-                </td>
-                @*<td>
-                        @Html.HiddenFor(modelItem => item.RatingSum)
-                    </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.AllowComments)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AllowImages)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comments)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.AdventureID, showDetail = ViewBag.ShowDetail })
+                @if (ViewBag.ContributorID == item.ContributorID)
+                {
+                    @Html.ActionLink(" | Edit", "Edit", new { id = item.AdventureID, showDetail = ViewBag.ShowDetail })
+                    @Html.ActionLink(" | Delete", "Delete", new { id = item.AdventureID })
+                }
+                @Html.ActionLink("Follow This Poster", "Follow", new { id = item.ContributorID })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contributor.FirstName)
+            </td>
+            @*@if (ViewBag.ShowDetail) "adventure", 2:"detail"
+        {*@
+            <td id="detail1" class="detail" @(ViewBag.ShowDetail ? "visible" : "hidden")>
+                @Html.DisplayFor(modelItem => item.AdventureName)
+            </td>
+            <td id="detail2" class="detail" @(ViewBag.ShowDetail ? "visible" : "hidden")>
+                @Html.DisplayFor(modelItem => item.AdventureDescription)
+            </td>
+            <td id="detail3" class="detail" @(ViewBag.ShowDetail ? "visible" : "hidden")>
+                @Html.DisplayFor(modelItem => item.AdventureGeneralLocation)
+            </td>
+            @*}
+        @if (!ViewBag.ShowDetail)
+        {*@
+            <td id="adventure1" class="adventure" @(!ViewBag.ShowDetail ? "visible" : "hidden")>
+                @Html.DisplayFor(modelItem => item.AdventureName_Obscure)
+            </td>
+            <td id="adventure2" class="adventure" @(!ViewBag.ShowDetail ? "visible" : "hidden")>
+                @Html.DisplayFor(modelItem => item.AdventureDescription_Obscure)
+            </td>
+            <td id="adventure3" class="adventure" @(!ViewBag.ShowDetail ? "visible" : "hidden")>
+                @Html.DisplayFor(modelItem => item.AdventureGeneralLocation_Obscure)
+            </td>
+            @*}*@
+            <td>
+                @Html.DisplayFor(modelItem => item.GeneralTimeNarrative)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RatingCounter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AllowComments)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AllowImages)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+        </tr>
         }
 
     </table>
@@ -179,13 +157,11 @@
             #map {
                 height: 600px;
             }
-
             a:link, a:visited {
                 color: #2aaef5;
                 outline: none;
                 text-decoration: none;
             }
-
             .landmark {
                 width: 250px;
                 padding: 7px 0 0 0;
@@ -196,37 +172,33 @@
                 -webkit-transform-origin: 0 10px;
                 transform-origin: 0 10px;
             }
-
-                .landmark h1 {
-                    margin-top: 0;
-                    padding: 5px 15px;
-                    background: #2aaef5;
-                    color: rgba(255, 255, 255, 0.9);
-                    font-size: 16px;
-                    font-weight: 300;
-                }
-
-                .landmark section {
-                    padding: 0 15px 5px;
-                    font-size: 14px;
-                }
-
-                    .landmark section p {
-                        margin: 5px 0;
-                    }
-
-                .landmark:after {
-                    content: "";
-                    position: absolute;
-                    top: 7px;
-                    left: -13px;
-                    width: 0;
-                    height: 0;
-                    margin-bottom: -13px;
-                    border-right: 13px solid #2aaef5;
-                    border-top: 13px solid rgba(0, 0, 0, 0);
-                    border-bottom: 13px solid rgba(0, 0, 0, 0);
-                }
+            .landmark h1 {
+                margin-top: 0;
+                padding: 5px 15px;
+                background: #2aaef5;
+                color: rgba(255, 255, 255, 0.9);
+                font-size: 16px;
+                font-weight: 300;
+            }
+            .landmark section {
+                padding: 0 15px 5px;
+                font-size: 14px;
+            }
+            .landmark section p {
+                margin: 5px 0;
+            }
+            .landmark:after {
+                content: "";
+                position: absolute;
+                top: 7px;
+                left: -13px;
+                width: 0;
+                height: 0;
+                margin-bottom: -13px;
+                border-right: 13px solid #2aaef5;
+                border-top: 13px solid rgba(0, 0, 0, 0);
+                border-bottom: 13px solid rgba(0, 0, 0, 0);
+            }
             /*removed keyframes code here*/
         </style>
         <script>
@@ -250,61 +222,48 @@
                     xhr.send();
                 }
             });
-
             var mapLandmarks = [];
             // Landmarks data
             for (i = 0; i < mapPointsData.length; i++) {
                 mapLandmarks.push({ coordinate: new mapkit.Coordinate(mapPointsData[i].Lat, mapPointsData[i].Long), title: mapPointsData[i].AdventureName, balloonText: mapPointsData[i].MapPointNumber });
             }
-
             // Landmark annotation callout delegate
             var CALLOUT_OFFSET = new DOMPoint(-148, -78);
             var landmarkAnnotationCallout = {
                 calloutElementForAnnotation: function (annotation) {
                     return calloutForLandmarkAnnotation(annotation);
                 },
-
                 calloutAnchorOffsetForAnnotation: function (annotation, element) {
                     return CALLOUT_OFFSET;
                 },
-
                 calloutAppearanceAnimationForAnnotation: function (annotation) {
                     return "scale-and-fadein .4s 0 1 normal cubic-bezier(0.4, 0, 0, 1.5)";
                 }
             };
-
             // Landmarks annotations
             var annotations = mapLandmarks.map(function (landmark) {
                 var annotation = new mapkit.MarkerAnnotation(landmark.coordinate, {
                     callout: landmarkAnnotationCallout,
-                    color: "#c969e0"
-                    //, glyphText : "1"
-                    , glyphText: landmark.balloonText.toString() //.AdventureID.toString()
+                    color: "#c969e0",
+                    glyphText: landmark.balloonText.toString() 
                 });
                 annotation.landmark = landmark;
                 return annotation;
             });
-
             var map = new mapkit.Map("map");
             map.showItems(annotations);
 
             // Landmark annotation custom callout
             function calloutForLandmarkAnnotation(annotation) {
-                //tried this here, didn't work
-                //glyphText = annotation.landmark.AdventureID.toString()  ;
-
                 var div = document.createElement("div");
                 div.className = "landmark";
-
                 var title = div.appendChild(document.createElement("h1"));
                 title.textContent = annotation.landmark.title;
 
                 //var section = div.appendChild(document.createElement("section"));
-
                 //var phone = section.appendChild(document.createElement("p"));
                 //phone.className = "phone";
                 //phone.textContent = annotation.landmark.phone;
-
                 //var link = section.appendChild(document.createElement("p"));
                 //link.className = "homepage";
                 //var a = link.appendChild(document.createElement("a"));
@@ -314,7 +273,7 @@
                 return div;
             }
         </script>
-        @Html.ListBox("Categories", new MultiSelectList(ViewBag.Categories, "Value", "Text"), new { size = 10, multiple = "multiple" })
+        @Html.ListBox("Categories", new MultiSelectList(ViewBag.Categories, "Value", "Text"), new { size = 15, multiple = "multiple" })
     </body>
 </html>
 
