@@ -9,67 +9,45 @@
 <div class="form-horizontal">
 
     <div class="col-md-3">
-
         @Html.ActionLink("Create a New Adventure", "Create")
     </div>
     <p></p>
-    @*<div class="col-md-2">
-        Click the "Mode" button to toggle modes:
-    </div>*@
     <div class="col-md-2">
         <button onclick="toggleMode()">Toggle Mode</button>
     </div>
     <div class="col-md-2">
-        <text id="adventure1">Adventurer Mode</text>
-        <text id="detail1" @(ViewBag.ShowDetail ? "":"hidden")>Detail Mode</text>
+        <text id="adventureDetailIndicator">@(ViewBag.ShowDetail ? "Detail Mode" : "Adventure Mode")</text>
     </div>
     <div></div>
     <br />
     <p>.</p>
 </div>
 
-
     <script>
         function toggleMode() {
 
-            //document.getElementById("demo").innerHTML = txt;
-
-            //document.getElementsByName("adventure1") 
-            
-
-            var adventure = document.getElementById("adventure1");
-            var detail = document.getElementById("detail1");
-            var showDetail = false;
-            if (adventure.style.display === "none") {   // is currently detail mode, changing to adventure
-                showDetail = false;
+            var currentModeIsAdventure = (document.getElementById("adventureDetailIndicator").innerHTML == "Adventure Mode" ? true : false);
+            // Switch modes
+            if (currentModeIsAdventure) {
+                document.getElementById("adventureDetailIndicator").innerHTML = "Detail Mode";
             }
             else {
-                showDetail = true;
+                document.getElementById("adventureDetailIndicator").innerHTML = "Adventure Mode";
             }
-
-            // change the controls to reflect the new mode
-            adventure.hidden = showDetail;
-            adventure.style.display = (showDetail ? "none" : "block");  //= "block"; //= showDetail ? "none" : "block";
-            detail.hidden = !showDetail;
-            detail.style.display = (!showDetail ? "none" : "block");
-
-            //var forTheseControlsShowDetail = showDetail;
-            //var hideShowControls = { 1:"adventure", 2:"detail" };
-            //for (var i in hideShowControls) {
-            //    for (var j = 1; j < 4; j++) {
-            //        var thisElement = document.getElementById(hideShowControls[i] + j);
-            //        // show or hide based on showDetail
-            //        thisElement.hidden = forTheseControlsShowDetail;
-            //        thisElement.style.display = (forTheseControlsShowDetail ? "none" : "block");
-            //    }
-            //    // switch the boolean for the next list of controls
-            //    forTheseControlsShowDetail != forTheseControlsShowDetail;
-            //}
-
+            // showDetail is the opposite of currentModeIsAdventure, so to switch, set it to currentModeIsAdventure;
+            var showDetail = currentModeIsAdventure;
             
-
-
-
+            // one set will be visible, the other hidden;  
+            var forTheseControlsShowDetail = showDetail;
+            var hideShowControls = { 1:"adventure", 2:"detail" };
+            for (var i in hideShowControls) {
+                for (var j = 1; j < 4; j++) {
+                    var thisElement = document.getElementById(hideShowControls[i] + j);
+                    thisElement.hidden = forTheseControlsShowDetail;
+                }
+                // switch the boolean for the next list of controls
+                forTheseControlsShowDetail = !forTheseControlsShowDetail;
+            }
         }
     </script>
 
@@ -141,30 +119,30 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Contributor.FirstName)
                 </td>
-                @if (ViewBag.ShowDetail)
-                {
-                    <td id="detail2" @(ViewBag.ShowDetail ? "":"hidden")>
+                @*@if (ViewBag.ShowDetail)
+                {*@
+                    <td id="detail1" @(ViewBag.ShowDetail ? "visible":"hidden")>
                         @Html.DisplayFor(modelItem => item.AdventureName)
                     </td>
-                    <td id="detail3" @(ViewBag.ShowDetail ? "":"hidden")>
+                    <td id="detail2" @(ViewBag.ShowDetail ? "visible":"hidden")>
                         @Html.DisplayFor(modelItem => item.AdventureDescription)
                     </td>
-                    <td id="detail4" @(ViewBag.ShowDetail ? "":"hidden")>
+                    <td id="detail3" @(ViewBag.ShowDetail ? "visible":"hidden")>
                         @Html.DisplayFor(modelItem => item.AdventureGeneralLocation)
                     </td>
-                }
+                @*}
                 @if (!ViewBag.ShowDetail)
-                {
-                    <td id="adventure2" @(ViewBag.ShowDetail ? "hidden":"")>
+                {*@
+                    <td id="adventure1" @(!ViewBag.ShowDetail ? "visible":"hidden")>
                         @Html.DisplayFor(modelItem => item.AdventureName_Obscure)
                     </td>
-                    <td id="adventure3" @(ViewBag.ShowDetail ? "hidden":"")>
+                    <td id="adventure2" @(!ViewBag.ShowDetail ? "visible":"hidden")>
                         @Html.DisplayFor(modelItem => item.AdventureDescription_Obscure)
                     </td>
-                    <td id="adventure4" @(ViewBag.ShowDetail ? "hidden":"")>
+                    <td id="adventure3" @(!ViewBag.ShowDetail ? "visible":"hidden")>
                         @Html.DisplayFor(modelItem => item.AdventureGeneralLocation_Obscure)
                     </td>
-                }
+                @*}*@
                 <td>
                     @Html.DisplayFor(modelItem => item.GeneralTimeNarrative)
                 </td>
