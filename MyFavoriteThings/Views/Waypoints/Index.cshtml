@@ -1,266 +1,383 @@
 ﻿@model MyFavoriteThings.Models.WaypointsDateAtLocation
 
 @{
+    /**/
+
     ViewBag.Title = "Index";
 }
 <h2>Waypoints for Adventure</h2>
-
-@using (Html.BeginForm())
-{
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        <div class="col-md-2">
-            @Html.TextBoxFor(model => model.DateAtLocation, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.DateAtLocation, "", new { @class = "text-danger" })
-        </div>
-        <div class="col-md-3">
-            <input type="submit" value="Calculate Sunrise & Sunset" class="btn btn-default" />  
-        </div>
-        <div class="right col-md-7">
-            <h5>
-                Sunrise: @ViewBag.Sunrise  -  Sunset: @ViewBag.Sunset
-            </h5>
-            <h6>Our thanks to sunrise-sunset.org for the free use of their API.</h6>
-        </div>
-
-    </div>
-    @Html.HiddenFor(model => model.AdventureID, new { id = "AdventureID", Value = ViewBag.AdventureID })
-</div>
-}
-
-<p>
-    @if (ViewBag.UserIsCreator)
-    {
-        @Html.ActionLink("Create New Waypoint", "Create", new { id = ViewBag.AdventureID })
-    }|
-    @Html.ActionLink("Back to Adventure Detail", "Details", "Adventures", new { id = ViewBag.AdventureID, showDetail = ViewBag.ShowDetail }, null) |
-    @Html.ActionLink("Back to Adventures", "Index", "Adventures", new { id = ViewBag.AdventureID, showDetail = ViewBag.ShowDetail }, null) |
-    @*@Html.ActionLink("Back to List", "Index", new { id = ViewBag.AdventureID })*@
-</p>
-
-
-
-
-
-
-
-<table class="table">
-    <tr>
-        <th></th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Sequence)*@
-            Sequence
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Waypoints[0].Adventure.AdventureName)*@
-            Adventure Name
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.WaypointName)*@
-            @*@Html.DisplayNameFor(model => model.WaypointName_Obscure)*@
-            Location
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.WaypointNickname)*@
-            @*@Html.DisplayNameFor(model => model.WaypointNickname_Obscure)*@
-            Location Nickname
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Description)*@
-            @*@Html.DisplayNameFor(model => model.Description_Obscure)*@
-            Description
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.DirectionsNarrative)*@
-            @*@Html.DisplayNameFor(model => model.DirectionsNarrative_Obscure)*@
-            Directions Narrative
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Lat)*@
-            Lat
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Long)*@
-            Long
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Street1)*@
-            Street
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Street2)*@
-            Street2
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.City)*@
-            City
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.State)*@
-            State
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.Phone)*@
-            Phone
-        </th>
-        <th>
-            @*@Html.DisplayNameFor(model => model.DayTimeOfDayNarrative)*@
-            General Time Of Day
-        </th>
-    </tr>
-
-    @foreach (var item in Model.Waypoints)
-    {
-    <tr>
-        <td>
-            @Html.ActionLink("Details", "Details", new { id = item.WaypointID, showDetail = ViewBag.ShowDetail }) |
-            @if (ViewBag.UserIsCreator)
-            {
-                @Html.ActionLink(" | Edit", "Edit", new { id = item.WaypointID, showDetail = ViewBag.ShowDetail })
-                @Html.ActionLink(" | Delete", "Delete", new { id = item.WaypointID })
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Sequence)
-        </td>
-
-        @if (ViewBag.ShowDetail)
-        {
-            <td>
-                @Html.DisplayFor(modelItem => item.Adventure.AdventureName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WaypointName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WaypointNickname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DirectionsNarrative)
-            </td>
-        }
-
-        @if (!ViewBag.ShowDetail)
-        {
-            <td>
-                @Html.DisplayFor(modelItem => item.Adventure.AdventureName_Obscure)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WaypointName_Obscure)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WaypointNickname_Obscure)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description_Obscure)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DirectionsNarrative_Obscure)
-            </td>
-        }
-        <td>
-            @Html.DisplayFor(modelItem => item.Lat)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Long)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Street1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Street2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.State)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DayTimeOfDayNarrative)
-        </td>
-    </tr>
-    }
-
-</table>
-
-
-
+<!DOCTYPE html>
+<html>
+<head>
     <meta charset="utf-8">
 
     <script src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js"></script>
 
     <style>
         #map {
-            width: 100%;
-            height: 600px;
+            height: 350px;
+            width: 800px;
         }
+
+        a:link, a:visited {
+            color: #2aaef5;
+            outline: none;
+            text-decoration: none;
+        }
+
+        .landmark {
+            width: 250px;
+            padding: 7px 0 0 0;
+            background: rgba(247, 247, 247, 0.75);
+            border-radius: 5px;
+            box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.29);
+            font-family: Helvetica, Arial, sans-serif;
+            -webkit-transform-origin: 0 10px;
+            transform-origin: 0 10px;
+        }
+
+            .landmark h1 {
+                margin-top: 0;
+                padding: 5px 15px;
+                background: #2aaef5;
+                color: rgba(255, 255, 255, 0.9);
+                font-size: 16px;
+                font-weight: 300;
+            }
+
+            .landmark section {
+                padding: 0 15px 5px;
+                font-size: 14px;
+            }
+
+                .landmark section p {
+                    margin: 5px 0;
+                }
+
+            .landmark:after {
+                content: "";
+                position: absolute;
+                top: 7px;
+                left: -13px;
+                width: 0;
+                height: 0;
+                margin-bottom: -13px;
+                border-right: 13px solid #2aaef5;
+                border-top: 13px solid rgba(0, 0, 0, 0);
+                border-bottom: 13px solid rgba(0, 0, 0, 0);
+            }
+        /*removed keyframes code here*/
     </style>
+    <script>
+                var mapPointsData = @Html.Raw(Json.Encode(@ViewBag.MapPointsData));
+                var mapKitCode = @Html.Raw(Json.Encode(@ViewBag.MapKitCode));
+    </script>
+</head>
+
+
+
+<body>
+
+
+    @using (Html.BeginForm())
+    {
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-2">
+                    @Html.TextBoxFor(model => model.DateAtLocation, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DateAtLocation, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-md-3">
+                    <input type="submit" value="Calculate Sunrise & Sunset" class="btn btn-default" />
+                </div>
+                <div class="right col-md-7">
+                    <h5>
+                        Sunrise: @ViewBag.Sunrise  -  Sunset: @ViewBag.Sunset
+                    </h5>
+                    <h6>Our thanks to sunrise-sunset.org for the free use of their API.</h6>
+                </div>
+
+            </div>
+            @Html.HiddenFor(model => model.AdventureID, new { id = "AdventureID", Value = ViewBag.AdventureID })
+        </div>
+    }
+
+    <p>
+        @if (ViewBag.UserIsCreator)
+        {
+            @Html.ActionLink("Create New Waypoint", "Create", new { id = ViewBag.AdventureID })
+        }|
+        @Html.ActionLink("Back to Adventure Detail", "Details", "Adventures", new { id = ViewBag.AdventureID, showDetail = ViewBag.ShowDetail }, null) |
+        @Html.ActionLink("Back to Adventures", "Index", "Adventures", new { id = ViewBag.AdventureID, showDetail = ViewBag.ShowDetail }, null) |
+        @*@Html.ActionLink("Back to List", "Index", new { id = ViewBag.AdventureID })*@
+    </p>
+
+
 
     <div id="map"></div>
 
-    <script>
-        $(document).ready(function () {
-            $('#btnCalculate').on('click', function () {
-            $.ajax({
-                //type: 'GET',
-                type: 'POST',
-                url: @Url.Action("CalculateSunriseSunset", "Waypoints"),                           //"/Waypoints/CalculateSunriseSunset",
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                data: {
-                    aID: "9/1/2019",
-                    dateString: $("#DateAtLocation").val()
-                },
-                @*data: JSON.stringify({
-                    aID: @ViewBag.AdventureID,
-                    dateString: $("#DateAtLocation").val()
-                }),*@
-                async: true,
-                success: function () {
-                    alert("Inside Ajax");
-                    console.log("AjaxSucceeded")
-                },
-                error: function () {
-                    alert("AjaxFailed");
-                    console.log("AjaxFailed");
+
+
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Sequence)*@
+                Sequence
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Waypoints[0].Adventure.AdventureName)*@
+                Adventure Name
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.WaypointName)*@
+                @*@Html.DisplayNameFor(model => model.WaypointName_Obscure)*@
+                Location
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.WaypointNickname)*@
+                @*@Html.DisplayNameFor(model => model.WaypointNickname_Obscure)*@
+                Location Nickname
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Description)*@
+                @*@Html.DisplayNameFor(model => model.Description_Obscure)*@
+                Description
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.DirectionsNarrative)*@
+                @*@Html.DisplayNameFor(model => model.DirectionsNarrative_Obscure)*@
+                Directions Narrative
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Lat)*@
+                Lat
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Long)*@
+                Long
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Street1)*@
+                Street
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Street2)*@
+                Street2
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.City)*@
+                City
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.State)*@
+                State
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Phone)*@
+                Phone
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.DayTimeOfDayNarrative)*@
+                General Time Of Day
+            </th>
+        </tr>
+
+        @foreach (var item in Model.Waypoints)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.WaypointID, showDetail = ViewBag.ShowDetail }) |
+                    @if (ViewBag.UserIsCreator)
+                    {
+                        @Html.ActionLink(" | Edit", "Edit", new { id = item.WaypointID, showDetail = ViewBag.ShowDetail })
+                        @Html.ActionLink(" | Delete", "Delete", new { id = item.WaypointID })
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sequence)
+                </td>
+
+                @if (ViewBag.ShowDetail)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Adventure.AdventureName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WaypointName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WaypointNickname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DirectionsNarrative)
+                    </td>
                 }
+
+                @if (!ViewBag.ShowDetail)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Adventure.AdventureName_Obscure)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WaypointName_Obscure)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WaypointNickname_Obscure)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description_Obscure)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DirectionsNarrative_Obscure)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Long)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Street1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Street2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DayTimeOfDayNarrative)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+
+
+    @*<meta charset="utf-8">
+
+        <script src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js"></script>
+
+        <style>
+            #map {
+                width: 100%;
+                height: 600px;
+            }
+        </style>
+
+        <div id="map"></div>*@
+
+    <script>
+            $(document).ready(function () {
+                $('#btnCalculate').on('click', function () {
+                $.ajax({
+                    //type: 'GET',
+                    type: 'POST',
+                    url: @Url.Action("CalculateSunriseSunset", "Waypoints"),                           //"/Waypoints/CalculateSunriseSunset",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    data: {
+                        aID: "9/1/2019",
+                        dateString: $("#DateAtLocation").val()
+                    },
+                    @*data: JSON.stringify({
+                        aID: @ViewBag.AdventureID,
+                        dateString: $("#DateAtLocation").val()
+                    }),*@
+                    async: true,
+                    success: function () {
+                        alert("Inside Ajax");
+                        console.log("AjaxSucceeded")
+                    },
+                    error: function () {
+                        alert("AjaxFailed");
+                        console.log("AjaxFailed");
+                    }
+                    });
                 });
             });
-        });
+    </script>
 
+    <script>
         mapkit.init({
             authorizationCallback: function (done) {
                 var xhr = new XMLHttpRequest();
                 xhr.open("GET", "/services/jwt");
                 xhr.addEventListener("load", function () {
                     //done(this.responseText);
-                    //done('eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjNEVzZNM1NCUjIifQ.eyJpc3MiOiJHNlUyOVg5QUg3IiwiaWF0IjoxNTUzOTc3NjIxLCJleHAiOjE1NTUxODcyMjF9.c3xpepTTLU8kY-kBdOEM3b9_I3u_X3gqaHNoIczUwiexBoBBTDfbGJi5Ne33LPCz9rEy0y50vDscUKbVILnI7A');
-                    done((@ViewBag.MapKitCode);
+                    done(mapKitCode);
                 });
                 xhr.send();
             }
         });
-
-        var GreaterMilwaukee = new mapkit.CoordinateRegion(
-            new mapkit.Coordinate(43.0378, -88.1331),
-            new mapkit.CoordinateSpan(0.167647972, 0.354985255)
-        );
+        var mapLandmarks = [];
+        // Landmarks data
+        for (i = 0; i < mapPointsData.length; i++) {
+            mapLandmarks.push({ coordinate: new mapkit.Coordinate(mapPointsData[i].Lat, mapPointsData[i].Long), title: mapPointsData[i].WaypointNickname, balloonText: mapPointsData[i].MapPointNumber });
+        }
+        // Landmark annotation callout delegate
+        var CALLOUT_OFFSET = new DOMPoint(-148, -78);
+        var landmarkAnnotationCallout = {
+            calloutElementForAnnotation: function (annotation) {
+                return calloutForLandmarkAnnotation(annotation);
+            },
+            calloutAnchorOffsetForAnnotation: function (annotation, element) {
+                return CALLOUT_OFFSET;
+            },
+            calloutAppearanceAnimationForAnnotation: function (annotation) {
+                return "scale-and-fadein .4s 0 1 normal cubic-bezier(0.4, 0, 0, 1.5)";
+            }
+        };
+        // Landmarks annotations
+        var annotations = mapLandmarks.map(function (landmark) {
+            var annotation = new mapkit.MarkerAnnotation(landmark.coordinate, {
+                callout: landmarkAnnotationCallout,
+                color: "#c969e0",
+                glyphText: landmark.balloonText.toString()
+            });
+            annotation.landmark = landmark;
+            return annotation;
+        });
         var map = new mapkit.Map("map");
-        map.region = GreaterMilwaukee;
-                    //var Cupertino = new mapkit.CoordinateRegion(
-                    //    new mapkit.Coordinate(37.3316850890998, -122.030067374026),
-                    //    new mapkit.CoordinateSpan(0.167647972, 0.354985255)
-                    //);
-                    //var map = new mapkit.Map("map");
-                    //map.region = Cupertino;
+        map.showItems(annotations);
 
+        // Landmark annotation custom callout
+        function calloutForLandmarkAnnotation(annotation) {
+            var div = document.createElement("div");
+            div.className = "landmark";
+            var title = div.appendChild(document.createElement("h2"));
+            title.textContent = annotation.landmark.title;
+
+            //var section = div.appendChild(document.createElement("section"));
+            //var phone = section.appendChild(document.createElement("p"));
+            //phone.className = "phone";
+            //phone.textContent = annotation.landmark.phone;
+            //var link = section.appendChild(document.createElement("p"));
+            //link.className = "homepage";
+            //var a = link.appendChild(document.createElement("a"));
+            //a.href = annotation.landmark.url;
+            //a.textContent = "website";
+
+            return div;
+        }
     </script>
+
+
+
+</body>
+</html>
+

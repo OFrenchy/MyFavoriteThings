@@ -109,7 +109,6 @@ namespace MyFavoriteThings.Controllers
             ViewBag.MapKitCode = APIKeys.AppleMapKitToken;
 
             WaypointsDateAtLocation waypointsDateAtLocation = new WaypointsDateAtLocation();
-            //waypointsDateAtLocation.
             waypointsDateAtLocation.Waypoints = waypoints.ToList();
             waypointsDateAtLocation.DateAtLocation = dateString;    // DateTime.Today.ToShortDateString();
             return View(waypointsDateAtLocation);
