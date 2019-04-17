@@ -133,6 +133,7 @@
             {
                 <tr>
                     <td>
+                        @*Change the ViewBag.ShowDetail in the next line to a script to read the Adventure/Detail text at the top, in id="adventureDetailIndicator"*@
                         @Html.ActionLink("Details", "Details", new { id = item.AdventureID, showDetail = ViewBag.ShowDetail })
                         @if (ViewBag.ContributorID == item.ContributorID)
                         {

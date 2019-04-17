@@ -5,7 +5,7 @@
 
     ViewBag.Title = "Index";
 }
-<h2>Waypoints for Adventure</h2>
+@*<h2>Waypoints for Adventure</h2>*@
 <!DOCTYPE html>
 <html>
 <head>
@@ -164,10 +164,10 @@
                 @*@Html.DisplayNameFor(model => model.Street1)*@
                 Street
             </th>
-            <th>
-                @*@Html.DisplayNameFor(model => model.Street2)*@
+            @*<th>
+                @Html.DisplayNameFor(model => model.Street2)
                 Street2
-            </th>
+            </th>*@
             <th>
                 @*@Html.DisplayNameFor(model => model.City)*@
                 City
@@ -216,7 +216,8 @@
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.DirectionsNarrative)
+                        @*@Html.DisplayFor(modelItem => item.DirectionsNarrative)*@
+                        Directions
                     </td>
                 }
 
@@ -247,9 +248,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Street1)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.Street2)
-                </td>
+                </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.City)
                 </td>

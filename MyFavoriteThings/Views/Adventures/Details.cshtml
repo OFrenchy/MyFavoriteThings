@@ -80,7 +80,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.RatingCounter)
+            @*@Html.DisplayNameFor(model => model.RatingCounter)*@
+            Ratings
         </dt>
         <dd>
             @Html.DisplayFor(model => model.RatingCounter)
@@ -98,9 +99,9 @@
         @if (Model.AllowComments)
         {
             <dt>
-                @Html.DisplayNameFor(model => model.AllowComments)
+                @*@Html.DisplayNameFor(model => model.AllowComments)*@
+                Allow Comments
             </dt>
-
             <dd>
                 @Html.DisplayFor(model => model.AllowComments)
             </dd>

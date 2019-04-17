@@ -15,41 +15,47 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Sequence)
+            @*@Html.DisplayFor(model => model.Sequence)*@
+            Sequence
         </dd>
 
         @if (ViewBag.ShowDetail)
         {
             <dt>
-                @Html.DisplayNameFor(model => model.Adventure.AdventureName)
+                @*@Html.DisplayNameFor(model => model.Adventure.AdventureName)*@
+                Adventure Name
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.Adventure.AdventureName)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.WaypointName)
+                @*@Html.DisplayNameFor(model => model.WaypointName)*@
+                Waypoint Name
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.WaypointName)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.WaypointNickname)
+                @*@Html.DisplayNameFor(model => model.WaypointNickname)*@
+                Waypoint Nickname
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.WaypointNickname)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Description)
+                @*@Html.DisplayNameFor(model => model.Description)*@
+                Description
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.Description)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.DirectionsNarrative)
+                @*@Html.DisplayNameFor(model => model.DirectionsNarrative)*@
+                Directions
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.DirectionsNarrative)
@@ -59,42 +65,48 @@
         @if (!ViewBag.ShowDetail)
         {
             <dt>
-                @Html.DisplayNameFor(model => model.WaypointName_Obscure)
+                @*@Html.DisplayNameFor(model => model.WaypointName_Obscure)*@
+                Waypoint Name
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.WaypointName_Obscure)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.WaypointNickname_Obscure)
+                @*@Html.DisplayNameFor(model => model.WaypointNickname_Obscure)*@
+                Waypoint Nickname
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.WaypointNickname_Obscure)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Description_Obscure)
+                @*@Html.DisplayNameFor(model => model.Description_Obscure)*@
+                Description
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.Description_Obscure)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.DirectionsNarrative_Obscure)
+                @*@Html.DisplayNameFor(model => model.DirectionsNarrative_Obscure)*@
+                Directions
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.DirectionsNarrative_Obscure)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Lat)
+                @*@Html.DisplayNameFor(model => model.Lat)*@
+                Latitude
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.Lat)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Long)
+                @*@Html.DisplayNameFor(model => model.Long)*@
+                Longitude
             </dt>
             <dd>
                 @Html.DisplayFor(model => model.Long)
@@ -102,18 +114,19 @@
         }
 
         <dt>
-            @Html.DisplayNameFor(model => model.Street1)
+            @*@Html.DisplayNameFor(model => model.Street1)*@
+            Street
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Street1)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Street2)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Street2)
-        </dd>
+        </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.City)
@@ -137,7 +150,8 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DayTimeOfDayNarrative)
+            @*@Html.DisplayNameFor(model => model.DayTimeOfDayNarrative)*@
+            General Time of Day
         </dt>
         <dd>
             @Html.DisplayFor(model => model.DayTimeOfDayNarrative)
