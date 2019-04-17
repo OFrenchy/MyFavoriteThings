@@ -131,6 +131,18 @@ namespace MyFavoriteThings.Controllers
             var waypoints = db.Waypoints.Include(w => w.Adventure).Where(w => w.AdventureID == waypointsDateAtLocation.AdventureID).OrderBy(w => w.Sequence);
             ViewBag.AdventureID = waypointsDateAtLocation.AdventureID;
 
+            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
+
+            // create a dictionary with the following items:
+            string sqlString = $"SELECT Sequence AS MapPointNumber, WaypointNickname{(showDetail ? "" : "_Obscure")} AS WaypointNickname, Lat, Long FROM Waypoints WHERE AdventureID = {waypointsDateAtLocation.AdventureID} ORDER BY Sequence;";
+            //var mapPointsData = db.Database.SqlQuery<MapWaypointsData>($"SELECT Sequence AS MapPointNumber, WaypointNickname{(showDetail ? "" : "_Obscure")} AS WaypointNickname, Lat, Long FROM Waypoints WHERE AdventureID = {id} ORDER BY Sequence;").ToArray();
+            var mapPointsData = db.Database.SqlQuery<MapWaypointsData>(sqlString).ToArray();
+
+            ViewBag.MapPointsData = mapPointsData;
+            //{ coordinate: new mapkit.Coordinate(37.8184493, -122.478409), title: "Golden Gate Bridge", phone: "+1 (415) 921-5858", url: "http://www.goldengatebridge.org" },
+            ViewBag.MapKitCode = APIKeys.AppleMapKitToken;
+
+
             waypointsDateAtLocation.Waypoints = waypoints.ToList();
             waypointsDateAtLocation.DateAtLocation = dateString;
             return View(waypointsDateAtLocation);

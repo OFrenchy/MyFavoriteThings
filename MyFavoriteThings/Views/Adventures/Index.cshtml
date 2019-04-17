@@ -204,7 +204,7 @@
                 mapLandmarks.push({ coordinate: new mapkit.Coordinate(mapPointsData[i].Lat, mapPointsData[i].Long), title: mapPointsData[i].AdventureName, balloonText: mapPointsData[i].MapPointNumber });
             }
             // Landmark annotation callout delegate
-            var CALLOUT_OFFSET = new DOMPoint(-148, -78);
+            var CALLOUT_OFFSET = new DOMPoint(-148, -20);   // was -148, -78
             var landmarkAnnotationCallout = {
                 calloutElementForAnnotation: function (annotation) {
                     return calloutForLandmarkAnnotation(annotation);
@@ -233,7 +233,7 @@
             function calloutForLandmarkAnnotation(annotation) {
                 var div = document.createElement("div");
                 div.className = "landmark";
-                var title = div.appendChild(document.createElement("h2"));
+                var title = div.appendChild(document.createElement("h6"));
                 title.textContent = annotation.landmark.title;
 
                 //var section = div.appendChild(document.createElement("section"));

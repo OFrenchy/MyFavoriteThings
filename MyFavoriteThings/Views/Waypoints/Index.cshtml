@@ -16,7 +16,7 @@
     <style>
         #map {
             height: 350px;
-            width: 800px;
+            width: 1200px;
         }
 
         a:link, a:visited {
@@ -38,16 +38,16 @@
 
             .landmark h1 {
                 margin-top: 0;
-                padding: 5px 15px;
+                padding: 5px 10px;
                 background: #2aaef5;
                 color: rgba(255, 255, 255, 0.9);
-                font-size: 16px;
+                font-size: 10px;
                 font-weight: 300;
             }
 
             .landmark section {
-                padding: 0 15px 5px;
-                font-size: 14px;
+                padding: 0 10px 5px;
+                font-size: 10px;
             }
 
                 .landmark section p {
@@ -78,29 +78,34 @@
 
 <body>
 
-
     @using (Html.BeginForm())
     {
         <div class="form-horizontal">
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
-                <div class="col-md-2">
-                    @Html.TextBoxFor(model => model.DateAtLocation, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.DateAtLocation, "", new { @class = "text-danger" })
-                </div>
-                <div class="col-md-3">
-                    <input type="submit" value="Calculate Sunrise & Sunset" class="btn btn-default" />
-                </div>
-                <div class="right col-md-7">
-                    <h5>
-                        Sunrise: @ViewBag.Sunrise  -  Sunset: @ViewBag.Sunset
-                    </h5>
-                    <h6>Our thanks to sunrise-sunset.org for the free use of their API.</h6>
-                </div>
+                
+                    <div class="col-md-12">
+                        @Html.TextBoxFor(model => model.DateAtLocation, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DateAtLocation, "", new { @class = "text-danger" })
+                    @*</div>
+                    <div class="col-md-3">*@
+                        <input type="submit" value="Calculate Sunrise & Sunset" class="btn btn-default" />
+                    </div>
+                
+                @*<div class="right col-md-7">*@
+                    <div class="row">
 
+                        <div class="text-left col-md-6">
+                            <h5>Sunrise: @ViewBag.Sunrise  -  Sunset: @ViewBag.Sunset</h5>
+                        </div>
+                        <div class="text-right col-md-6">
+                            <h6>Thanks to Sunrise-Sunset.org for the use of their API.</h6>
+                        </div>
+
+                    </div>
+                @Html.HiddenFor(model => model.AdventureID, new { id = "AdventureID", Value = ViewBag.AdventureID })
             </div>
-            @Html.HiddenFor(model => model.AdventureID, new { id = "AdventureID", Value = ViewBag.AdventureID })
         </div>
     }
 
@@ -114,11 +119,7 @@
         @*@Html.ActionLink("Back to List", "Index", new { id = ViewBag.AdventureID })*@
     </p>
 
-
-
     <div id="map"></div>
-
-
 
     <table class="table">
         <tr>
@@ -330,7 +331,7 @@
             mapLandmarks.push({ coordinate: new mapkit.Coordinate(mapPointsData[i].Lat, mapPointsData[i].Long), title: mapPointsData[i].WaypointNickname, balloonText: mapPointsData[i].MapPointNumber });
         }
         // Landmark annotation callout delegate
-        var CALLOUT_OFFSET = new DOMPoint(-148, -78);
+        var CALLOUT_OFFSET = new DOMPoint(-148, -20); // was , -78
         var landmarkAnnotationCallout = {
             calloutElementForAnnotation: function (annotation) {
                 return calloutForLandmarkAnnotation(annotation);
@@ -359,7 +360,7 @@
         function calloutForLandmarkAnnotation(annotation) {
             var div = document.createElement("div");
             div.className = "landmark";
-            var title = div.appendChild(document.createElement("h2"));
+            var title = div.appendChild(document.createElement("h6"));
             title.textContent = annotation.landmark.title;
 
             //var section = div.appendChild(document.createElement("section"));
