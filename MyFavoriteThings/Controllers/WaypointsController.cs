@@ -100,16 +100,14 @@ namespace MyFavoriteThings.Controllers
 
             // ======= begin ============================
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
-            
+
             // create a dictionary with the following items:
             //string sqlString = $"SELECT 1 AS MapPointNumber, AdventureName{(showDetail ? "" : "_Obscure")}, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;";
             //var mapPointsData = db.Database.SqlQuery<MapPointData>($"SELECT 1 AS MapPointNumber, AdventureName{(showDetail ? "" : "_Obscure")} AS AdventureName, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;").ToArray();
-            //for (int i = 0; i < mapPointsData.Length; i++)
-            //{
-            //    mapPointsData[i].MapPointNumber = i + 1;
-            //}
 
-            //ViewBag.MapPointsData = mapPointsData;
+            var mapPointsData = db.Database.SqlQuery<MapWaypointsData>($"SELECT 1 AS MapPointNumber, WaypointNickname{(showDetail ? "" : "_Obscure")} AS WaypointNickname, Lat, Long FROM Waypoints  WHERE AdventureID = {id} ORDER BY Sequence;").ToArray();
+
+            ViewBag.MapPointsData = mapPointsData;
             //{ coordinate: new mapkit.Coordinate(37.8184493, -122.478409), title: "Golden Gate Bridge", phone: "+1 (415) 921-5858", url: "http://www.goldengatebridge.org" },
             ViewBag.MapKitCode = APIKeys.AppleMapKitToken;
             // ======= end ============================
@@ -432,6 +430,13 @@ namespace MyFavoriteThings.Controllers
         public string[] types { get; set; }
     }
 
+    public class MapWaypointsData
+    {
+        public int MapPointNumber { get; set; }
+        public string WaypointNickname { get; set; }
+        public double Lat { get; set; }
+        public double Long { get; set; }
+    }
 
 
 }
