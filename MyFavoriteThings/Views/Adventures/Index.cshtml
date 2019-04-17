@@ -2,9 +2,7 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Index</h2>
-    
+@*<h2>Index</h2>*@
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,7 +12,8 @@
 
         <style>
             #map {
-                height: 500px;
+                height: 350px;
+                width: 800px;
             }
             a:link, a:visited {
                 color: #2aaef5;
@@ -68,24 +67,30 @@
 
     <body>
         <div class="form-horizontal">
-            <div class="col-md-3">
-                @Html.ActionLink("Create a New Adventure", "Create")
-            </div>
-            <p></p>
-            <div class="col-md-6">
+            @*<div class="col-md-3">*@
+            @*@Html.ActionLink("Create a New Adventure", "Create")*@
+            @*@Url.Action("Create") title   value="D"     *@
+            @*<input type="button" value="Create a New Adventure" onclick="location.href='@Url.Action( "Create")'" />*@
+            @*</div>*@
+            @*<p></p>*@
+            <div class="col-md-12">
                 <button onclick="toggleMode()">Toggle Mode</button> -- <text id="adventureDetailIndicator">@(ViewBag.ShowDetail ? "Detail Mode" : "Adventure Mode")</text>
             </div>
-            <div class="col-md-2">
+            @*<div class="col-md-2">
                 <br />
-                @*<text id="status"></text>*@
-            </div>
+                <text id="status"></text>
+            </div>*@
         </div>
         <table class="table">
             <div class="row">
-                <div class="col-md-3" style="height:500px;">
-                    @Html.ListBox("Categories", new MultiSelectList(ViewBag.Categories, "Value", "Text"), new { size = 20, multiple = "multiple" })
+                <div class="col-md-3" style="height:350px;">
+                    @Html.ListBox("Categories", new MultiSelectList(ViewBag.Categories, "Value", "Text"), new { size = 14, multiple = "multiple" })
                 </div>
-                <div id="map" class="col-md-9" style="height:500px;"></div>
+                <div id="map" class="col-md-9" style="height:350px;">
+                </div>
+            </div>
+            <div class="row">
+                @Html.ActionLink("Create a New Adventure", "Create")
             </div>
         </table>
         <table class="table">
@@ -176,7 +181,9 @@
                         @Html.DisplayFor(modelItem => item.Comments)
                     </td>
                 </tr>
+                @*<br />*@
             }
+ @*           @Html.ActionLink("Create a New Adventure", "Create")*@
         </table>
 
         <script>
@@ -226,7 +233,7 @@
             function calloutForLandmarkAnnotation(annotation) {
                 var div = document.createElement("div");
                 div.className = "landmark";
-                var title = div.appendChild(document.createElement("h1"));
+                var title = div.appendChild(document.createElement("h2"));
                 title.textContent = annotation.landmark.title;
 
                 //var section = div.appendChild(document.createElement("section"));

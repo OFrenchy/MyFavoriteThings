@@ -75,6 +75,7 @@ namespace MyFavoriteThings.Controllers
             // Add the offset to the time
             sunrise = DateTime.Parse(sunrise).AddHours(totalHoursOffset).ToString("h:mm tt");
             sunset = DateTime.Parse(sunset).AddHours(totalHoursOffset).ToString("h:mm tt") + " (" + root2.timeZoneName +")";
+            
             return new string[] { sunrise, sunset };
         }
 
@@ -92,8 +93,31 @@ namespace MyFavoriteThings.Controllers
             string[] sunriseSunset = await GetSunriseSunsetForDateAtWaypoint(id, dateString);// DateTime.Parse(dateString).ToShortDateString());
             ViewBag.Sunrise = sunriseSunset[0]; // "6:45am";
             ViewBag.Sunset = sunriseSunset[1];  // "7:05pm";
+
             var waypoints = db.Waypoints.Include(w => w.Adventure).Where(w => w.AdventureID == id).OrderBy(w => w.Sequence);
             ViewBag.AdventureID = id;
+
+
+            // ======= begin ============================
+            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
+            
+            // create a dictionary with the following items:
+            //string sqlString = $"SELECT 1 AS MapPointNumber, AdventureName{(showDetail ? "" : "_Obscure")}, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;";
+            //var mapPointsData = db.Database.SqlQuery<MapPointData>($"SELECT 1 AS MapPointNumber, AdventureName{(showDetail ? "" : "_Obscure")} AS AdventureName, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;").ToArray();
+            //for (int i = 0; i < mapPointsData.Length; i++)
+            //{
+            //    mapPointsData[i].MapPointNumber = i + 1;
+            //}
+
+            //ViewBag.MapPointsData = mapPointsData;
+            //{ coordinate: new mapkit.Coordinate(37.8184493, -122.478409), title: "Golden Gate Bridge", phone: "+1 (415) 921-5858", url: "http://www.goldengatebridge.org" },
+            ViewBag.MapKitCode = APIKeys.AppleMapKitToken;
+            // ======= end ============================
+
+
+
+
+
 
             WaypointsDateAtLocation waypointsDateAtLocation = new WaypointsDateAtLocation();
             //waypointsDateAtLocation.

@@ -39,19 +39,9 @@ namespace MyFavoriteThings.Controllers
 
             ViewBag.MapPointsData = mapPointsData;
             //{ coordinate: new mapkit.Coordinate(37.8184493, -122.478409), title: "Golden Gate Bridge", phone: "+1 (415) 921-5858", url: "http://www.goldengatebridge.org" },
-            ViewBag.MapKitCode = APIKeys.AppleMapkitKey;
+            ViewBag.MapKitCode = APIKeys.AppleMapKitToken;
 
-            //X TODO - stylize the pages
-
-            //X TODO - renumber the Adventures for pins
-
-            //TODO - put map on Waypoints page
-            
-            
             //TODO - add delegate to Humane Society, resubmit
-
-
-
 
             ViewBag.Categories = GetAllCategories();
             return View(adventures.ToList());
