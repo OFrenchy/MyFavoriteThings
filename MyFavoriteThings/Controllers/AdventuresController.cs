@@ -24,10 +24,13 @@ namespace MyFavoriteThings.Controllers
         public ActionResult Index()
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
-            bool showDetail = false;
+            bool showDetail = true;
             ViewBag.ShowDetail = showDetail;
             ViewBag.ContributorID = GetUsersContributorID();
             var adventures = db.Adventures.Include(a => a.Contributor).OrderBy(o => o.AdventureID);
+
+            var AdventuresIndexVM = new AdventuresCategoriesForIndex();
+            AdventuresIndexVM.Adventures = adventures.ToList();
 
             // create a dictionary with the following items:
             string sqlString = $"SELECT 1 AS MapPointNumber, AdventureName{(showDetail ? "" : "_Obscure")}, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;";
@@ -43,8 +46,11 @@ namespace MyFavoriteThings.Controllers
 
             //TODO - add delegate to Humane Society, resubmit
 
-            ViewBag.Categories = GetAllCategories();
-            return View(adventures.ToList());
+            AdventuresIndexVM.Categories = GetAllCategories();
+            //ViewBag.Categories = GetAllCategories();
+
+            return View(AdventuresIndexVM);
+            //return View(adventures.ToList());
         }
 
         // GET: Adventures/Details/5
