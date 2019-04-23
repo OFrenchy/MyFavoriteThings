@@ -24,7 +24,7 @@ namespace MyFavoriteThings.Controllers
         public ActionResult Index()
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
-            bool showDetail = true;
+            bool showDetail = false;
             ViewBag.ShowDetail = showDetail;
             ViewBag.ContributorID = GetUsersContributorID();
             var adventures = db.Adventures.Include(a => a.Contributor).OrderBy(o => o.AdventureID);
@@ -49,10 +49,27 @@ namespace MyFavoriteThings.Controllers
             AdventuresIndexVM.Categories = GetAllCategories();
             //ViewBag.Categories = GetAllCategories();
 
+            // Testing
+            //AdventuresIndexVM.SelectedCategoriesIds = new[] { 2, 3 };
+
             return View(AdventuresIndexVM);
             //return View(adventures.ToList());
         }
-
+        [HttpPost]
+        //public ActionResult Index(IEnumerable<int> selectedItemIds)
+        public ActionResult Index(IEnumerable<int> selectedItemIds)
+        {
+            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
+            var model = new AdventuresCategoriesForIndex
+            {
+                // Important: Don't ever try to modify the selectedItemIds here
+                // The Html helper will completely ignore it and use 
+                // the POSTed values
+                //Categories = selectedItemIds
+                SelectedCategoriesIds = selectedItemIds.ToArray()
+            };
+            return View(model);
+        }
         // GET: Adventures/Details/5
         public ActionResult Details(int? id, bool showDetail)
         {

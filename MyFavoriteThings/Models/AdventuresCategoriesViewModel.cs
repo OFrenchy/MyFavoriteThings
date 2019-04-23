@@ -8,6 +8,8 @@ namespace MyFavoriteThings.Models
     {
         //AdventuresCategoriesViewModel
         public List<Adventure> Adventures { get; set; }
+        public int[] SelectedCategoriesIds { get; set; }
+
         public List<SelectListItem> Categories { get; set; }
     }
 }

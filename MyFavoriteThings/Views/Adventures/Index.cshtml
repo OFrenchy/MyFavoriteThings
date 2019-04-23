@@ -7,292 +7,293 @@
 @*<h2>Index</h2>*@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
+    <head>
+        <meta charset="utf-8">
 
-    <script src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js"></script>
+        <script src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js"></script>
 
-    <style>
-        #map {
-            height: 350px;
-            width: 800px;
-        }
-
-        a:link, a:visited {
-            color: #2aaef5;
-            outline: none;
-            text-decoration: none;
-        }
-
-        .landmark {
-            width: 250px;
-            padding: 7px 0 0 0;
-            background: rgba(247, 247, 247, 0.75);
-            border-radius: 5px;
-            box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.29);
-            font-family: Helvetica, Arial, sans-serif;
-            -webkit-transform-origin: 0 10px;
-            transform-origin: 0 10px;
-        }
-
-            .landmark h1 {
-                margin-top: 0;
-                padding: 5px 15px;
-                background: #2aaef5;
-                color: rgba(255, 255, 255, 0.9);
-                font-size: 16px;
-                font-weight: 300;
+        <style>
+            #map {
+                height: 350px;
+                width: 800px;
             }
 
-            .landmark section {
-                padding: 0 15px 5px;
-                font-size: 14px;
+            a:link, a:visited {
+                color: #2aaef5;
+                outline: none;
+                text-decoration: none;
             }
 
-                .landmark section p {
-                    margin: 5px 0;
+            .landmark {
+                width: 250px;
+                padding: 7px 0 0 0;
+                background: rgba(247, 247, 247, 0.75);
+                border-radius: 5px;
+                box-shadow: 10px 10px 50px rgba(0, 0, 0, 0.29);
+                font-family: Helvetica, Arial, sans-serif;
+                -webkit-transform-origin: 0 10px;
+                transform-origin: 0 10px;
+            }
+
+                .landmark h1 {
+                    margin-top: 0;
+                    padding: 5px 15px;
+                    background: #2aaef5;
+                    color: rgba(255, 255, 255, 0.9);
+                    font-size: 16px;
+                    font-weight: 300;
                 }
 
-            .landmark:after {
-                content: "";
-                position: absolute;
-                top: 7px;
-                left: -13px;
-                width: 0;
-                height: 0;
-                margin-bottom: -13px;
-                border-right: 13px solid #2aaef5;
-                border-top: 13px solid rgba(0, 0, 0, 0);
-                border-bottom: 13px solid rgba(0, 0, 0, 0);
-            }
-        /*removed keyframes code here*/
-    </style>
-    <script>
-            var mapPointsData = @Html.Raw(Json.Encode(@ViewBag.MapPointsData));
-            var mapKitCode = @Html.Raw(Json.Encode(@ViewBag.MapKitCode));
-    </script>
-</head>
+                .landmark section {
+                    padding: 0 15px 5px;
+                    font-size: 14px;
+                }
 
-<body>
-    <div class="form-horizontal">
-        <div class="col-md-10">
-            <button onclick="toggleMode()">Toggle Mode</button> -- <text id="adventureDetailIndicator">@(ViewBag.ShowDetail ? "Detail Mode" : "Adventure Mode")</text>
-        </div>
-        @*<div class="col-md-2">
+                    .landmark section p {
+                        margin: 5px 0;
+                    }
+
+                .landmark:after {
+                    content: "";
+                    position: absolute;
+                    top: 7px;
+                    left: -13px;
+                    width: 0;
+                    height: 0;
+                    margin-bottom: -13px;
+                    border-right: 13px solid #2aaef5;
+                    border-top: 13px solid rgba(0, 0, 0, 0);
+                    border-bottom: 13px solid rgba(0, 0, 0, 0);
+                }
+            /*removed keyframes code here*/
+        </style>
+        <script>
+                var mapPointsData = @Html.Raw(Json.Encode(@ViewBag.MapPointsData));
+                var mapKitCode = @Html.Raw(Json.Encode(@ViewBag.MapKitCode));
+        </script>
+    </head>
+
+    <body>
+        @*
+        <div class="col-md-2">  
                 <br />
                 <text id="status"></text>
+        </div>*@
+        <div class="form-horizontal">
+            @*<div class="col-md-10">
+                <button onclick="toggleMode()">Toggle Mode</button> -- <text id="adventureDetailIndicator">@(ViewBag.ShowDetail ? "Detail Mode" : "Adventure Mode")</text>
             </div>*@
-    </div>
-    <table class="table">
-        <div class="row">
-            <div class="col-md-3" style="height:350px;">
-                @*@Html.ListBox("Categories", new MultiSelectList(Model.Categories, "Value", "Text"), new { size = 12, multiple = "multiple" })*@
-                @Html.ListBoxFor(x => x.Categories, new MultiSelectList(Model.Categories, "Value", "Text"), new { size = 12, multiple = "multiple" })
+            <table class="table">
+                <div class="row">
+                    <div class="col-md-3" style="height:350px;">
+                        <button onclick="toggleMode()">Toggle Mode</button> -- <text id="adventureDetailIndicator">@(ViewBag.ShowDetail ? "Detail Mode" : "Adventure Mode")</text>
+                        @Html.ListBoxFor(m => m.SelectedCategoriesIds, Model.Categories, new { size = 11, multiple = "multiple" })
 
+                        @*don't know if this will work
+                        @Html.ListBoxFor(model => model.SelectedCategoriesIds,
+                        new MultiSelectList(Model.Categories, Model.SelectedCategories),
+                        new { multiple = "multiple" })*@
 
+                        @*<button onclick="toggleMode()">Toggle Mode</button>*@
+                        @*<input type="submit" value="  Apply Filters  " formaction="Index"/>*@
+                        @Html.ActionLink("  Apply Filters  ", "Index", new { Model.SelectedCategoriesIds })
+                        @*@Html.ActionLink("  Apply Filters  ", "Index", new { Model.SelectedCategoriesIds, "Value" })*@
 
-
-                @*<button onclick="toggleMode()">Toggle Mode</button>*@
-                <input type="submit" value="  Apply Filters  " />
-            </div>
-            <div id="map" class="col-md-9" style="height:350px;">
-            </div>
-            @*<div class="col-md-3" style="height:350px;">
-                    @Html.ListBox("Categories", new MultiSelectList(ViewBag.Categories, "Value", "Text"), new { size = 14, multiple = "multiple" })
-                </div>
+                    </div>
                     <div id="map" class="col-md-9" style="height:350px;">
-                </div>*@
-        </div>
-        <div class="row">
-            @Html.ActionLink("Create a New Adventure", "Create")
-        </div>
-    </table>
-    <table class="table">
-        <tr>
-            <th></th>
-            <th>
-                Posted By
-            </th>
-            <th>
-                Adventure Name
-            </th>
-            <th>
-                Description
-            </th>
-            <th>
-                General Location
-            </th>
-            <th>
-                General Time
-            </th>
-            <th>
-                Rating
-            </th>
-            <th>
-                Ratings
-            </th>
-            <th>
-                Allow Comments
-            </th>
-            <th>
-                Allow Images
-            </th>
-            <th>
-                Comments
-            </th>
-            @*<th></th>*@
-        </tr>
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.ActionLink("Create a New Adventure", "Create")
+                </div>
+            </table>
+            <table class="table">
+                <tr>
+                    <th></th>
+                    <th>
+                        Posted By
+                    </th>
+                    <th>
+                        Adventure Name
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        General Location
+                    </th>
+                    <th>
+                        General Time
+                    </th>
+                    <th>
+                        Rating
+                    </th>
+                    <th>
+                        Ratings
+                    </th>
+                    <th>
+                        Allow Comments
+                    </th>
+                    <th>
+                        Allow Images
+                    </th>
+                    <th>
+                        Comments
+                    </th>
+                    @*<th></th>*@
+                </tr>
 
-        @foreach (var item in Model.Adventures    )
-        {
-            <tr>
-                <td>
-                    @*Change the ViewBag.ShowDetail in the next line to a script to read the Adventure/Detail text at the top, in id="adventureDetailIndicator"*@
-                    @Html.ActionLink("Details", "Details", new { id = item.AdventureID, showDetail = ViewBag.ShowDetail })
-                    @if (ViewBag.ContributorID == item.ContributorID)
-                    {
-                        @Html.ActionLink(" | Edit", "Edit", new { id = item.AdventureID, showDetail = ViewBag.ShowDetail })
-                        @Html.ActionLink(" | Delete", "Delete", new { id = item.AdventureID })
-                    }
-                    @Html.ActionLink("Follow This Poster", "Follow", new { id = item.ContributorID })
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Contributor.FirstName)
-                </td>
-                <td id="detail1" class="detail" @(ViewBag.ShowDetail ? "visible" : "hidden")>
-                    @Html.DisplayFor(modelItem => item.AdventureName)
-                </td>
-                <td id="detail2" class="detail" @(ViewBag.ShowDetail ? "visible" : "hidden")>
-                    @Html.DisplayFor(modelItem => item.AdventureDescription)
-                </td>
-                <td id="detail3" class="detail" @(ViewBag.ShowDetail ? "visible" : "hidden")>
-                    @Html.DisplayFor(modelItem => item.AdventureGeneralLocation)
-                </td>
-                <td id="adventure1" class="adventure" @(!ViewBag.ShowDetail ? "visible" : "hidden")>
-                    @Html.DisplayFor(modelItem => item.AdventureName_Obscure)
-                </td>
-                <td id="adventure2" class="adventure" @(!ViewBag.ShowDetail ? "visible" : "hidden")>
-                    @Html.DisplayFor(modelItem => item.AdventureDescription_Obscure)
-                </td>
-                <td id="adventure3" class="adventure" @(!ViewBag.ShowDetail ? "visible" : "hidden")>
-                    @Html.DisplayFor(modelItem => item.AdventureGeneralLocation_Obscure)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GeneralTimeNarrative)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Rating)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RatingCounter)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AllowComments)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AllowImages)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Comments)
-                </td>
-            </tr>
-            @*<br />*@
-        }
-        @*           @Html.ActionLink("Create a New Adventure", "Create")*@
-    </table>
-
-    <script>
-        mapkit.init({
-            authorizationCallback: function (done) {
-                var xhr = new XMLHttpRequest();
-                xhr.open("GET", "/services/jwt");
-                xhr.addEventListener("load", function () {
-                    //done(this.responseText);
-                    done(mapKitCode);
-                });
-                xhr.send();
-            }
-        });
-        var mapLandmarks = [];
-        // Landmarks data
-        for (i = 0; i < mapPointsData.length; i++) {
-            mapLandmarks.push({ coordinate: new mapkit.Coordinate(mapPointsData[i].Lat, mapPointsData[i].Long), title: mapPointsData[i].AdventureName, balloonText: mapPointsData[i].MapPointNumber });
-        }
-        // Landmark annotation callout delegate
-        var CALLOUT_OFFSET = new DOMPoint(-148, -20);   // was -148, -78
-        var landmarkAnnotationCallout = {
-            calloutElementForAnnotation: function (annotation) {
-                return calloutForLandmarkAnnotation(annotation);
-            },
-            calloutAnchorOffsetForAnnotation: function (annotation, element) {
-                return CALLOUT_OFFSET;
-            },
-            calloutAppearanceAnimationForAnnotation: function (annotation) {
-                return "scale-and-fadein .4s 0 1 normal cubic-bezier(0.4, 0, 0, 1.5)";
-            }
-        };
-        // Landmarks annotations
-        var annotations = mapLandmarks.map(function (landmark) {
-            var annotation = new mapkit.MarkerAnnotation(landmark.coordinate, {
-                callout: landmarkAnnotationCallout,
-                color: "#c969e0",
-                glyphText: landmark.balloonText.toString()
-            });
-            annotation.landmark = landmark;
-            return annotation;
-        });
-        var map = new mapkit.Map("map");
-        map.showItems(annotations);
-
-        // Landmark annotation custom callout
-        function calloutForLandmarkAnnotation(annotation) {
-            var div = document.createElement("div");
-            div.className = "landmark";
-            var title = div.appendChild(document.createElement("h6"));
-            title.textContent = annotation.landmark.title;
-
-            //var section = div.appendChild(document.createElement("section"));
-            //var phone = section.appendChild(document.createElement("p"));
-            //phone.className = "phone";
-            //phone.textContent = annotation.landmark.phone;
-            //var link = section.appendChild(document.createElement("p"));
-            //link.className = "homepage";
-            //var a = link.appendChild(document.createElement("a"));
-            //a.href = annotation.landmark.url;
-            //a.textContent = "website";
-            return div;
-        }
-    </script>
-
-    <script>
-        function toggleMode() {
-
-            var currentModeIsAdventure = (document.getElementById("adventureDetailIndicator").innerHTML == "Adventure Mode" ? true : false);
-            // Switch modes
-            if (currentModeIsAdventure) {
-                document.getElementById("adventureDetailIndicator").innerHTML = "Detail Mode";
-            }
-            else {
-                document.getElementById("adventureDetailIndicator").innerHTML = "Adventure Mode";
-            }
-            // showDetail is the opposite of currentModeIsAdventure, so to switch, set it to currentModeIsAdventure;
-            var showDetail = currentModeIsAdventure;
-
-            // one set will be visible, the other hidden;
-            var forTheseControlsShowDetail = showDetail;
-            var hideShowControls = { 1: "adventure", 2: "detail" };
-            for (var i in hideShowControls) {
-                var thisCollection = document.getElementsByClassName(hideShowControls[i]);//thisControlName);
-                //document.getElementById("status").innerHTML = document.getElementById("status").innerHTML + "; " + thisControlName + " " + thisCollection.length.toString();
-                for (j = 0; j < thisCollection.length; j++) {
-                    thisCollection[j].hidden = forTheseControlsShowDetail;
+                @foreach (var item in Model.Adventures)
+                {
+                    <tr>
+                        <td>
+                            @*Change the ViewBag.ShowDetail in the next line to a script to read the Adventure/Detail text at the top, in id="adventureDetailIndicator"*@
+                            @Html.ActionLink("Details", "Details", new { id = item.AdventureID, showDetail = ViewBag.ShowDetail })
+                            @if (ViewBag.ContributorID == item.ContributorID)
+                            {
+                                @Html.ActionLink(" | Edit", "Edit", new { id = item.AdventureID, showDetail = ViewBag.ShowDetail })
+                                @Html.ActionLink(" | Delete", "Delete", new { id = item.AdventureID })
+                            }
+                            @Html.ActionLink("Follow This Poster", "Follow", new { id = item.ContributorID })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Contributor.FirstName)
+                        </td>
+                        <td id="detail1" class="detail" @(ViewBag.ShowDetail ? "visible" : "hidden")>
+                            @Html.DisplayFor(modelItem => item.AdventureName)
+                        </td>
+                        <td id="detail2" class="detail" @(ViewBag.ShowDetail ? "visible" : "hidden")>
+                            @Html.DisplayFor(modelItem => item.AdventureDescription)
+                        </td>
+                        <td id="detail3" class="detail" @(ViewBag.ShowDetail ? "visible" : "hidden")>
+                            @Html.DisplayFor(modelItem => item.AdventureGeneralLocation)
+                        </td>
+                        <td id="adventure1" class="adventure" @(!ViewBag.ShowDetail ? "visible" : "hidden")>
+                            @Html.DisplayFor(modelItem => item.AdventureName_Obscure)
+                        </td>
+                        <td id="adventure2" class="adventure" @(!ViewBag.ShowDetail ? "visible" : "hidden")>
+                            @Html.DisplayFor(modelItem => item.AdventureDescription_Obscure)
+                        </td>
+                        <td id="adventure3" class="adventure" @(!ViewBag.ShowDetail ? "visible" : "hidden")>
+                            @Html.DisplayFor(modelItem => item.AdventureGeneralLocation_Obscure)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GeneralTimeNarrative)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rating)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RatingCounter)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AllowComments)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AllowImages)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Comments)
+                        </td>
+                    </tr>
+                    @*<br />*@
                 }
-                // switch the boolean for the next list of controls
-                forTheseControlsShowDetail = !forTheseControlsShowDetail;
-            }
-        }
-    </script>
-</body>
+                @*           @Html.ActionLink("Create a New Adventure", "Create")*@
+            </table>
+
+            <script>
+                mapkit.init({
+                    authorizationCallback: function (done) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("GET", "/services/jwt");
+                        xhr.addEventListener("load", function () {
+                            //done(this.responseText);
+                            done(mapKitCode);
+                        });
+                        xhr.send();
+                    }
+                });
+                var mapLandmarks = [];
+                // Landmarks data
+                for (i = 0; i < mapPointsData.length; i++) {
+                    mapLandmarks.push({ coordinate: new mapkit.Coordinate(mapPointsData[i].Lat, mapPointsData[i].Long), title: mapPointsData[i].AdventureName, balloonText: mapPointsData[i].MapPointNumber });
+                }
+                // Landmark annotation callout delegate
+                var CALLOUT_OFFSET = new DOMPoint(-148, -20);   // was -148, -78
+                var landmarkAnnotationCallout = {
+                    calloutElementForAnnotation: function (annotation) {
+                        return calloutForLandmarkAnnotation(annotation);
+                    },
+                    calloutAnchorOffsetForAnnotation: function (annotation, element) {
+                        return CALLOUT_OFFSET;
+                    },
+                    calloutAppearanceAnimationForAnnotation: function (annotation) {
+                        return "scale-and-fadein .4s 0 1 normal cubic-bezier(0.4, 0, 0, 1.5)";
+                    }
+                };
+                // Landmarks annotations
+                var annotations = mapLandmarks.map(function (landmark) {
+                    var annotation = new mapkit.MarkerAnnotation(landmark.coordinate, {
+                        callout: landmarkAnnotationCallout,
+                        color: "#c969e0",
+                        glyphText: landmark.balloonText.toString()
+                    });
+                    annotation.landmark = landmark;
+                    return annotation;
+                });
+                var map = new mapkit.Map("map");
+                map.showItems(annotations);
+
+                // Landmark annotation custom callout
+                function calloutForLandmarkAnnotation(annotation) {
+                    var div = document.createElement("div");
+                    div.className = "landmark";
+                    var title = div.appendChild(document.createElement("h6"));
+                    title.textContent = annotation.landmark.title;
+
+                    //var section = div.appendChild(document.createElement("section"));
+                    //var phone = section.appendChild(document.createElement("p"));
+                    //phone.className = "phone";
+                    //phone.textContent = annotation.landmark.phone;
+                    //var link = section.appendChild(document.createElement("p"));
+                    //link.className = "homepage";
+                    //var a = link.appendChild(document.createElement("a"));
+                    //a.href = annotation.landmark.url;
+                    //a.textContent = "website";
+                    return div;
+                }
+            </script>
+
+            <script>
+                function toggleMode() {
+
+                    var currentModeIsAdventure = (document.getElementById("adventureDetailIndicator").innerHTML == "Adventure Mode" ? true : false);
+                    // Switch modes
+                    if (currentModeIsAdventure) {
+                        document.getElementById("adventureDetailIndicator").innerHTML = "Detail Mode";
+                    }
+                    else {
+                        document.getElementById("adventureDetailIndicator").innerHTML = "Adventure Mode";
+                    }
+                    // showDetail is the opposite of currentModeIsAdventure, so to switch, set it to currentModeIsAdventure;
+                    var showDetail = currentModeIsAdventure;
+
+                    // one set will be visible, the other hidden;
+                    var forTheseControlsShowDetail = showDetail;
+                    var hideShowControls = { 1: "adventure", 2: "detail" };
+                    for (var i in hideShowControls) {
+                        var thisCollection = document.getElementsByClassName(hideShowControls[i]);//thisControlName);
+                        //document.getElementById("status").innerHTML = document.getElementById("status").innerHTML + "; " + thisControlName + " " + thisCollection.length.toString();
+                        for (j = 0; j < thisCollection.length; j++) {
+                            thisCollection[j].hidden = forTheseControlsShowDetail;
+                        }
+                        // switch the boolean for the next list of controls
+                        forTheseControlsShowDetail = !forTheseControlsShowDetail;
+                    }
+                }
+            </script>
+        </div>
+    </body>
 </html>
 
 
