@@ -21,20 +21,66 @@ namespace MyFavoriteThings.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Adventures
-        public ActionResult Index()
+        //public ActionResult Index(int?[] selectedItemIds) //IEnumerable<int> selectedItemIds)
+        public ActionResult Index(AdventuresCategoriesForIndex adventuresViewModel) //IEnumerable<int> selectedItemIds)
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
             bool showDetail = false;
+            if (adventuresViewModel != null)
+            {
+                showDetail = adventuresViewModel.ShowDetail;
+            }
+
             ViewBag.ShowDetail = showDetail;
             ViewBag.ContributorID = GetUsersContributorID();
-            var adventures = db.Adventures.Include(a => a.Contributor).OrderBy(o => o.AdventureID);
+
+            //var adventures = db.Adventures.Include(a => a.Contributor).OrderBy(o => o.AdventureID);
+
+            StringBuilder sqlAdventuresByCategories = new StringBuilder();
+            sqlAdventuresByCategories.Append("SELECT DISTINCT A.*, C.FirstName FROM Adventures A ");
+            sqlAdventuresByCategories.Append("LEFT JOIN AdventureCategories B on A.AdventureID = B.AdventureID ");
+            sqlAdventuresByCategories.Append("INNER JOIN Contributors C on A.ContributorID = C.ContributorID ");
+
+            if (adventuresViewModel.SelectedCategoriesIds != null)
+            {
+                sqlAdventuresByCategories.Append("WHERE CategoryID IN (" + string.Join(",", adventuresViewModel.SelectedCategoriesIds) + ") ");
+            }
+            sqlAdventuresByCategories.Append("ORDER BY AdventureID;");
+            var adventuresWithCategories = db.Database.SqlQuery<AdventuresByCategories>(sqlAdventuresByCategories.ToString()).ToList();
 
             var AdventuresIndexVM = new AdventuresCategoriesForIndex();
-            AdventuresIndexVM.Adventures = adventures.ToList();
+            AdventuresIndexVM.Adventures = adventuresWithCategories.ToList();
+            
+            AdventuresIndexVM.Categories = GetAllCategories();
 
-            // create a dictionary with the following items:
-            string sqlString = $"SELECT 1 AS MapPointNumber, AdventureName{(showDetail ? "" : "_Obscure")}, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;";
-            var mapPointsData = db.Database.SqlQuery<MapPointData>($"SELECT 1 AS MapPointNumber, AdventureName{(showDetail ? "" : "_Obscure")} AS AdventureName, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;").ToArray();
+            //AdventuresIndexVM.SelectedCategoriesIds = new[] { 2, 3 };
+            AdventuresIndexVM.SelectedCategoriesIds = adventuresViewModel.SelectedCategoriesIds;
+            
+            //Adventure1!@abc.com
+            
+            // SELECT DISTINCT 1 AS MapPointNumber, AdventureName{(showDetail ? "" : "_Obscure")}, Lat, Long, A.AdventureID FROM Adventures A INNER JOIN Waypoints B ON (A.AdventureID = B.AdventureID) LEFT JOIN AdventureCategories C ON (A.AdventureID = C.AdventureID) WHERE Sequence = 1 ORDER BY AdventureID
+            string sqlString = $"SELECT DISTINCT 1 AS MapPointNumber, AdventureName{(showDetail ? "" : "_Obscure")}, Lat, Long, A.AdventureID AS OrderBalloons FROM Adventures A INNER JOIN Waypoints B ON (A.AdventureID = B.AdventureID) LEFT JOIN AdventureCategories C ON (A.AdventureID = C.AdventureID) WHERE Sequence = 1 ";
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append(sqlString);
+            // if selectedItemIds has some selections, 
+            // add them to the SQL string for filtering the map points
+            if (adventuresViewModel.SelectedCategoriesIds != null)
+            {
+                stringBuilder.Append("AND CategoryID IN (");
+                stringBuilder.Append(string.Join(",", adventuresViewModel.SelectedCategoriesIds) );
+                stringBuilder.Append(") ");
+                //bool firstCategory = true;
+                //for (int i = 0; i < adventuresViewModel.SelectedCategoriesIds.Count(); i++)
+                //{
+                //    stringBuilder.Append((firstCategory ? "" : " OR ") + "CategoryID = " + adventuresViewModel.SelectedCategoriesIds[i].ToString());
+                //    firstCategory = false;
+                //}
+                //stringBuilder.Append(")");
+            }
+            stringBuilder.Append("ORDER BY OrderBalloons;");   //AdventureID
+
+            //var mapPointsData = db.Database.SqlQuery<MapPointData>($"SELECT 1 AS MapPointNumber, AdventureName{(showDetail ? "" : "_Obscure")} AS AdventureName, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;").ToArray();
+            var mapPointsData = db.Database.SqlQuery<MapPointData>(stringBuilder.ToString()).ToArray();
             for (int i = 0; i < mapPointsData.Length; i++)
             {
                 mapPointsData[i].MapPointNumber = i + 1;
@@ -46,30 +92,24 @@ namespace MyFavoriteThings.Controllers
 
             //TODO - add delegate to Humane Society, resubmit
 
-            AdventuresIndexVM.Categories = GetAllCategories();
-            //ViewBag.Categories = GetAllCategories();
-
-            // Testing
-            //AdventuresIndexVM.SelectedCategoriesIds = new[] { 2, 3 };
-
+            
             return View(AdventuresIndexVM);
             //return View(adventures.ToList());
         }
-        [HttpPost]
+        //[HttpPost]
         //public ActionResult Index(IEnumerable<int> selectedItemIds)
-        public ActionResult Index(IEnumerable<int> selectedItemIds)
-        {
-            // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
-            var model = new AdventuresCategoriesForIndex
-            {
-                // Important: Don't ever try to modify the selectedItemIds here
-                // The Html helper will completely ignore it and use 
-                // the POSTed values
-                //Categories = selectedItemIds
-                SelectedCategoriesIds = selectedItemIds.ToArray()
-            };
-            return View(model);
-        }
+        //{
+        //    // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
+        //    var model = new AdventuresCategoriesForIndex
+        //    {
+        //        // Important: Don't ever try to modify the selectedItemIds here
+        //        // The Html helper will completely ignore it and use 
+        //        // the POSTed values
+        //        //Categories = selectedItemIds
+        //        SelectedCategoriesIds = selectedItemIds.ToArray()
+        //    };
+        //    return View(model);
+        //}
         // GET: Adventures/Details/5
         public ActionResult Details(int? id, bool showDetail)
         {
@@ -345,10 +385,29 @@ namespace MyFavoriteThings.Controllers
     public class MapPointData
     {
         public int MapPointNumber { get; set; }
-        //public int AdventureID { get; set; }
         public string AdventureName { get; set; }
         public double Lat { get; set; }
         public double Long { get; set; }
+        public int OrderBalloons { get; set; }
     }
-
+    
+    public class AdventuresByCategories
+    {
+        public int AdventureID { get; set; }
+        public string AdventureName { get; set; }
+        public string AdventureName_Obscure { get; set; }
+        public string AdventureDescription { get; set; }
+        public string AdventureDescription_Obscure { get; set; }
+        public string AdventureGeneralLocation { get; set; }
+        public string AdventureGeneralLocation_Obscure { get; set; }
+        public double Rating { get; set; }
+        public int RatingCounter { get; set; }
+        public int RatingSum { get; set; }
+        public bool AllowComments { get; set; }
+        public bool AllowImages { get; set; }
+        public string Comments { get; set; }
+        public int ContributorID { get; set; }
+        public string GeneralTimeNarrative { get; set; }
+        public string FirstName { get; set; }
+    }
 }
