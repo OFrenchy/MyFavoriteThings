@@ -1,4 +1,6 @@
-﻿@model MyFavoriteThings.Models.Adventure
+﻿@*@model MyFavoriteThings.Models.Adventure*@
+
+@model MyFavoriteThings.Models.AdventureCategoriesViewModel 
 
 @{
     ViewBag.Title = "Edit";
@@ -15,125 +17,129 @@
     <h4>Adventure</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.AdventureID)
+    @Html.HiddenFor(model => model.Adventure.AdventureID)
+
+    @Html.ListBoxFor(m => m.SelectedCategoriesIds, Model.Categories, new { size = 11, multiple = "multiple" })
+
+
 
     <div class="form-group">
-        @Html.LabelFor(model => model.AdventureName, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Adventure.AdventureName, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.AdventureName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.AdventureName, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Adventure.AdventureName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Adventure.AdventureName, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.AdventureName_Obscure, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Adventure.AdventureName_Obscure, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.AdventureName_Obscure, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.AdventureName_Obscure, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    
-    <div class="form-group">
-        @Html.LabelFor(model => model.GeneralTimeNarrative, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.GeneralTimeNarrative, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.GeneralTimeNarrative, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Adventure.AdventureName_Obscure, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Adventure.AdventureName_Obscure, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.AdventureDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Adventure.GeneralTimeNarrative, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.AdventureDescription, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.AdventureDescription, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Adventure.GeneralTimeNarrative, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Adventure.GeneralTimeNarrative, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.AdventureDescription_Obscure, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Adventure.AdventureDescription, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.AdventureDescription_Obscure, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.AdventureDescription_Obscure, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Adventure.AdventureDescription, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Adventure.AdventureDescription, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.AdventureGeneralLocation, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Adventure.AdventureDescription_Obscure, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.AdventureGeneralLocation, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.AdventureGeneralLocation, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Adventure.AdventureDescription_Obscure, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Adventure.AdventureDescription_Obscure, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.AdventureGeneralLocation_Obscure, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Adventure.AdventureGeneralLocation, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.AdventureGeneralLocation_Obscure, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.AdventureGeneralLocation_Obscure, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Adventure.AdventureGeneralLocation, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Adventure.AdventureGeneralLocation, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Adventure.AdventureGeneralLocation_Obscure, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Adventure.AdventureGeneralLocation_Obscure, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Adventure.AdventureGeneralLocation_Obscure, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.RatingCounter, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Adventure.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.RatingCounter, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.RatingCounter, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Adventure.Rating, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Adventure.Rating, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.RatingSum, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Adventure.RatingCounter, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.RatingSum, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.RatingSum, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Adventure.RatingCounter, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Adventure.RatingCounter, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.AllowComments, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Adventure.RatingSum, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Adventure.RatingSum, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Adventure.RatingSum, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Adventure.AllowComments, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             <div class="checkbox">
-                @Html.EditorFor(model => model.AllowComments)
-                @Html.ValidationMessageFor(model => model.AllowComments, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Adventure.AllowComments)
+                @Html.ValidationMessageFor(model => model.Adventure.AllowComments, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.AllowImages, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Adventure.AllowImages, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             <div class="checkbox">
-                @Html.EditorFor(model => model.AllowImages)
-                @Html.ValidationMessageFor(model => model.AllowImages, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Adventure.AllowImages)
+                @Html.ValidationMessageFor(model => model.Adventure.AllowImages, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Adventure.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Adventure.Comments, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Adventure.Comments, "", new { @class = "text-danger" })
         </div>
     </div>
 
     @*@Html.HiddenFor(model => model.ContributorID, new { id = "ContributorID", Value = ViewBag.ContributorID })*@
-    @Html.HiddenFor(model => model.ContributorID)
+    @Html.HiddenFor(model => model.Adventure.ContributorID)
     @*<div class="form-group">
-        @Html.LabelFor(model => model.ContributorID, "ContributorID", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Adventure.ContributorID, "ContributorID", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">*@
 
     @*@Html.DropDownList("ContributorID", null, htmlAttributes: new { @class = "form-control" })*@
 
-    @*@Html.EditorFor(model => model.ContributorID, new { htmlAttributes = new { @class = "form-control" } })
+    @*@Html.EditorFor(model => model.Adventure.ContributorID, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ContributorID, "", new { @class = "text-danger" })
             </div>
         </div>*@

@@ -226,6 +226,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Adventure.cs" />
+    <Compile Include="Models\AdventureCategoriesViewModel.cs" />
     <Compile Include="Models\AdventureCategory.cs" />
     <Compile Include="Models\AdventuresCategoriesViewModel.cs" />
     <Compile Include="Models\Category.cs" />

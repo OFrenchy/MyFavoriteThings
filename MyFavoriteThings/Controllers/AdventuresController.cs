@@ -34,8 +34,6 @@ namespace MyFavoriteThings.Controllers
             ViewBag.ShowDetail = showDetail;
             ViewBag.ContributorID = GetUsersContributorID();
 
-            //var adventures = db.Adventures.Include(a => a.Contributor).OrderBy(o => o.AdventureID);
-
             StringBuilder sqlAdventuresByCategories = new StringBuilder();
             sqlAdventuresByCategories.Append("SELECT DISTINCT A.*, C.FirstName FROM Adventures A ");
             sqlAdventuresByCategories.Append("LEFT JOIN AdventureCategories B on A.AdventureID = B.AdventureID ");
@@ -50,10 +48,7 @@ namespace MyFavoriteThings.Controllers
 
             var AdventuresIndexVM = new AdventuresCategoriesForIndex();
             AdventuresIndexVM.Adventures = adventuresWithCategories.ToList();
-            
             AdventuresIndexVM.Categories = GetAllCategories();
-
-            //AdventuresIndexVM.SelectedCategoriesIds = new[] { 2, 3 };
             AdventuresIndexVM.SelectedCategoriesIds = adventuresViewModel.SelectedCategoriesIds;
             
             //Adventure1!@abc.com
@@ -69,47 +64,19 @@ namespace MyFavoriteThings.Controllers
                 stringBuilder.Append("AND CategoryID IN (");
                 stringBuilder.Append(string.Join(",", adventuresViewModel.SelectedCategoriesIds) );
                 stringBuilder.Append(") ");
-                //bool firstCategory = true;
-                //for (int i = 0; i < adventuresViewModel.SelectedCategoriesIds.Count(); i++)
-                //{
-                //    stringBuilder.Append((firstCategory ? "" : " OR ") + "CategoryID = " + adventuresViewModel.SelectedCategoriesIds[i].ToString());
-                //    firstCategory = false;
-                //}
-                //stringBuilder.Append(")");
             }
-            stringBuilder.Append("ORDER BY OrderBalloons;");   //AdventureID
-
-            //var mapPointsData = db.Database.SqlQuery<MapPointData>($"SELECT 1 AS MapPointNumber, AdventureName{(showDetail ? "" : "_Obscure")} AS AdventureName, Lat, Long FROM Adventures A JOIN Waypoints B ON (A.AdventureID = B.AdventureID) WHERE Sequence = 1;").ToArray();
+            stringBuilder.Append("ORDER BY OrderBalloons;");
             var mapPointsData = db.Database.SqlQuery<MapPointData>(stringBuilder.ToString()).ToArray();
             for (int i = 0; i < mapPointsData.Length; i++)
             {
                 mapPointsData[i].MapPointNumber = i + 1;
             }
-
             ViewBag.MapPointsData = mapPointsData;
             //{ coordinate: new mapkit.Coordinate(37.8184493, -122.478409), title: "Golden Gate Bridge", phone: "+1 (415) 921-5858", url: "http://www.goldengatebridge.org" },
             ViewBag.MapKitCode = APIKeys.AppleMapKitToken;
-
-            //TODO - add delegate to Humane Society, resubmit
-
-            
             return View(AdventuresIndexVM);
-            //return View(adventures.ToList());
         }
-        //[HttpPost]
-        //public ActionResult Index(IEnumerable<int> selectedItemIds)
-        //{
-        //    // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
-        //    var model = new AdventuresCategoriesForIndex
-        //    {
-        //        // Important: Don't ever try to modify the selectedItemIds here
-        //        // The Html helper will completely ignore it and use 
-        //        // the POSTed values
-        //        //Categories = selectedItemIds
-        //        SelectedCategoriesIds = selectedItemIds.ToArray()
-        //    };
-        //    return View(model);
-        //}
+       
         // GET: Adventures/Details/5
         public ActionResult Details(int? id, bool showDetail)
         {
@@ -153,8 +120,6 @@ namespace MyFavoriteThings.Controllers
             return RedirectToAction("Index", "Adventures");
         }
 
-        // TODO - find a scenario where these next two methods can be shared amongst controllers
-        //      - there's a problem moving it to a static class because of the required db & User objects
         public bool UserIsCreator(int AdventureID)
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
@@ -183,7 +148,6 @@ namespace MyFavoriteThings.Controllers
         public ActionResult Create()
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
-            // Pass the ContributorID to the view
             ViewBag.ContributorID = GetUsersContributorID();
             Adventure adventure = new Adventure();
             adventure.Rating = 0;
@@ -316,7 +280,15 @@ namespace MyFavoriteThings.Controllers
             }
             ViewBag.ContributorID = adventure.ContributorID;   // new SelectList(db.Contributors, "ContributorID", "FirstName", adventure.ContributorID);
             ViewBag.ShowDetail = showDetail;
-            return View(adventure);
+
+            AdventureCategoriesViewModel adventureCategoriesViewModel = new AdventureCategoriesViewModel();
+            adventureCategoriesViewModel.Adventure = adventure;
+            adventureCategoriesViewModel.Categories = GetAllCategories();
+            adventureCategoriesViewModel.SelectedCategoriesIds = db.AdventureCategories.Where(a => a.AdventureID == adventure.AdventureID).Select(a => a.CategoryID).ToArray();
+
+            //return View(adventure);
+            return View(adventureCategoriesViewModel);
+
         }
 
         // POST: Adventures/Edit/5
@@ -324,18 +296,52 @@ namespace MyFavoriteThings.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Adventure adventure, bool showDetail)
+        //public ActionResult Edit(Adventure adventure, bool showDetail)
+        public ActionResult Edit(AdventureCategoriesViewModel adventureCategoriesViewModel)
         {
             // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
-            ViewBag.ContributorID = adventure.ContributorID;
+            ViewBag.ContributorID = adventureCategoriesViewModel.Adventure.ContributorID;
             if (ModelState.IsValid)
             {
-                db.Entry(adventure).State = EntityState.Modified;
+                db.Entry(adventureCategoriesViewModel.Adventure).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", new { id = adventure.AdventureID, showDetail = showDetail });
+
+                // If the selected categories are different from what's in the db, update the db
+                var existingSelectedCategories = db.AdventureCategories.Where(a => a.AdventureID == adventureCategoriesViewModel.Adventure.AdventureID).Select(a => a.CategoryID).ToArray();
+                if (adventureCategoriesViewModel.SelectedCategoriesIds != existingSelectedCategories)
+                {
+                    var listExistingSelectedCategories = existingSelectedCategories.ToList();
+                    // if no categories are selected, delete all records from AdventureCategories;
+                    // else check for categories to add & delete
+                    if (adventureCategoriesViewModel.SelectedCategoriesIds == null)
+                    {
+                        // Adventure1!@abc.com  Adventure2!@abc.com Adventure3!@abc.com
+                        db.Database.ExecuteSqlCommand($"DELETE FROM AdventureCategories WHERE AdventureID = {adventureCategoriesViewModel.Adventure.AdventureID};");
+                    }
+                    else
+                    { 
+                        // Check for categories to add/insert
+                        foreach (int thisCategoryId in adventureCategoriesViewModel.SelectedCategoriesIds)
+                        {
+                            if (!listExistingSelectedCategories.Contains(thisCategoryId))
+                            {
+                                db.Database.ExecuteSqlCommand($"INSERT INTO AdventureCategories VALUES ({adventureCategoriesViewModel.Adventure.AdventureID}, {thisCategoryId});");
+                            }
+                        }
+                        // Check for categories to delete
+                        foreach (int thisCategoryId in listExistingSelectedCategories)
+                        {
+                            if (!adventureCategoriesViewModel.SelectedCategoriesIds.Contains(thisCategoryId))
+                            {
+                                db.Database.ExecuteSqlCommand($"DELETE FROM AdventureCategories WHERE AdventureID = {adventureCategoriesViewModel.Adventure.AdventureID} AND CategoryID = {thisCategoryId};");
+                            }
+                        }
+                    }
+                }
+                return RedirectToAction("Details", new { id = adventureCategoriesViewModel.Adventure.AdventureID, showDetail = adventureCategoriesViewModel.ShowDetail });
             }
-            ViewBag.ShowDetail = showDetail;
-            return View(adventure);
+            ViewBag.ShowDetail = adventureCategoriesViewModel.ShowDetail;
+            return View(adventureCategoriesViewModel.Adventure);
         }
 
         // GET: Adventures/Delete/5
