@@ -19,9 +19,7 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Adventure.AdventureID)
 
-    @Html.ListBoxFor(m => m.SelectedCategoriesIds, Model.Categories, new { size = 11, multiple = "multiple" })
-
-
+    @Html.ListBoxFor(model => model.SelectedCategoriesIds, Model.Categories, new { size = 11, multiple = "multiple" })
 
     <div class="form-group">
         @Html.LabelFor(model => model.Adventure.AdventureName, htmlAttributes: new { @class = "control-label col-md-2" })
